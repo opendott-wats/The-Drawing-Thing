@@ -11,7 +11,7 @@ struct ContentView: View {
     @State private var doodleView = DoodleViewController()
     var body: some View {
         DoodleView(doodleView: $doodleView)
-        Button("clear", action: tap)
+//        Button("clear", action: tap)
     }
     
     func tap() -> Void {

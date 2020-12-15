@@ -54,6 +54,7 @@ public class DoodleViewController : UIViewController {
         let view = UIView()
         view.backgroundColor = .black
         view.contentMode = .scaleAspectFill
+        view.isMultipleTouchEnabled = true
         
         // Setup the image view
         tempImageView = UIImageView(frame: view.frame)
@@ -68,11 +69,17 @@ public class DoodleViewController : UIViewController {
         guard let touch = touches.first else {
             return
         }
+        if touches.count == 2 {
+            reset()
+        }
         swiped = false
         lastPoint = touch.location(in: self.view)
     }
     
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if touches.count > 1 {
+            return
+        }
         guard let touch = touches.first else { return }
         
         let currentPoint = touch.location(in: self.view)
@@ -136,6 +143,7 @@ public class DoodleViewController : UIViewController {
     }
     
     public func reset() {
+        lastPoint = .zero
         tempImageView.image = nil
         mainImageView.image = nil
         compose()
