@@ -8,9 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var doodleView = DoodleViewController()
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        DoodleView(doodleView: $doodleView)
+        Button("clear", action: tap)
+    }
+    
+    func tap() -> Void {
+        doodleView.reset()
     }
 }
 
