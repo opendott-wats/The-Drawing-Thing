@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF46ED5D258BEA10007291E9 /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */; };
 		AF47034F25894F03001A6AEF /* DoodleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47034E25894F03001A6AEF /* DoodleViewController.swift */; };
 		AF47035425894F3C001A6AEF /* RhythmProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47035325894F3C001A6AEF /* RhythmProviders.swift */; };
 		AFB2E3BE257570740060CD32 /* haptic_memoriesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
 		AF47034E25894F03001A6AEF /* DoodleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleViewController.swift; sourceTree = "<group>"; };
 		AF47035325894F3C001A6AEF /* RhythmProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmProviders.swift; sourceTree = "<group>"; };
 		AFB2E3BA257570740060CD32 /* haptic memories.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "haptic memories.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF46ED5D258BEA10007291E9 /* CoreHaptics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +79,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AF46ED5B258BEA10007291E9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AFB2E3B1257570740060CD32 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +94,7 @@
 				AFB2E3CE257570750060CD32 /* haptic memoriesTests */,
 				AFB2E3D9257570750060CD32 /* haptic memoriesUITests */,
 				AFB2E3BB257570740060CD32 /* Products */,
+				AF46ED5B258BEA10007291E9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
