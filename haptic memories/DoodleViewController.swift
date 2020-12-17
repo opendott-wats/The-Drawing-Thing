@@ -71,6 +71,7 @@ public class DoodleViewController : UIViewController {
         }
         if touches.count == 2 {
             reset()
+            return
         }
         swiped = false
         lastPoint = touch.location(in: self.view)
