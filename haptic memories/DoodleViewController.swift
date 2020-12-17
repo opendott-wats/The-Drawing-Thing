@@ -26,10 +26,12 @@ public class DoodleViewController : UIViewController {
     }
     
     public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         adjustCanvas()
     }
     
     override public func updateViewConstraints() {
+        super.updateViewConstraints()
         adjustCanvas()
     }
     
@@ -48,7 +50,6 @@ public class DoodleViewController : UIViewController {
     }
     
     public override func loadView() {
-        
         self.rhythm = RandomRhythmProvider()
         
         let view = UIView()
@@ -64,7 +65,7 @@ public class DoodleViewController : UIViewController {
         
         self.view = view
     }
-    
+        
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else {
             return
@@ -141,6 +142,21 @@ public class DoodleViewController : UIViewController {
         UIGraphicsEndImageContext()
         
         tempImageView.image = nil
+    }
+    
+    public func export() -> UIImage {
+        UIGraphicsBeginImageContext(mainImageView.frame.size)
+        
+        UIColor.black.setFill()
+        UIRectFill(mainImageView.frame)
+        
+        mainImageView.image?.draw(in: mainImageView.bounds, blendMode: .normal, alpha: 1.0)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        
+        UIGraphicsEndImageContext()
+        
+        return image
     }
     
     public func reset() {
