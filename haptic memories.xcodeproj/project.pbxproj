@@ -41,6 +41,7 @@
 		AF46ED64258BFF94007291E9 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		AF47034E25894F03001A6AEF /* DoodleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleViewController.swift; sourceTree = "<group>"; };
 		AF47035325894F3C001A6AEF /* RhythmProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmProviders.swift; sourceTree = "<group>"; };
+		AF51FFEA258CA42800FDCD1E /* haptic memories.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "haptic memories.entitlements"; sourceTree = "<group>"; };
 		AFB2E3BA257570740060CD32 /* haptic memories.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "haptic memories.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = haptic_memoriesApp.swift; sourceTree = "<group>"; };
 		AFB2E3BF257570740060CD32 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -113,6 +114,7 @@
 		AFB2E3BC257570740060CD32 /* haptic memories */ = {
 			isa = PBXGroup;
 			children = (
+				AF51FFEA258CA42800FDCD1E /* haptic memories.entitlements */,
 				AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */,
 				AFB2E3BF257570740060CD32 /* ContentView.swift */,
 				AFB2E3C1257570750060CD32 /* Assets.xcassets */,
@@ -371,7 +373,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -426,7 +428,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -441,7 +443,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "haptic memories/haptic memories.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"haptic memories/Preview Content\"";
 				DEVELOPMENT_TEAM = LR5J7B638A;
 				ENABLE_PREVIEWS = YES;
@@ -453,6 +457,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = systems.poetic.open.hapticmemories;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -463,7 +468,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "haptic memories/haptic memories.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"haptic memories/Preview Content\"";
 				DEVELOPMENT_TEAM = LR5J7B638A;
 				ENABLE_PREVIEWS = YES;
@@ -475,6 +482,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = systems.poetic.open.hapticmemories;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
