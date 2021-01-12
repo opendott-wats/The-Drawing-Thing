@@ -38,7 +38,7 @@ public class DoodleViewController : UIViewController {
     public func adjustCanvas() {
         tempImageView.frame = view.frame
         mainImageView.frame = view.frame
-        debug()
+//        debug()
     }
     
     func debug() {
@@ -50,7 +50,8 @@ public class DoodleViewController : UIViewController {
     }
     
     public override func loadView() {
-        self.rhythm = RandomRhythmProvider()
+//        self.rhythm = RandomRhythmProvider()
+        self.rhythm = HealthRhythmProvider()
         
         let view = UIView()
         view.backgroundColor = .black
