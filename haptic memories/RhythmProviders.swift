@@ -34,14 +34,17 @@ public class HealthRhythmProvider: RhythmProvider {
     let store = HKHealthStore()
     let healthKitTypes: Set = [ HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)! ]
     var stepsLabel : String = ""
+    var data: Array<(Double)> = []
 
     public init() {
         // Ask for access
         store.requestAuthorization(toShare: [], read: healthKitTypes) { (bool, error) in
             if (bool) {
+                debugPrint("Fetching steps")
                 // Authorization Successful
-                self.getSteps { (result) in
+                self.getSteps { date, result in
                     DispatchQueue.main.async {
+//                        print("new steps", date, result)
                         let stepCount = String(Int(result))
                         self.stepsLabel = String(stepCount)
                     }
@@ -51,7 +54,7 @@ public class HealthRhythmProvider: RhythmProvider {
     }
     
     // This function is called form other threads…
-    func getSteps(completion: @escaping (Double) -> Void) {
+    func getSteps(completion: @escaping (Date, Double) -> Void) {
         let type = HKQuantityType.quantityType(forIdentifier: .stepCount)!
             
         let now = Date()
@@ -63,6 +66,9 @@ public class HealthRhythmProvider: RhythmProvider {
         var interval = DateComponents()
 //        interval.hour = 1
         interval.minute = 1
+//        interval.second = 1 // to fine, too many results
+        
+        // TODO: filter out "bed time" to avoid long breaks
         
         let query = HKStatisticsCollectionQuery(quantityType: type,
                                                quantitySamplePredicate: nil,
@@ -71,32 +77,30 @@ public class HealthRhythmProvider: RhythmProvider {
                                                intervalComponents: interval)
         
         query.initialResultsHandler = { _, result, error in
-            var resultCount = 0.0
             result!.enumerateStatistics(from: since, to: now) { statistics, _ in
-                debugPrint(statistics.startDate, statistics.endDate)
+                var resultCount = 0.0
+//                debugPrint(statistics.startDate, statistics.endDate)
                 if let sum = statistics.sumQuantity() {
                     // Get steps (they are of double type)
                     resultCount = sum.doubleValue(for: HKUnit.count())
-                    print("Initial steps count result", resultCount)
-                } // end if
+                }
+                debugPrint("Initial steps count result", statistics.startDate, resultCount)
 
-                // Return
                 DispatchQueue.main.async {
-                    completion(resultCount)
+                    completion(statistics.startDate, resultCount)
                 }
             }
         }
         
         query.statisticsUpdateHandler = { query, statistics, statisticsCollection, error in
-            // If new statistics are available
             if let sum = statistics?.sumQuantity() {
+                let startDate = statistics?.startDate
                 let resultCount = sum.doubleValue(for: HKUnit.count())
-                print("Updated steps count result", resultCount)
-                // Return
+                debugPrint("Updated steps count result", startDate, resultCount)
                 DispatchQueue.main.async {
-                    completion(resultCount)
+                    completion(startDate!, resultCount)
                 }
-            } // end if
+            }
         }
         
         store.execute(query)
