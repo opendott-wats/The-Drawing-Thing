@@ -21,7 +21,7 @@ struct ShareSheet: UIViewControllerRepresentable {
             applicationActivities: applicationActivities)
         controller.excludedActivityTypes = excludedActivityTypes
         controller.completionWithItemsHandler = callback
-        controller.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 200, width: 768, height: 40)
+//        controller.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 200, width: 768, height: 40)
         return controller
     }
 

@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var doodleView = DoodleViewController()
     @State private var showShareSheet = false
-    @State public var sharedItems : [Any] = []
+    @State private var sharedItems : [Any] = []
 
     var body: some View {
         ZStack {
@@ -21,8 +21,7 @@ struct ContentView: View {
                     Spacer()
 
                     Button {
-                        self.sharedItems = [self.doodleView.export().pngData() as Any]
-                        self.showShareSheet = true
+                        self.showShareSheet.toggle() // = true
                     } label: {
                         Image(systemName: "square.and.arrow.up")
                             .frame(width: 42, height: 40)
@@ -32,7 +31,7 @@ struct ContentView: View {
                     .cornerRadius(21)
                     .padding()
                     .sheet(isPresented: $showShareSheet) {
-                        ShareSheet(activityItems: self.sharedItems)
+                        ShareSheet(activityItems: [self.doodleView.export().pngData()! as Any ])
                     }
 
                     Button {
