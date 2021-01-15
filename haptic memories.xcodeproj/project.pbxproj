@@ -16,26 +16,8 @@
 		AFB2E3C0257570740060CD32 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB2E3BF257570740060CD32 /* ContentView.swift */; };
 		AFB2E3C2257570750060CD32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFB2E3C1257570750060CD32 /* Assets.xcassets */; };
 		AFB2E3C5257570750060CD32 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFB2E3C4257570750060CD32 /* Preview Assets.xcassets */; };
-		AFB2E3D0257570750060CD32 /* haptic_memoriesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB2E3CF257570750060CD32 /* haptic_memoriesTests.swift */; };
-		AFB2E3DB257570750060CD32 /* haptic_memoriesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB2E3DA257570750060CD32 /* haptic_memoriesUITests.swift */; };
+		E030F03425B2128B00E3CAA1 /* HealthRhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		AFB2E3CC257570750060CD32 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AFB2E3B2257570740060CD32 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AFB2E3B9257570740060CD32;
-			remoteInfo = "haptic memories";
-		};
-		AFB2E3D7257570750060CD32 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AFB2E3B2257570740060CD32 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AFB2E3B9257570740060CD32;
-			remoteInfo = "haptic memories";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
@@ -50,12 +32,7 @@
 		AFB2E3C1257570750060CD32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFB2E3C4257570750060CD32 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AFB2E3C6257570750060CD32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AFB2E3CB257570750060CD32 /* haptic memoriesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "haptic memoriesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AFB2E3CF257570750060CD32 /* haptic_memoriesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = haptic_memoriesTests.swift; sourceTree = "<group>"; };
-		AFB2E3D1257570750060CD32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AFB2E3D6257570750060CD32 /* haptic memoriesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "haptic memoriesUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AFB2E3DA257570750060CD32 /* haptic_memoriesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = haptic_memoriesUITests.swift; sourceTree = "<group>"; };
-		AFB2E3DC257570750060CD32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthRhythmProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,20 +42,6 @@
 			files = (
 				AF46ED5D258BEA10007291E9 /* CoreHaptics.framework in Frameworks */,
 				AF56D39625AD7ACF0005E2B4 /* HealthKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AFB2E3C8257570750060CD32 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AFB2E3D3257570750060CD32 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,8 +61,6 @@
 			isa = PBXGroup;
 			children = (
 				AFB2E3BC257570740060CD32 /* haptic memories */,
-				AFB2E3CE257570750060CD32 /* haptic memoriesTests */,
-				AFB2E3D9257570750060CD32 /* haptic memoriesUITests */,
 				AFB2E3BB257570740060CD32 /* Products */,
 				AF46ED5B258BEA10007291E9 /* Frameworks */,
 			);
@@ -109,8 +70,6 @@
 			isa = PBXGroup;
 			children = (
 				AFB2E3BA257570740060CD32 /* haptic memories.app */,
-				AFB2E3CB257570750060CD32 /* haptic memoriesTests.xctest */,
-				AFB2E3D6257570750060CD32 /* haptic memoriesUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -127,6 +86,7 @@
 				AF47034E25894F03001A6AEF /* DoodleViewController.swift */,
 				AF47035325894F3C001A6AEF /* RhythmProviders.swift */,
 				AF46ED64258BFF94007291E9 /* ShareSheet.swift */,
+				E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */,
 			);
 			path = "haptic memories";
 			sourceTree = "<group>";
@@ -137,24 +97,6 @@
 				AFB2E3C4257570750060CD32 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		AFB2E3CE257570750060CD32 /* haptic memoriesTests */ = {
-			isa = PBXGroup;
-			children = (
-				AFB2E3CF257570750060CD32 /* haptic_memoriesTests.swift */,
-				AFB2E3D1257570750060CD32 /* Info.plist */,
-			);
-			path = "haptic memoriesTests";
-			sourceTree = "<group>";
-		};
-		AFB2E3D9257570750060CD32 /* haptic memoriesUITests */ = {
-			isa = PBXGroup;
-			children = (
-				AFB2E3DA257570750060CD32 /* haptic_memoriesUITests.swift */,
-				AFB2E3DC257570750060CD32 /* Info.plist */,
-			);
-			path = "haptic memoriesUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,42 +119,6 @@
 			productReference = AFB2E3BA257570740060CD32 /* haptic memories.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AFB2E3CA257570750060CD32 /* haptic memoriesTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AFB2E3E2257570750060CD32 /* Build configuration list for PBXNativeTarget "haptic memoriesTests" */;
-			buildPhases = (
-				AFB2E3C7257570750060CD32 /* Sources */,
-				AFB2E3C8257570750060CD32 /* Frameworks */,
-				AFB2E3C9257570750060CD32 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AFB2E3CD257570750060CD32 /* PBXTargetDependency */,
-			);
-			name = "haptic memoriesTests";
-			productName = "haptic memoriesTests";
-			productReference = AFB2E3CB257570750060CD32 /* haptic memoriesTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		AFB2E3D5257570750060CD32 /* haptic memoriesUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AFB2E3E5257570750060CD32 /* Build configuration list for PBXNativeTarget "haptic memoriesUITests" */;
-			buildPhases = (
-				AFB2E3D2257570750060CD32 /* Sources */,
-				AFB2E3D3257570750060CD32 /* Frameworks */,
-				AFB2E3D4257570750060CD32 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AFB2E3D8257570750060CD32 /* PBXTargetDependency */,
-			);
-			name = "haptic memoriesUITests";
-			productName = "haptic memoriesUITests";
-			productReference = AFB2E3D6257570750060CD32 /* haptic memoriesUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -224,14 +130,6 @@
 				TargetAttributes = {
 					AFB2E3B9257570740060CD32 = {
 						CreatedOnToolsVersion = 12.2;
-					};
-					AFB2E3CA257570750060CD32 = {
-						CreatedOnToolsVersion = 12.2;
-						TestTargetID = AFB2E3B9257570740060CD32;
-					};
-					AFB2E3D5257570750060CD32 = {
-						CreatedOnToolsVersion = 12.2;
-						TestTargetID = AFB2E3B9257570740060CD32;
 					};
 				};
 			};
@@ -249,8 +147,6 @@
 			projectRoot = "";
 			targets = (
 				AFB2E3B9257570740060CD32 /* haptic memories */,
-				AFB2E3CA257570750060CD32 /* haptic memoriesTests */,
-				AFB2E3D5257570750060CD32 /* haptic memoriesUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -265,20 +161,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AFB2E3C9257570750060CD32 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AFB2E3D4257570750060CD32 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -288,42 +170,14 @@
 			files = (
 				AFB2E3C0257570740060CD32 /* ContentView.swift in Sources */,
 				AF46ED65258BFF94007291E9 /* ShareSheet.swift in Sources */,
+				E030F03425B2128B00E3CAA1 /* HealthRhythmProvider.swift in Sources */,
 				AFB2E3BE257570740060CD32 /* haptic_memoriesApp.swift in Sources */,
 				AF47034F25894F03001A6AEF /* DoodleViewController.swift in Sources */,
 				AF47035425894F3C001A6AEF /* RhythmProviders.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AFB2E3C7257570750060CD32 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AFB2E3D0257570750060CD32 /* haptic_memoriesTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AFB2E3D2257570750060CD32 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AFB2E3DB257570750060CD32 /* haptic_memoriesUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		AFB2E3CD257570750060CD32 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AFB2E3B9257570740060CD32 /* haptic memories */;
-			targetProxy = AFB2E3CC257570750060CD32 /* PBXContainerItemProxy */;
-		};
-		AFB2E3D8257570750060CD32 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AFB2E3B9257570740060CD32 /* haptic memories */;
-			targetProxy = AFB2E3D7257570750060CD32 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AFB2E3DD257570750060CD32 /* Debug */ = {
@@ -492,90 +346,6 @@
 			};
 			name = Release;
 		};
-		AFB2E3E3257570750060CD32 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LR5J7B638A;
-				INFOPLIST_FILE = "haptic memoriesTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.opendott.self.haptic-memoriesTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/haptic memories.app/haptic memories";
-			};
-			name = Debug;
-		};
-		AFB2E3E4257570750060CD32 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LR5J7B638A;
-				INFOPLIST_FILE = "haptic memoriesTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.opendott.self.haptic-memoriesTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/haptic memories.app/haptic memories";
-			};
-			name = Release;
-		};
-		AFB2E3E6257570750060CD32 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LR5J7B638A;
-				INFOPLIST_FILE = "haptic memoriesUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.opendott.self.haptic-memoriesUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "haptic memories";
-			};
-			name = Debug;
-		};
-		AFB2E3E7257570750060CD32 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LR5J7B638A;
-				INFOPLIST_FILE = "haptic memoriesUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.opendott.self.haptic-memoriesUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "haptic memories";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -593,24 +363,6 @@
 			buildConfigurations = (
 				AFB2E3E0257570750060CD32 /* Debug */,
 				AFB2E3E1257570750060CD32 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AFB2E3E2257570750060CD32 /* Build configuration list for PBXNativeTarget "haptic memoriesTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AFB2E3E3257570750060CD32 /* Debug */,
-				AFB2E3E4257570750060CD32 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AFB2E3E5257570750060CD32 /* Build configuration list for PBXNativeTarget "haptic memoriesUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AFB2E3E6257570750060CD32 /* Debug */,
-				AFB2E3E7257570750060CD32 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
