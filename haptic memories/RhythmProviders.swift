@@ -10,6 +10,7 @@ import UIKit
 public protocol RhythmProvider {
     // value - the distance to the last point drawn, or length of line
     func match(value: Float) -> Bool
+    var progress: Double { get set }
 }
 
 public class RandomRhythmProvider: RhythmProvider {
@@ -23,6 +24,15 @@ public class RandomRhythmProvider: RhythmProvider {
             self.generator.impactOccurred(intensity: intensity)
         }
         return state
+    }
+    
+    public var progress: Double {
+        get {
+            return 1.0
+        }
+        set {
+           return
+        }
     }
 }
 

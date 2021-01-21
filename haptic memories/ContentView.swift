@@ -8,16 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var doodleView = DoodleViewController()
+    @StateObject var health: HealthRhythmProvider = HealthRhythmProvider()
+    @State private var doodler = DoodleViewController()
+
     @State private var showShareSheet = false
     @State private var sharedItems : [Any] = []
 
     var body: some View {
         ZStack {
-            DoodleView(doodleView: $doodleView)
+            DoodleView(controller: $doodler, rhythm: health)
             VStack {
                 Spacer()
                 HStack {
+                    Spacer()
+
+                    ProgressView(value: health.progress)
+                    
+
                     Spacer()
 
                     Button {
@@ -31,11 +38,11 @@ struct ContentView: View {
                     .cornerRadius(21)
                     .padding()
                     .sheet(isPresented: $showShareSheet) {
-                        ShareSheet(activityItems: [self.doodleView.export().pngData()! as Any ])
+                        ShareSheet(activityItems: [self.doodler.export().pngData()! as Any ])
                     }
 
                     Button {
-                        self.doodleView.reset()
+                        self.doodler.reset()
                     } label: {
                         Image(systemName: "arrow.counterclockwise")
                             .frame(width: 42, height: 40)

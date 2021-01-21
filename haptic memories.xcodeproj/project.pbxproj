@@ -33,6 +33,7 @@
 		AFB2E3C4257570750060CD32 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AFB2E3C6257570750060CD32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthRhythmProvider.swift; sourceTree = "<group>"; };
+		E081C65025B7743000740044 /* snapshot.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = snapshot.geojson; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +88,7 @@
 				AF47035325894F3C001A6AEF /* RhythmProviders.swift */,
 				AF46ED64258BFF94007291E9 /* ShareSheet.swift */,
 				E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */,
+				E081C65025B7743000740044 /* snapshot.geojson */,
 			);
 			path = "haptic memories";
 			sourceTree = "<group>";

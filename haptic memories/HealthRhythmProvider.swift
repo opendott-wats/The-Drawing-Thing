@@ -9,7 +9,7 @@ import HealthKit
 
 // Code based on blog post: https://bennett4.medium.com/creating-an-ios-app-to-display-the-number-of-steps-taken-today-1060635e05ae
 
-public class HealthRhythmProvider: RhythmProvider {
+public class HealthRhythmProvider: RhythmProvider, ObservableObject {
     let store = HKHealthStore()
     let healthKitTypes: Set = [ HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)! ]
     var stepsLabel : String = ""
@@ -34,6 +34,17 @@ public class HealthRhythmProvider: RhythmProvider {
         } // end of checking authorization
     }
     
+    @Published public var progress: Double = 0.0
+    
+    func setProgress(_ value: Int, max: Int?) {
+        guard let max = max else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.progress = Double(value) / Double(max)
+        }
+    }
+    
     // This function is called form other threads…
     func getSteps(completion: @escaping (Date, Double) -> Void) {
         let type = HKQuantityType.quantityType(forIdentifier: .stepCount)!
@@ -41,8 +52,18 @@ public class HealthRhythmProvider: RhythmProvider {
         let now = Date()
 
         var components = DateComponents()
-        components.day = -1 // since yesterday
+//        components.day = -1 // since yesterday
+//        components.year = -1
+        components.weekday = -7
+        
         let since = Calendar.current.date(byAdding: components, to: Calendar.current.startOfDay(for: now))!
+        let numDataPoints = Calendar.current.dateComponents([.minute], from: since, to: now).minute!
+//        print(numDatPoints)
+        self.data = Array<Double>(repeating: 0.0, count: numDataPoints)
+        setProgress(0, max: numDataPoints)
+        
+        var count = 0
+//        return
 
         var interval = DateComponents()
 //        interval.hour = 1
@@ -66,7 +87,13 @@ public class HealthRhythmProvider: RhythmProvider {
                     print("summing successful")
                     resultCount = sum.doubleValue(for: HKUnit.count())
                 }
-                debugPrint("Initial steps count result", statistics.startDate, resultCount)
+                self.setProgress(count, max: numDataPoints)
+                if (count == numDataPoints) {
+                    print(statistics.startDate, "--------- DONE ---------")
+                    print(self.data)
+                }
+                count += 1
+                debugPrint("Initial steps count result", count, self.progress, statistics.startDate, resultCount)
 
                 DispatchQueue.main.async {
                     completion(statistics.startDate, resultCount)
@@ -84,7 +111,7 @@ public class HealthRhythmProvider: RhythmProvider {
                 }
             }
         }
-        
+                
         store.execute(query)
     }
     

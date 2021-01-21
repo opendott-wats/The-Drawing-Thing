@@ -9,15 +9,16 @@ import UIKit
 import SwiftUI
 
 
-public class DoodleViewController : UIViewController {
+public class DoodleViewController : UIViewController, ObservableObject {
     var lastPoint = CGPoint.zero
-    var color:UIColor = .white
-    var brushWidth: CGFloat = 1.0
-    var opacity: CGFloat = 1.0
     var swiped = false
+    var color:UIColor = .white
+
+    @Published var brushWidth: CGFloat = 1.0
+    @Published var opacity: CGFloat = 1.0
     
-    var rhythm: RhythmProvider!
-    
+    public var rhythm: RhythmProvider!
+        
     var tempImageView: UIImageView!
     var mainImageView: UIImageView!
     
@@ -51,12 +52,12 @@ public class DoodleViewController : UIViewController {
     
     public override func loadView() {
 //        self.rhythm = RandomRhythmProvider()
-        self.rhythm = HealthRhythmProvider()
+//        self.rhythm = HealthRhythmProvider()
         
         let view = UIView()
         view.backgroundColor = .black
         view.contentMode = .scaleAspectFill
-        view.isMultipleTouchEnabled = true
+        view.isMultipleTouchEnabled = false
         
         // Setup the image view
         tempImageView = UIImageView(frame: view.frame)
@@ -88,7 +89,7 @@ public class DoodleViewController : UIViewController {
         let currentPoint = touch.location(in: self.view)
         let distance = hypotf(Float(lastPoint.x - currentPoint.x), Float(lastPoint.y - currentPoint.y))
 
-        if rhythm.match(value: distance) {
+        if self.rhythm.match(value: distance) {
             color = .white
         } else {
             color = .black
@@ -169,13 +170,16 @@ public class DoodleViewController : UIViewController {
 }
 
 struct DoodleView: View {
-    @Binding var doodleView: DoodleViewController
+    @Binding var controller: DoodleViewController
+    @ObservedObject var rhythm: HealthRhythmProvider
+    
 }
 
 extension DoodleView: UIViewControllerRepresentable {
     
   public func makeUIViewController(context: Context) -> DoodleViewController {
-    return doodleView
+    self.controller.rhythm = self.rhythm
+    return self.controller
   }
 
   public func updateUIViewController(_ uiViewController: DoodleViewController, context: Context) {
