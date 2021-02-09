@@ -8,11 +8,12 @@
 import UIKit
 import SwiftUI
 
-
 public class DoodleViewController : UIViewController, ObservableObject {
     var lastPoint = CGPoint.zero
     var swiped = false
     var color:UIColor = .white
+
+    let generator = UIImpactFeedbackGenerator(style: .rigid)
 
     @Published var brushWidth: CGFloat = 1.0
     @Published var opacity: CGFloat = 1.0
@@ -87,10 +88,12 @@ public class DoodleViewController : UIViewController, ObservableObject {
         guard let touch = touches.first else { return }
         
         let currentPoint = touch.location(in: self.view)
-        let distance = hypotf(Float(lastPoint.x - currentPoint.x), Float(lastPoint.y - currentPoint.y))
+        let distance = Double(hypotf(Float(lastPoint.x - currentPoint.x), Float(lastPoint.y - currentPoint.y)))
 
-        if self.rhythm.match(value: distance) {
-            color = .white
+        if let value = self.rhythm.match(distance) {
+            color = value > 0.1 ? .white : .black
+            let intensity = value.map(from: 0.0...1, to: 0.3...4.0)
+            self.generator.impactOccurred(intensity: CGFloat(intensity))
         } else {
             color = .black
         }

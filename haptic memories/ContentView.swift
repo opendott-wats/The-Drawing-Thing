@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
-//    @StateObject var provider = HealthRhythmProvider()
-    @StateObject var provider = RandomRhythmProvider()
+    @StateObject var provider = HealthRhythmProvider()
+//    @StateObject var provider = RandomRhythmProvider()
     @State private var doodler = DoodleViewController()
 
     @State private var showShareSheet = false
@@ -24,7 +24,7 @@ struct ContentView: View {
                 HStack {
                     Spacer()
 
-                    if provider.progress > 0 {
+                    if provider.progress > 0 && provider.progress < 1.0 {
                         ProgressView(value: provider.progress)
                     }
 
@@ -58,7 +58,9 @@ struct ContentView: View {
                         .padding()
                 }
             }
-        }
+        }.onAppear(perform: {
+            UIApplication.shared.isIdleTimerDisabled = true
+        })
     }
 }
 

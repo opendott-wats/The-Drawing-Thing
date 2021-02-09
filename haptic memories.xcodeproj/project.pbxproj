@@ -16,6 +16,8 @@
 		AFB2E3C0257570740060CD32 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB2E3BF257570740060CD32 /* ContentView.swift */; };
 		AFB2E3C2257570750060CD32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFB2E3C1257570750060CD32 /* Assets.xcassets */; };
 		AFB2E3C5257570750060CD32 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFB2E3C4257570750060CD32 /* Preview Assets.xcassets */; };
+		E011138525D2EE94006AB448 /* MapNumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011138425D2EE94006AB448 /* MapNumeric.swift */; };
+		E011138925D2EF37006AB448 /* RandomRhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */; };
 		E030F03425B2128B00E3CAA1 /* HealthRhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,8 +34,9 @@
 		AFB2E3C1257570750060CD32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFB2E3C4257570750060CD32 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AFB2E3C6257570750060CD32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E011138425D2EE94006AB448 /* MapNumeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapNumeric.swift; sourceTree = "<group>"; };
+		E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomRhythmProvider.swift; sourceTree = "<group>"; };
 		E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthRhythmProvider.swift; sourceTree = "<group>"; };
-		E081C65025B7743000740044 /* snapshot.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = snapshot.geojson; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,17 +81,12 @@
 		AFB2E3BC257570740060CD32 /* haptic memories */ = {
 			isa = PBXGroup;
 			children = (
-				AF51FFEA258CA42800FDCD1E /* haptic memories.entitlements */,
+				E011138D25D2EFB7006AB448 /* other */,
+				E011138B25D2EF72006AB448 /* lib */,
+				E011138725D2EF1E006AB448 /* RhythmProviders */,
 				AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */,
 				AFB2E3BF257570740060CD32 /* ContentView.swift */,
-				AFB2E3C1257570750060CD32 /* Assets.xcassets */,
-				AFB2E3C6257570750060CD32 /* Info.plist */,
-				AFB2E3C3257570750060CD32 /* Preview Content */,
 				AF47034E25894F03001A6AEF /* DoodleViewController.swift */,
-				AF47035325894F3C001A6AEF /* RhythmProviders.swift */,
-				AF46ED64258BFF94007291E9 /* ShareSheet.swift */,
-				E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */,
-				E081C65025B7743000740044 /* snapshot.geojson */,
 			);
 			path = "haptic memories";
 			sourceTree = "<group>";
@@ -99,6 +97,36 @@
 				AFB2E3C4257570750060CD32 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E011138725D2EF1E006AB448 /* RhythmProviders */ = {
+			isa = PBXGroup;
+			children = (
+				AF47035325894F3C001A6AEF /* RhythmProviders.swift */,
+				E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */,
+				E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */,
+			);
+			path = RhythmProviders;
+			sourceTree = "<group>";
+		};
+		E011138B25D2EF72006AB448 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				AF46ED64258BFF94007291E9 /* ShareSheet.swift */,
+				E011138425D2EE94006AB448 /* MapNumeric.swift */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		E011138D25D2EFB7006AB448 /* other */ = {
+			isa = PBXGroup;
+			children = (
+				AF51FFEA258CA42800FDCD1E /* haptic memories.entitlements */,
+				AFB2E3C1257570750060CD32 /* Assets.xcassets */,
+				AFB2E3C6257570750060CD32 /* Info.plist */,
+				AFB2E3C3257570750060CD32 /* Preview Content */,
+			);
+			name = other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,10 +198,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E011138525D2EE94006AB448 /* MapNumeric.swift in Sources */,
 				AFB2E3C0257570740060CD32 /* ContentView.swift in Sources */,
 				AF46ED65258BFF94007291E9 /* ShareSheet.swift in Sources */,
 				E030F03425B2128B00E3CAA1 /* HealthRhythmProvider.swift in Sources */,
 				AFB2E3BE257570740060CD32 /* haptic_memoriesApp.swift in Sources */,
+				E011138925D2EF37006AB448 /* RandomRhythmProvider.swift in Sources */,
 				AF47034F25894F03001A6AEF /* DoodleViewController.swift in Sources */,
 				AF47035425894F3C001A6AEF /* RhythmProviders.swift in Sources */,
 			);
