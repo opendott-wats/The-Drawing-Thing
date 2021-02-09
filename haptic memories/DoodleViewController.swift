@@ -171,8 +171,7 @@ public class DoodleViewController : UIViewController, ObservableObject {
 
 struct DoodleView: View {
     @Binding var controller: DoodleViewController
-    @ObservedObject var rhythm: HealthRhythmProvider
-    
+    @State var rhythm: RhythmProvider
 }
 
 extension DoodleView: UIViewControllerRepresentable {

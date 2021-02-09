@@ -8,25 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var health: HealthRhythmProvider = HealthRhythmProvider()
+    
+//    @StateObject var provider = HealthRhythmProvider()
+    @StateObject var provider = RandomRhythmProvider()
     @State private var doodler = DoodleViewController()
 
     @State private var showShareSheet = false
-    @State private var sharedItems : [Any] = []
+    @State private var sharedItems: [Any] = []
 
     var body: some View {
         ZStack {
-            DoodleView(controller: $doodler, rhythm: health)
+            DoodleView(controller: $doodler, rhythm: provider)
             VStack {
                 Spacer()
                 HStack {
                     Spacer()
 
-                    ProgressView(value: health.progress)
-                    
+                    if provider.progress > 0 {
+                        ProgressView(value: provider.progress)
+                    }
 
                     Spacer()
 
+                    // Share Button
                     Button {
                         self.showShareSheet.toggle() // = true
                     } label: {
@@ -35,12 +39,13 @@ struct ContentView: View {
                             .padding(.bottom, 2)
                             .foregroundColor(Color.white)
                     }.background(Color.orange)
-                    .cornerRadius(21)
-                    .padding()
-                    .sheet(isPresented: $showShareSheet) {
-                        ShareSheet(activityItems: [self.doodler.export().pngData()! as Any ])
-                    }
+                        .cornerRadius(21)
+                        .padding()
+                        .sheet(isPresented: $showShareSheet) {
+                            ShareSheet(activityItems: [self.doodler.export().pngData()! as Any])
+                        }
 
+                    // Reset Button
                     Button {
                         self.doodler.reset()
                     } label: {
@@ -49,13 +54,12 @@ struct ContentView: View {
                             .padding(.bottom, 2)
                             .foregroundColor(Color.white)
                     }.background(Color.orange)
-                    .cornerRadius(21)
-                    .padding()
+                        .cornerRadius(21)
+                        .padding()
                 }
             }
         }
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {

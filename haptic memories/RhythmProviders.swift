@@ -13,7 +13,7 @@ public protocol RhythmProvider {
     var progress: Double { get set }
 }
 
-public class RandomRhythmProvider: RhythmProvider {
+public class RandomRhythmProvider: RhythmProvider, ObservableObject {
     let generator = UIImpactFeedbackGenerator(style: .rigid)
 
     public func match(value: Float) -> Bool {
@@ -28,7 +28,7 @@ public class RandomRhythmProvider: RhythmProvider {
     
     public var progress: Double {
         get {
-            return 1.0
+            return 0
         }
         set {
            return
