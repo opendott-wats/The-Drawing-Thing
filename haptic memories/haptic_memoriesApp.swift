@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct haptic_memoriesApp: App {
-    @State var provider = HealthRhythmProvider()
+    @State var provider = RandomRhythmProvider() //HealthRhythmProvider()
     var body: some Scene {
         WindowGroup {
             ContentView(provider: $provider)

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AF46ED5D258BEA10007291E9 /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */; };
 		AF46ED65258BFF94007291E9 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF46ED64258BFF94007291E9 /* ShareSheet.swift */; };
-		AF47034F25894F03001A6AEF /* DoodleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47034E25894F03001A6AEF /* DoodleViewController.swift */; };
+		AF47034F25894F03001A6AEF /* DoodleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47034E25894F03001A6AEF /* DoodleView.swift */; };
 		AF47035425894F3C001A6AEF /* RhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47035325894F3C001A6AEF /* RhythmProvider.swift */; };
 		AF56D39625AD7ACF0005E2B4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF56D39525AD7ACF0005E2B4 /* HealthKit.framework */; };
 		AFB2E3BE257570740060CD32 /* haptic_memoriesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */; };
@@ -25,7 +25,7 @@
 /* Begin PBXFileReference section */
 		AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
 		AF46ED64258BFF94007291E9 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
-		AF47034E25894F03001A6AEF /* DoodleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleViewController.swift; sourceTree = "<group>"; };
+		AF47034E25894F03001A6AEF /* DoodleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleView.swift; sourceTree = "<group>"; };
 		AF47035325894F3C001A6AEF /* RhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmProvider.swift; sourceTree = "<group>"; };
 		AF51FFEA258CA42800FDCD1E /* haptic memories.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "haptic memories.entitlements"; sourceTree = "<group>"; };
 		AF56D39525AD7ACF0005E2B4 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -89,7 +89,7 @@
 				AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */,
 				AFB2E3BF257570740060CD32 /* ContentView.swift */,
 				E001B09125D3F977000CE9B6 /* Actions.swift */,
-				AF47034E25894F03001A6AEF /* DoodleViewController.swift */,
+				AF47034E25894F03001A6AEF /* DoodleView.swift */,
 			);
 			path = "haptic memories";
 			sourceTree = "<group>";
@@ -208,7 +208,7 @@
 				AFB2E3BE257570740060CD32 /* haptic_memoriesApp.swift in Sources */,
 				E011138925D2EF37006AB448 /* RandomRhythmProvider.swift in Sources */,
 				E001B09225D3F977000CE9B6 /* Actions.swift in Sources */,
-				AF47034F25894F03001A6AEF /* DoodleViewController.swift in Sources */,
+				AF47034F25894F03001A6AEF /* DoodleView.swift in Sources */,
 				AF47035425894F3C001A6AEF /* RhythmProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

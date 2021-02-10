@@ -7,31 +7,41 @@
 
 import SwiftUI
 
+struct Drawing {
+    var image = UIImage()
+}
+
 struct ContentView<Provider>: View where Provider: RhythmProvider {
     @Binding var provider: Provider
-//    @State private var doodler = DoodleViewController<Provider>()
+    @State var drawing = Drawing()
 
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
 
-            if !provider.ready {
+            if false {
                 ProgressView(value: provider.progress)
                     { Text("loading data ...").colorInvert() }
                     .progressViewStyle(LinearProgressViewStyle(tint: .white))
 //                    .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                     .padding(50)
-                    .onTapGesture(perform: {
-                        debugPrint(provider, provider.progress, provider.ready)
-                    })
+//                    .onTapGesture(perform: {
+//                        debugPrint(provider, provider.progress, provider.ready)
+//                    })
             } else {
-                DoodleView(controller: $doodler, rhythm: provider)
+                GeometryReader { g in
+                    DoodleView(rhythm: $provider, drawing: $drawing, frame: g.frame(in: .local), size: g.size)
+                }
             }
 
-            Actions(provider: $provider, reset: { doodler.reset() }, share: { [self.doodler.export().pngData()! as Any] })
+            Actions(provider: $provider,
+                    reset: { drawing = Drawing() },
+                    sharing: { drawing.image.pngData() }
+            )
         }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     @State static var provider = RandomRhythmProvider()
