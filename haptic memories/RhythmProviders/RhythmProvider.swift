@@ -27,6 +27,8 @@ public class RhythmProvider: ObservableObject {
     @Published var progress: Double? = nil    
     
     @Published var ready: Bool = false
+    
+    func reset() {}
 }
 
 //    var progress: Double {

@@ -11,10 +11,9 @@ public class RandomRhythmProvider: RhythmProvider {
     
     override init() {
         super.init()
-        
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            self.progress = Double.random(in: 0.1...0.9)
-        }
+//        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+//            self.progress = Double.random(in: 0.1...0.9)
+//        }
     }
 
 

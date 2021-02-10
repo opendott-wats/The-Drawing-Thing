@@ -34,13 +34,11 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
                     return
                 }
 
-                var color = UIColor.white
+                var color = UIColor(white: 0, alpha: 0)
                 if let value = self.rhythm.match(distance) {
-                    color = value > 0.1 ? .white : .black
+                    color = UIColor(white: 1, alpha: CGFloat(value))
                     let intensity = value.map(from: 0.0...1, to: 0.3...4.0)
                     self.generator.impactOccurred(intensity: CGFloat(intensity))
-                } else {
-                    color = UIColor.black
                 }
 
                 drawLine(from: lastPoint, to: currentPoint, color: color.cgColor)
@@ -55,6 +53,11 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
             ZStack {
                 Color.black // Fill with a background color
                 Image(uiImage: drawing.image)
+                VStack {
+                    ProgressView(value: rhythm.progress!)
+                        .progressViewStyle(LinearProgressViewStyle(tint: Color.white))
+                    Spacer()
+                }
             }
             .gesture(tapDrag)
             .onAppear(perform: {

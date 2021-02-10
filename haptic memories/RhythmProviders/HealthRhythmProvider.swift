@@ -18,29 +18,47 @@ public class HealthRhythmProvider: RhythmProvider {
         self.progress = nil
         self.ready = false
         self.data.removeAll()
+        fetchData()
+    }
+
+    override func reset() {
+        reset1()
+        reset2()
+    }
+    
+    func fetchData() {
         // Ask for access
         store.requestAuthorization(toShare: [], read: healthKitTypes) { (success, error) in
             // Authorization Successful
 
             if success {
-                debugPrint("Fetching steps")
-//                DispatchQueue.main.async {
-//                    self.progress = 0.0
-//                    self.ready = false
-//                    self.data.removeAll()
-//                }
+                print("Fetching steps")
                 self.getSteps { date, result, progress in
-                    DispatchQueue.main.async {
+//                    DispatchQueue.main.async {
                         self.data.append(result)
                         self.progress = progress
                         self.ready = self.progress! >= 1.0
-                        print("Result", date, result, self.progress, self.ready)
+                    print("Result", date, result, self.progress ?? -1, self.ready)
+                    if self.ready {
+                        // Remove all 0.0 values
+                        var zeroCount = 0
+                        self.data = self.data.filter({ v in
+                            if v == 0.0 {
+                                zeroCount += 1
+                            } else {
+                                zeroCount = 0
+                            }
+                            // Allow for N number of consecutive 0s
+                            return zeroCount < 30 // the unit depends on the interval of fetching data
+                        })
+                        print("Data count after filter", self.data.count)
                     }
+//                    }
                 }
             }
         }
     }
-        
+    
     // This function is called form other threads…
     func getSteps(completion: @escaping (Date, Double, Double) -> Void) {
         // We are looking for step count
@@ -78,46 +96,53 @@ public class HealthRhythmProvider: RhythmProvider {
                                                intervalComponents: interval)
         
         query.initialResultsHandler = { _, result, error in
-//            print("Initial result count", result!.statistics().count, numDataPoints)
             result!.enumerateStatistics(from: since, to: now) { statistics, _ in
                 var result = 0.0
-//                debugPrint(statistics.startDate, statistics.endDate)
                 if let sum = statistics.sumQuantity() {
                     // Get steps (they are of double type)
                     result = sum.doubleValue(for: HKUnit.count())
                 }
-                
-//                print("Result:", statistics.startDate, count, result)
-
-                DispatchQueue.main.async { completion(statistics.startDate, result, Double(count) / Double(numDataPoints)) }
                 count += 1
+                DispatchQueue.main.async {
+                    completion(statistics.startDate, result, Double(count) / Double(numDataPoints))
+                }
             }
         }
-        
-        // This is optional as the use case is very likely not to occur during activity generating steps
-//        query.statisticsUpdateHandler = { query, statistics, statisticsCollection, error in
-//            if let sum = statistics?.sumQuantity() {
-//                let startDate = statistics?.startDate
-//                let resultCount = sum.doubleValue(for: HKUnit.count())
-//                debugPrint("Updated steps count result", startDate!, resultCount)
-////                DispatchQueue.main.async {
-////                    completion(startDate!, resultCount)
-////                }
-//            }
-//        }
-                
+                      
         store.execute(query)
     }
     
     /**
      Response Algorithms
      */
-    
     public override func match(_ value: Double) -> Double? {
-        return match1(value)
+        return match2(value)
     }
     
+    var pos2: Int = 0
+    
+    func reset2() {
+        pos2 = 0
+        progress = 1
+    }
+    func match2(_ value: Double) -> Double? {
+        // 1.1) check if we ran over the available data
+        if pos2 >= data.count {
+            return nil
+        }
+        let _min = data.min() ?? 0 / Double(data.count)
+        let _max = data.max() ?? 0 / Double(data.count)
+        let value = data[pos2].map(from: _min..._max, to: 0.0...1.0)
+        pos2 += 1
+        self.progress = 1 - (Double(pos2) / Double(data.count))
+        return value
+    }
+
     var lastPos: Int = 0
+    func reset1() {
+        lastPos = 0
+        progress = 1
+    }
     func match1(_ value: Double) -> Double? {
         // Alg 1:
         // 1) Take a chunk based on the incoming distance; 1 pixel == 1 element

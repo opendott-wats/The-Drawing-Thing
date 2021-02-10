@@ -19,6 +19,8 @@ struct ContentView: View {
         self.provider = provider
     }
     
+    let progressStyle = CircularProgressViewStyle(tint: Color.white)
+    
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
@@ -26,8 +28,7 @@ struct ContentView: View {
             if !provider.ready {
                 ProgressView(value: provider.progress)
                     { Text("loading data ...").colorInvert() }
-//                    .progressViewStyle(LinearProgressViewStyle(tint: .white))
-                    .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
+                    .progressViewStyle(progressStyle)
                     .padding(50)
             } else {
                 GeometryReader { g in
@@ -36,7 +37,10 @@ struct ContentView: View {
             }
 
             Actions(provider: provider,
-                    reset: { drawing = Drawing() },
+                    reset: {
+                        drawing = Drawing()
+                        provider.reset()
+                    },
                     sharing: { drawing.image.pngData() }
             )
         }
