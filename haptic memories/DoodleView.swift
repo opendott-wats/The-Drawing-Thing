@@ -16,7 +16,7 @@ extension CGPoint {
 }
 
 struct DoodleView<Provider>: View where Provider: RhythmProvider {
-    @Binding var rhythm: Provider
+    @ObservedObject var rhythm: Provider
     @Binding var drawing: Drawing
     
     @State var frame: CGRect

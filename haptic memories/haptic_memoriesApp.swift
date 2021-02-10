@@ -9,10 +9,11 @@ import SwiftUI
 
 @main
 struct haptic_memoriesApp: App {
-    @State var provider = RandomRhythmProvider() //HealthRhythmProvider()
+    @StateObject var provider = HealthRhythmProvider()
+
     var body: some Scene {
         WindowGroup {
-            ContentView(provider: $provider)
+            ContentView(provider)
                 .statusBar(hidden: true)
                 .onAppear(perform: {
                     UIApplication.shared.isIdleTimerDisabled = true

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Actions<Provider>: View where Provider: RhythmProvider {
-    @Binding var provider: Provider
+    @ObservedObject var provider: Provider
     var reset: () -> Void
     var sharing: () -> Data?
 

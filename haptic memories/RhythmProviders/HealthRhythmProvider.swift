@@ -7,30 +7,35 @@
 
 import HealthKit
 
-public class HealthRhythmProvider: RhythmProvider, ObservableObject {
+public class HealthRhythmProvider: RhythmProvider {
     let store = HKHealthStore()
     let healthKitTypes: Set = [ HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)! ]
 
     var data: Array<Double> = []
 
-    @Published public var progress: Double = 0.0
-    @Published public var ready: Bool = false
-
-    public init() {
+    public override init() {
+        super.init()
+        self.progress = nil
+        self.ready = false
+        self.data.removeAll()
         // Ask for access
         store.requestAuthorization(toShare: [], read: healthKitTypes) { (success, error) in
             // Authorization Successful
 
             if success {
                 debugPrint("Fetching steps")
-                self.progress = 0.0
-                self.ready = false
-                self.data.removeAll()
+//                DispatchQueue.main.async {
+//                    self.progress = 0.0
+//                    self.ready = false
+//                    self.data.removeAll()
+//                }
                 self.getSteps { date, result, progress in
-                    self.data.append(result)
-                    self.progress = progress
-                    self.ready = self.progress >= 1.0
-                    print("Result", date, result, self.progress, self.ready)
+                    DispatchQueue.main.async {
+                        self.data.append(result)
+                        self.progress = progress
+                        self.ready = self.progress! >= 1.0
+                        print("Result", date, result, self.progress, self.ready)
+                    }
                 }
             }
         }
@@ -108,7 +113,7 @@ public class HealthRhythmProvider: RhythmProvider, ObservableObject {
      Response Algorithms
      */
     
-    public func match(_ value: Double) -> Double? {
+    public override func match(_ value: Double) -> Double? {
         return match1(value)
     }
     

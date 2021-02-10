@@ -11,30 +11,31 @@ struct Drawing {
     var image = UIImage()
 }
 
-struct ContentView<Provider>: View where Provider: RhythmProvider {
-    @Binding var provider: Provider
+struct ContentView: View {
+    @ObservedObject var provider: RhythmProvider
     @State var drawing = Drawing()
 
+    init(_ provider: RhythmProvider) {
+        self.provider = provider
+    }
+    
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
 
-            if false {
+            if !provider.ready {
                 ProgressView(value: provider.progress)
                     { Text("loading data ...").colorInvert() }
-                    .progressViewStyle(LinearProgressViewStyle(tint: .white))
-//                    .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
+//                    .progressViewStyle(LinearProgressViewStyle(tint: .white))
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                     .padding(50)
-//                    .onTapGesture(perform: {
-//                        debugPrint(provider, provider.progress, provider.ready)
-//                    })
             } else {
                 GeometryReader { g in
-                    DoodleView(rhythm: $provider, drawing: $drawing, frame: g.frame(in: .local), size: g.size)
+                    DoodleView(rhythm: provider, drawing: $drawing, frame: g.frame(in: .local), size: g.size)
                 }
             }
 
-            Actions(provider: $provider,
+            Actions(provider: provider,
                     reset: { drawing = Drawing() },
                     sharing: { drawing.image.pngData() }
             )
@@ -44,8 +45,9 @@ struct ContentView<Provider>: View where Provider: RhythmProvider {
 
 
 struct ContentView_Previews: PreviewProvider {
-    @State static var provider = RandomRhythmProvider()
+    @StateObject static var provider = RandomRhythmProvider()
     static var previews: some View {
-        ContentView(provider: $provider)
+        ContentView(provider)
+            .previewDevice("iPhone 8")
     }
 }

@@ -7,15 +7,19 @@
 
 import Foundation
 
-public class RandomRhythmProvider: RhythmProvider, ObservableObject {
-    public func match(_ value: Double) -> Double? {
-        return Double.random(in: 0...1)
-    }
+public class RandomRhythmProvider: RhythmProvider {
     
-    public var progress: Double {
-        get {
-            return Double.random(in: 0.2...0.8)
+    override init() {
+        super.init()
+        
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            self.progress = Double.random(in: 0.1...0.9)
         }
+    }
+
+
+    public override func match(_ value: Double) -> Double? {
+        return Double.random(in: 0...1)
     }
 }
 
