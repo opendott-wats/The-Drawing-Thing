@@ -41,7 +41,9 @@ struct ContentView: View {
                         drawing = Drawing()
                         provider.reset()
                     },
-                    sharing: { drawing.image.pngData() }
+                    sharing: {
+                        return drawing.image.pngData()!
+                    }
             )
         }
     }

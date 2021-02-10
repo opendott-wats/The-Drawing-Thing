@@ -23,10 +23,6 @@ struct Actions<Provider>: View where Provider: RhythmProvider {
 
                 // Share Button
                 Button {
-                    guard let shared = sharing() else {
-                        return
-                    }
-                    data = shared
                     self.showShareSheet.toggle()
                 } label: {
                     Image(systemName: "square.and.arrow.up")
@@ -37,7 +33,7 @@ struct Actions<Provider>: View where Provider: RhythmProvider {
                     .cornerRadius(21)
                     .padding()
                     .sheet(isPresented: $showShareSheet) {
-                        ShareSheet(activityItems: [data as Any])
+                        ShareSheet(activityItems: [sharing() as Any])
                     }
 
                 // Reset Button
