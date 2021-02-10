@@ -49,7 +49,7 @@ public class HealthRhythmProvider: RhythmProvider {
                                 zeroCount = 0
                             }
                             // Allow for N number of consecutive 0s
-                            return zeroCount < 30 // the unit depends on the interval of fetching data
+                            return zeroCount < 5 // the unit depends on the interval of fetching data
                         })
                         print("Data count after filter", self.data.count)
                     }

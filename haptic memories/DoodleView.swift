@@ -35,9 +35,11 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
                 }
 
                 var color = UIColor(white: 0, alpha: 0)
+                brushWidth = 1.0
                 if let value = self.rhythm.match(distance) {
                     color = UIColor(white: 1, alpha: CGFloat(value))
-                    let intensity = value.map(from: 0.0...1, to: 0.3...4.0)
+                    brushWidth = CGFloat(value).map(from: 0.0...1, to: 1...2.0)
+                    let intensity = value.map(from: 0.0...1, to: 0.1...4.0)
                     self.generator.impactOccurred(intensity: CGFloat(intensity))
                 }
 
@@ -54,7 +56,7 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
                 Color.black // Fill with a background color
                 Image(uiImage: drawing.image)
                 VStack {
-                    ProgressView(value: rhythm.progress!)
+                    ProgressView(value: rhythm.progress!, total: 1.0)
                         .progressViewStyle(LinearProgressViewStyle(tint: Color.white))
                     Spacer()
                 }
@@ -70,7 +72,7 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
     let generator = UIImpactFeedbackGenerator(style: .rigid)
         
     let threshold = 1.0
-    var brushWidth: CGFloat = 1.0
+    @State var brushWidth: CGFloat = 1.0
     var opacity: CGFloat = 1.0
     var color:UIColor = .white
 
