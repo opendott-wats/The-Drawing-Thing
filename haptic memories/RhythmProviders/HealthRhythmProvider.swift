@@ -7,47 +7,37 @@
 
 import HealthKit
 
-// Code based on blog post: https://bennett4.medium.com/creating-an-ios-app-to-display-the-number-of-steps-taken-today-1060635e05ae
-
 public class HealthRhythmProvider: RhythmProvider, ObservableObject {
     let store = HKHealthStore()
     let healthKitTypes: Set = [ HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)! ]
-    var stepsLabel : String = ""
+
     var data: Array<Double> = []
+
+    @Published public var progress: Double = 0.0
+    @Published public var ready: Bool = false
 
     public init() {
         // Ask for access
-        store.requestAuthorization(toShare: [], read: healthKitTypes) { (bool, error) in
-            if (bool) {
+        store.requestAuthorization(toShare: [], read: healthKitTypes) { (success, error) in
+            // Authorization Successful
+
+            if success {
                 debugPrint("Fetching steps")
-                self.progress = 0.001 // Kick off the progress bar a bit
-                // Authorization Successful
+                self.progress = 0.0
+                self.ready = false
                 self.data.removeAll()
-                self.getSteps { date, result in
-                    DispatchQueue.main.async {
-                        print("new steps", date, result)
-                        let stepCount = result
-                        self.stepsLabel = String(stepCount)
-                        self.data.append(stepCount)
-                    }
+                self.getSteps { date, result, progress in
+                    self.data.append(result)
+                    self.progress = progress
+                    self.ready = self.progress >= 1.0
+                    print("Result", date, result, self.progress, self.ready)
                 }
-            } // end if
-        } // end of checking authorization
-    }
-    
-    @Published public var progress: Double = 0.0
-    
-    func setProgress(_ value: Int, max: Int?) {
-        guard let max = max else {
-            return
-        }
-        DispatchQueue.main.async {
-            self.progress = Double(value) / Double(max)
+            }
         }
     }
-    
+        
     // This function is called form other threads…
-    func getSteps(completion: @escaping (Date, Double) -> Void) {
+    func getSteps(completion: @escaping (Date, Double, Double) -> Void) {
         // We are looking for step count
         let type = HKQuantityType.quantityType(forIdentifier: .stepCount)!
                     
@@ -62,9 +52,9 @@ public class HealthRhythmProvider: RhythmProvider, ObservableObject {
 
         // Pre compute how many entries to expect
         let numDataPoints = Calendar.current.dateComponents([.minute], from: since, to: now).minute!
+
         print("Expecting", numDataPoints, "data points")
         self.data = Array<Double>(repeating: 0.0, count: numDataPoints)
-        setProgress(0, max: numDataPoints)
         
         var count = 0
 
@@ -85,24 +75,17 @@ public class HealthRhythmProvider: RhythmProvider, ObservableObject {
         query.initialResultsHandler = { _, result, error in
 //            print("Initial result count", result!.statistics().count, numDataPoints)
             result!.enumerateStatistics(from: since, to: now) { statistics, _ in
-                var resultCount = 0.0
+                var result = 0.0
 //                debugPrint(statistics.startDate, statistics.endDate)
                 if let sum = statistics.sumQuantity() {
                     // Get steps (they are of double type)
-                    print("summing successful")
-                    resultCount = sum.doubleValue(for: HKUnit.count())
+                    result = sum.doubleValue(for: HKUnit.count())
                 }
-                self.setProgress(count, max: numDataPoints)
-                if (count == numDataPoints) {
-                    print(statistics.startDate, "--------- DONE ---------")
-                    print(self.data)
-                }
-                debugPrint("Initial steps count result", count, self.progress, statistics.startDate, resultCount)
-                count += 1
+                
+//                print("Result:", statistics.startDate, count, result)
 
-                DispatchQueue.main.async {
-                    completion(statistics.startDate, resultCount)
-                }
+                DispatchQueue.main.async { completion(statistics.startDate, result, Double(count) / Double(numDataPoints)) }
+                count += 1
             }
         }
         

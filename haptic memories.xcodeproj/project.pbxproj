@@ -10,12 +10,13 @@
 		AF46ED5D258BEA10007291E9 /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */; };
 		AF46ED65258BFF94007291E9 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF46ED64258BFF94007291E9 /* ShareSheet.swift */; };
 		AF47034F25894F03001A6AEF /* DoodleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47034E25894F03001A6AEF /* DoodleViewController.swift */; };
-		AF47035425894F3C001A6AEF /* RhythmProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47035325894F3C001A6AEF /* RhythmProviders.swift */; };
+		AF47035425894F3C001A6AEF /* RhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47035325894F3C001A6AEF /* RhythmProvider.swift */; };
 		AF56D39625AD7ACF0005E2B4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF56D39525AD7ACF0005E2B4 /* HealthKit.framework */; };
 		AFB2E3BE257570740060CD32 /* haptic_memoriesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */; };
 		AFB2E3C0257570740060CD32 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB2E3BF257570740060CD32 /* ContentView.swift */; };
 		AFB2E3C2257570750060CD32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFB2E3C1257570750060CD32 /* Assets.xcassets */; };
 		AFB2E3C5257570750060CD32 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFB2E3C4257570750060CD32 /* Preview Assets.xcassets */; };
+		E001B09225D3F977000CE9B6 /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E001B09125D3F977000CE9B6 /* Actions.swift */; };
 		E011138525D2EE94006AB448 /* MapNumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011138425D2EE94006AB448 /* MapNumeric.swift */; };
 		E011138925D2EF37006AB448 /* RandomRhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */; };
 		E030F03425B2128B00E3CAA1 /* HealthRhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */; };
@@ -25,7 +26,7 @@
 		AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
 		AF46ED64258BFF94007291E9 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		AF47034E25894F03001A6AEF /* DoodleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleViewController.swift; sourceTree = "<group>"; };
-		AF47035325894F3C001A6AEF /* RhythmProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmProviders.swift; sourceTree = "<group>"; };
+		AF47035325894F3C001A6AEF /* RhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmProvider.swift; sourceTree = "<group>"; };
 		AF51FFEA258CA42800FDCD1E /* haptic memories.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "haptic memories.entitlements"; sourceTree = "<group>"; };
 		AF56D39525AD7ACF0005E2B4 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		AFB2E3BA257570740060CD32 /* haptic memories.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "haptic memories.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,6 +35,7 @@
 		AFB2E3C1257570750060CD32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFB2E3C4257570750060CD32 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AFB2E3C6257570750060CD32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E001B09125D3F977000CE9B6 /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		E011138425D2EE94006AB448 /* MapNumeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapNumeric.swift; sourceTree = "<group>"; };
 		E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomRhythmProvider.swift; sourceTree = "<group>"; };
 		E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthRhythmProvider.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				E011138725D2EF1E006AB448 /* RhythmProviders */,
 				AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */,
 				AFB2E3BF257570740060CD32 /* ContentView.swift */,
+				E001B09125D3F977000CE9B6 /* Actions.swift */,
 				AF47034E25894F03001A6AEF /* DoodleViewController.swift */,
 			);
 			path = "haptic memories";
@@ -102,7 +105,7 @@
 		E011138725D2EF1E006AB448 /* RhythmProviders */ = {
 			isa = PBXGroup;
 			children = (
-				AF47035325894F3C001A6AEF /* RhythmProviders.swift */,
+				AF47035325894F3C001A6AEF /* RhythmProvider.swift */,
 				E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */,
 				E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */,
 			);
@@ -204,8 +207,9 @@
 				E030F03425B2128B00E3CAA1 /* HealthRhythmProvider.swift in Sources */,
 				AFB2E3BE257570740060CD32 /* haptic_memoriesApp.swift in Sources */,
 				E011138925D2EF37006AB448 /* RandomRhythmProvider.swift in Sources */,
+				E001B09225D3F977000CE9B6 /* Actions.swift in Sources */,
 				AF47034F25894F03001A6AEF /* DoodleViewController.swift in Sources */,
-				AF47035425894F3C001A6AEF /* RhythmProviders.swift in Sources */,
+				AF47035425894F3C001A6AEF /* RhythmProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

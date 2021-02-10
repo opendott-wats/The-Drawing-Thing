@@ -14,10 +14,7 @@ public class RandomRhythmProvider: RhythmProvider, ObservableObject {
     
     public var progress: Double {
         get {
-            return 1
-        }
-        set {
-           return
+            return Double.random(in: 0.2...0.8)
         }
     }
 }

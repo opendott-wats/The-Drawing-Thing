@@ -8,17 +8,17 @@
 import UIKit
 import SwiftUI
 
-public class DoodleViewController : UIViewController, ObservableObject {
+public class DoodleViewController<P>: UIViewController where P: RhythmProvider {
     var lastPoint = CGPoint.zero
     var swiped = false
     var color:UIColor = .white
 
     let generator = UIImpactFeedbackGenerator(style: .rigid)
 
-    @Published var brushWidth: CGFloat = 1.0
-    @Published var opacity: CGFloat = 1.0
+    var brushWidth: CGFloat = 1.0
+    var opacity: CGFloat = 1.0
     
-    public var rhythm: RhythmProvider!
+    public var rhythm: P!
         
     var tempImageView: UIImageView!
     var mainImageView: UIImageView!
@@ -51,10 +51,7 @@ public class DoodleViewController : UIViewController, ObservableObject {
         print(view.bounds)
     }
     
-    public override func loadView() {
-//        self.rhythm = RandomRhythmProvider()
-//        self.rhythm = HealthRhythmProvider()
-        
+    public override func loadView() {        
         let view = UIView()
         view.backgroundColor = .black
         view.contentMode = .scaleAspectFill
@@ -172,14 +169,14 @@ public class DoodleViewController : UIViewController, ObservableObject {
     }
 }
 
-struct DoodleView: View {
-    @Binding var controller: DoodleViewController
-    @State var rhythm: RhythmProvider
+struct DoodleView<P>: View where P : RhythmProvider{
+    @Binding var controller: DoodleViewController<P>
+    var rhythm: P
 }
 
 extension DoodleView: UIViewControllerRepresentable {
     
-  public func makeUIViewController(context: Context) -> DoodleViewController {
+    public func makeUIViewController(context: Context) -> DoodleViewController<P: RhythmProvider> {
     self.controller.rhythm = self.rhythm
     return self.controller
   }
