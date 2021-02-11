@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>Haptic Memories can read your steps to generate ryhthms for drawing</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>Haptic Memories can read your steps to generate ryhthms for drawing</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -26,6 +22,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Haptic Memories can read your steps to generate ryhthms for drawing</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Haptic Memories can read your steps to generate ryhthms for drawing</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Would you like to save the drawing to your photo library?</string>
 	<key>UIApplicationSceneManifest</key>
