@@ -36,6 +36,7 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
 
                 var color = UIColor(white: 0, alpha: 0)
                 brushWidth = 1.0
+                // TODO: refactor the provider to return a struct with more info for the current match request
                 if let value = self.rhythm.match(distance) {
                     color = UIColor(white: 1, alpha: CGFloat(value))
                     brushWidth = CGFloat(value).map(from: 0.0...1, to: 1...2.0)

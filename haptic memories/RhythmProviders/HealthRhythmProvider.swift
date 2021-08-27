@@ -125,6 +125,8 @@ public class HealthRhythmProvider: RhythmProvider {
         pos2 = 0
         progress = 1
     }
+
+    // Consider: Progress through the data set based on the stride width (value)
     func match2(_ value: Double) -> Double? {
         // 1.1) check if we ran over the available data
         if pos2 >= data.count {
