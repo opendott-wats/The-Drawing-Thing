@@ -72,7 +72,7 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
     
     @State private var lastPoint = CGPoint.infinity
 
-    let generator = UIImpactFeedbackGenerator(style: .rigid)
+    let generator = UIImpactFeedbackGenerator(style: .heavy)
         
     let threshold = 1.0
     @State var brushWidth: CGFloat = 1.0
