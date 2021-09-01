@@ -38,7 +38,9 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
                 brushWidth = 1.0
                 // TODO: refactor the provider to return a struct with more info for the current match request
                 if let value = self.rhythm.match(distance) {
-                    color = UIColor(white: 1, alpha: CGFloat(value))
+                    let hue = self.rhythm.progress!
+                    color = UIColor(hue: CGFloat(hue), saturation: 1, lightness: 0.5, alpha: CGFloat(value))
+//                    color = UIColor(white: 1, alpha: CGFloat(value))
                     brushWidth = CGFloat(value).map(from: 0.0...1, to: 1...2.0)
                     let intensity = value.map(from: 0.0...1, to: 0.1...4.0)
                     self.generator.impactOccurred(intensity: CGFloat(intensity))
