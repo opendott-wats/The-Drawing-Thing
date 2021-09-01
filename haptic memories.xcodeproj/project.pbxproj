@@ -20,6 +20,7 @@
 		E011138525D2EE94006AB448 /* MapNumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011138425D2EE94006AB448 /* MapNumeric.swift */; };
 		E011138925D2EF37006AB448 /* RandomRhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */; };
 		E030F03425B2128B00E3CAA1 /* HealthRhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */; };
+		E0A2AC1826D8D0AB00EE97C5 /* HSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2AC1726D8D0AB00EE97C5 /* HSL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		E011138425D2EE94006AB448 /* MapNumeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapNumeric.swift; sourceTree = "<group>"; };
 		E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomRhythmProvider.swift; sourceTree = "<group>"; };
 		E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthRhythmProvider.swift; sourceTree = "<group>"; };
+		E0A2AC1726D8D0AB00EE97C5 /* HSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSL.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			children = (
 				AF46ED64258BFF94007291E9 /* ShareSheet.swift */,
 				E011138425D2EE94006AB448 /* MapNumeric.swift */,
+				E0A2AC1726D8D0AB00EE97C5 /* HSL.swift */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E011138525D2EE94006AB448 /* MapNumeric.swift in Sources */,
+				E0A2AC1826D8D0AB00EE97C5 /* HSL.swift in Sources */,
 				AFB2E3C0257570740060CD32 /* ContentView.swift in Sources */,
 				AF46ED65258BFF94007291E9 /* ShareSheet.swift in Sources */,
 				E030F03425B2128B00E3CAA1 /* HealthRhythmProvider.swift in Sources */,
