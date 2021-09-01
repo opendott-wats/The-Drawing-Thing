@@ -127,6 +127,7 @@ public class HealthRhythmProvider: RhythmProvider {
     }
 
     // Consider: Progress through the data set based on the stride width (value)
+    // TODO: add time of day to returned result
     func match2(_ value: Double) -> Double? {
         // 1.1) check if we ran over the available data
         if pos2 >= data.count {
@@ -136,6 +137,7 @@ public class HealthRhythmProvider: RhythmProvider {
         let _max = data.max() ?? 0 / Double(data.count)
         let value = data[pos2].map(from: _min..._max, to: 0.0...1.0)
         pos2 += 1
+        // TODO: progress should become part of the struct
         self.progress = 1 - (Double(pos2) / Double(data.count))
         return value
     }
