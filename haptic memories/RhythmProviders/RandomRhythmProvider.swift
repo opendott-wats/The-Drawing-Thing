@@ -5,20 +5,22 @@
 //  Created by jens ewald on 09/02/2021.
 //
 
-import Foundation
+import UIKit
 
 public class RandomRhythmProvider: RhythmProvider {
-    
-    override init() {
-        super.init()
-//        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-//            self.progress = Double.random(in: 0.1...0.9)
-//        }
+    let MAX = 1000.0
+    var count = 0.0
+        
+    public override func reset() {
+        super.reset()
+        count = 0
     }
-
-
-    public override func match(_ value: Double) -> Double? {
-        return Double.random(in: 0...1)
+    
+    public override func match(_ value: CGFloat) -> RhythmTick? {
+        let tick = RhythmTick.random(progress: self.progress!)
+        self.count += 1
+        self.progress = self.count / self.MAX
+        return tick
     }
 }
 

@@ -5,6 +5,7 @@
 //  Created by jens ewald on 15/01/2021.
 //
 
+import UIKit
 import HealthKit
 
 public class HealthRhythmProvider: RhythmProvider {
@@ -15,13 +16,12 @@ public class HealthRhythmProvider: RhythmProvider {
 
     public override init() {
         super.init()
-        self.progress = nil
-        self.ready = false
         self.data.removeAll()
         fetchData()
     }
 
     override func reset() {
+        super.reset()
         reset1()
         reset2()
     }
@@ -115,10 +115,12 @@ public class HealthRhythmProvider: RhythmProvider {
     /**
      Response Algorithms
      */
-    public override func match(_ value: Double) -> Double? {
+    public override func match(_ value: CGFloat) -> RhythmTick? {
         return match2(value)
     }
-    
+
+    // --------------------------------------------------------------------------
+    // Data retrieval method 2
     var pos2: Int = 0
     
     func reset2() {
@@ -127,27 +129,37 @@ public class HealthRhythmProvider: RhythmProvider {
     }
 
     // Consider: Progress through the data set based on the stride width (value)
-    // TODO: add time of day to returned result
-    func match2(_ value: Double) -> Double? {
+    func match2(_ value: CGFloat) -> RhythmTick? {
         // 1.1) check if we ran over the available data
         if pos2 >= data.count {
             return nil
         }
+        // Get min and max bounds from the data set
         let _min = data.min() ?? 0 / Double(data.count)
         let _max = data.max() ?? 0 / Double(data.count)
+        // Normalise the value at the current progress
         let value = data[pos2].map(from: _min..._max, to: 0.0...1.0)
         pos2 += 1
-        // TODO: progress should become part of the struct
+        // TODO: move the progress inversion into UI code
         self.progress = 1 - (Double(pos2) / Double(data.count))
-        return value
+
+        return RhythmTick(
+            progress: CGFloat(self.progress!),
+            value: CGFloat(value),
+            when: Date()
+        )
     }
 
+    // --------------------------------------------------------------------------
+    // Data retrieval method 1
     var lastPos: Int = 0
+
     func reset1() {
         lastPos = 0
         progress = 1
     }
-    func match1(_ value: Double) -> Double? {
+
+    func match1(_ value: CGFloat) -> Double? {
         // Alg 1:
         // 1) Take a chunk based on the incoming distance; 1 pixel == 1 element
         // 2) Compute the avarage

@@ -7,36 +7,38 @@
 
 import UIKit
 
-//public protocol RhythmProvider: ObservableObject {
-//    // value - the distance to the last point drawn, or length of line
-//    func match(_ value: Double) -> Double?
-//    var progress: Double { get }
-//    var ready: Bool { get }
-//}
+public struct RhythmTick {
+    var progress: CGFloat
+    var value: CGFloat
+    var when: Date
+}
 
-
+extension RhythmTick {
+    static func random(progress: Double?) -> RhythmTick {
+        return RhythmTick(
+            progress: CGFloat(progress ?? 0),
+            value: CGFloat.random(in: 0...1),
+            when: Date()
+        )
+    }
+}
 /**
  Default implementation of a RhythmProvider
  */
-//extension RhythmProvider {
 public class RhythmProvider: ObservableObject {
-    func match(_ value: Double) -> Double? {
-        return Double.random(in: 0...1)
-    }
-
-    @Published var progress: Double? = nil    
-    
+    @Published var progress: Double? = nil
     @Published var ready: Bool = false
     
-    func reset() {}
-}
+    init() {
+        self.reset()
+    }
+    
+    func match(_ value: CGFloat) -> RhythmTick? {
+        return RhythmTick.random(progress: self.progress!)
+    }
 
-//    var progress: Double {
-//        get { 0 }
-//        set { }
-//    }
-//
-//    public var ready: Bool {
-//        get { true }
-//    }
-//}
+    func reset() {
+        self.progress = nil
+        self.ready = false
+    }
+}
