@@ -12,17 +12,22 @@ public class HealthRhythmProvider: RhythmProvider {
     let store = HKHealthStore()
     let healthKitTypes: Set = [ HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)! ]
 
-    var data: Array<Double> = []
+    var data: Array<RhythmTick> = []
+    
+    var min = 0.0
+    var max = 0.0
 
     public override init() {
         super.init()
+        self.progress = nil
+        self.ready = false
         self.data.removeAll()
         fetchData()
     }
 
     override func reset() {
-        super.reset()
-        reset1()
+//        super.reset()
+//        reset1()
         reset2()
     }
     
@@ -34,26 +39,31 @@ public class HealthRhythmProvider: RhythmProvider {
             if success {
                 print("Fetching steps")
                 self.getSteps { date, result, progress in
-//                    DispatchQueue.main.async {
-                        self.data.append(result)
-                        self.progress = progress
-                        self.ready = self.progress! >= 1.0
-                    print("Result", date, result, self.progress ?? -1, self.ready)
+                    let tick = RhythmTick(
+                        progress: CGFloat(progress),
+                        value: CGFloat(result),
+                        when: date,
+                        min: self.min,
+                        max: self.max)
+                    self.data.append(tick)
+                    self.progress = progress
+                    self.ready = self.progress! >= 1.0
+                    print("Result", tick, self.ready)
                     if self.ready {
+                        print("Data count before filter", self.data.count)
                         // Remove all 0.0 values
                         var zeroCount = 0
                         self.data = self.data.filter({ v in
-                            if v == 0.0 {
+                            if Double(v.value) == 0.0 {
                                 zeroCount += 1
                             } else {
                                 zeroCount = 0
                             }
                             // Allow for N number of consecutive 0s
-                            return zeroCount < 5 // the unit depends on the interval of fetching data
+                            return zeroCount < 60 // the unit depends on the interval of fetching data (e.g. minute)
                         })
                         print("Data count after filter", self.data.count)
                     }
-//                    }
                 }
             }
         }
@@ -67,34 +77,38 @@ public class HealthRhythmProvider: RhythmProvider {
         let now = Date()
 
         var captureDuration = DateComponents()
-//        components.day = -1 // since yesterday
-//        components.year = -1 // since one year !! Caution this will cause the app to ru out of memory
+//        captureDuration.day = -1 // since yesterday
+//        captureDuration.year = -1 // since one year !! Caution this will cause the app to ru out of memory
         captureDuration.weekday = -7 // capture one full week
-        
         let since = Calendar.current.date(byAdding: captureDuration, to: now)!
 
         // Pre compute how many entries to expect
         let numDataPoints = Calendar.current.dateComponents([.minute], from: since, to: now).minute!
+//        let numDataPoints = Calendar.current.dateComponents([.second], from: since, to: now).second!
 
         print("Expecting", numDataPoints, "data points")
-        self.data = Array<Double>(repeating: 0.0, count: numDataPoints)
+        self.data = Array<RhythmTick>(repeating: RhythmTick(progress: 0, value: 0, when: Date()), count: numDataPoints)
         
         var count = 0
 
         // Craete the interval for the statistics
         var interval = DateComponents()
 //        interval.hour = 1
+        // Split into steps/minute
         interval.minute = 1
-//        interval.second = 1 // to fine, too many results
+//        interval.second = 30 // careful: too fine, too many results
         
         // TODO: filter out "bed time" to avoid long breaks
         
+        let predicate = HKQuery.predicateForSamples(withStart: since, end: now, options: [])
+        
         let query = HKStatisticsCollectionQuery(quantityType: type,
-                                               quantitySamplePredicate: nil,
+                                               quantitySamplePredicate: predicate,
                                                options: [.cumulativeSum],
                                                anchorDate: since,
                                                intervalComponents: interval)
-        
+        var min = 0.0
+        var max = 0.0
         query.initialResultsHandler = { _, result, error in
             result!.enumerateStatistics(from: since, to: now) { statistics, _ in
                 var result = 0.0
@@ -102,14 +116,24 @@ public class HealthRhythmProvider: RhythmProvider {
                     // Get steps (they are of double type)
                     result = sum.doubleValue(for: HKUnit.count())
                 }
-                count += 1
+                if result < min {
+                    min = result
+                }
+                if result > max {
+                    max = result
+                }
                 DispatchQueue.main.async {
+                    print("min", min, "max", max)
+                    self.min = min
+                    self.max = max
                     completion(statistics.startDate, result, Double(count) / Double(numDataPoints))
+                    count += 1
                 }
             }
         }
-                      
+
         store.execute(query)
+        
     }
     
     /**
@@ -135,64 +159,60 @@ public class HealthRhythmProvider: RhythmProvider {
             return nil
         }
         // Get min and max bounds from the data set
-        let _min = data.min() ?? 0 / Double(data.count)
-        let _max = data.max() ?? 0 / Double(data.count)
         // Normalise the value at the current progress
-        let value = data[pos2].map(from: _min..._max, to: 0.0...1.0)
+//        let value = data[pos2].value.map(from: 0...maxValue2, to: 0.0...1.0)
+        var result = data[pos2]
         pos2 += 1
+        result.value = result.value.map(from: CGFloat(result.min)...CGFloat(result.max), to: 0.0...1)
         // TODO: move the progress inversion into UI code
-        self.progress = 1 - (Double(pos2) / Double(data.count))
+        self.progress = 1 - Double(result.progress)
 
-        return RhythmTick(
-            progress: CGFloat(self.progress!),
-            value: CGFloat(value),
-            when: Date()
-        )
+        return result
     }
 
     // --------------------------------------------------------------------------
     // Data retrieval method 1
-    var lastPos: Int = 0
-
-    func reset1() {
-        lastPos = 0
-        progress = 1
-    }
-
-    func match1(_ value: CGFloat) -> Double? {
-        // Alg 1:
-        // 1) Take a chunk based on the incoming distance; 1 pixel == 1 element
-        // 2) Compute the avarage
-        // 3) map based on min/max
-
-        // 1) Take a chunk based on the incoming distance; 1 pixel == 1 element
-        let newPos = lastPos + Int(floor(value))
-        print("new pos", newPos, data.count)
-        // 1.1) check if we ran over the available data
-        if newPos >= data.count {
-            return nil
-        }
-
-        let chunk = data[lastPos...newPos]
-        print("using chunk:", chunk)
-        
-        // 1.2) Store lastPos
-        lastPos = newPos
-
-        // 2) Compute the avarage
-        let avg = chunk.reduce(0) { (value, current) -> Double in
-            return current + (value * 1/Double(chunk.count))
-        }
-        print(avg)
-        
-        let _min = chunk.min() ?? 0 / Double(chunk.count)
-        let _max = chunk.max() ?? 0 / Double(chunk.count)
-        
-        print("min/max", _min, _max)
-        
-        // 3) map based on min/max
-        let result = avg.map(from: _min..._max, to: 0...1)
-        
-        return result
-    }
+//    var lastPos: Int = 0
+//
+//    func reset1() {
+//        lastPos = 0
+//        progress = 1
+//    }
+//
+//    func match1(_ value: CGFloat) -> Double? {
+//        // Alg 1:
+//        // 1) Take a chunk based on the incoming distance; 1 pixel == 1 element
+//        // 2) Compute the avarage
+//        // 3) map based on min/max
+//
+//        // 1) Take a chunk based on the incoming distance; 1 pixel == 1 element
+//        let newPos = lastPos + Int(floor(value))
+//        print("new pos", newPos, data.count)
+//        // 1.1) check if we ran over the available data
+//        if newPos >= data.count {
+//            return nil
+//        }
+//
+//        let chunk = data[lastPos...newPos]
+//        print("using chunk:", chunk)
+//
+//        // 1.2) Store lastPos
+//        lastPos = newPos
+//
+//        // 2) Compute the avarage
+//        let avg = chunk.reduce(0) { (value, current) -> Double in
+//            return current + (value * 1/Double(chunk.count))
+//        }
+//        print(avg)
+//
+//        let _min = chunk.min() ?? 0 / Double(chunk.count)
+//        let _max = chunk.max() ?? 0 / Double(chunk.count)
+//
+//        print("min/max", _min, _max)
+//
+//        // 3) map based on min/max
+//        let result = avg.map(from: _min..._max, to: 0...1)
+//
+//        return result
+//    }
 }

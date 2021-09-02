@@ -15,6 +15,10 @@ extension CGFloat {
         let result = ((self - from.lowerBound) / (from.upperBound - from.lowerBound)) * (to.upperBound - to.lowerBound) + to.lowerBound
         return result
     }
+    
+    func map(to: ClosedRange<Double>) -> CGFloat {
+        return self.map(from: 0...1, to: CGFloat(to.lowerBound)...CGFloat(to.upperBound))
+    }
 }
 
 extension Double {

@@ -11,6 +11,8 @@ public struct RhythmTick {
     var progress: CGFloat
     var value: CGFloat
     var when: Date
+    var min: Double = 0.0
+    var max: Double = 1.0
 }
 
 extension RhythmTick {
@@ -38,7 +40,7 @@ public class RhythmProvider: ObservableObject {
     }
 
     func reset() {
-        self.progress = nil
-        self.ready = false
+        self.progress = 0
+        self.ready = true
     }
 }
