@@ -51,6 +51,11 @@ public class HealthRhythmProvider: RhythmProvider {
                     print("Result", tick, self.ready)
                     if self.ready {
                         print("Data count before filter", self.data.count)
+                        // update all min and max values
+                        for t in 1...self.data.count {
+                            self.data[t-1].min = self.min
+                            self.data[t-1].max = self.max
+                        }
                         // Remove all 0.0 values
                         var zeroCount = 0
                         self.data = self.data.filter({ v in
@@ -158,13 +163,11 @@ public class HealthRhythmProvider: RhythmProvider {
         if pos2 >= data.count {
             return nil
         }
-        // Get min and max bounds from the data set
-        // Normalise the value at the current progress
-//        let value = data[pos2].value.map(from: 0...maxValue2, to: 0.0...1.0)
         var result = data[pos2]
         pos2 += 1
+        // Normalise the value at the current progress
         result.value = result.value.map(from: CGFloat(result.min)...CGFloat(result.max), to: 0.0...1)
-        // TODO: move the progress inversion into UI code
+
         self.progress = 1 - Double(result.progress)
 
         return result

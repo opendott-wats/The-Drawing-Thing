@@ -49,9 +49,9 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
                 let distance = lastPoint.dist(currentPoint)
 
                 // TODO: Should the validation for a data query move into the providers?
-                if distance <= threshold {
-                    return
-                }
+//                if distance <= threshold {
+//                    return
+//                }
 
                 // Override them when the input is matched against the data record
                 if let tick = self.rhythm.match(distance) {
@@ -89,9 +89,9 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
                 }
             }
             .gesture(tapDrag)
-            .onAppear(perform: {
-                print(self.frame, self.size, self.drawing.image.size)
-            })
+//            .onAppear(perform: {
+//                print(self.frame, self.size, self.drawing.image.size)
+//            })
     }
     
     func drawLine(from: CGPoint, to: CGPoint, color: CGColor, brushWidth: CGFloat) {
