@@ -14,6 +14,8 @@ struct Drawing {
 struct ContentView: View {
     @ObservedObject var provider: RhythmProvider
     @State var drawing = Drawing()
+    
+    @State var showSettings = false
 
     init(_ provider: RhythmProvider) {
         self.provider = provider
@@ -35,15 +37,23 @@ struct ContentView: View {
                     DoodleView(rhythm: provider, drawing: $drawing, frame: g.frame(in: .local), size: g.size)
                 }
             }
-
-            Actions(provider: provider,
-                    reset: {
-                        drawing = Drawing()
-                        provider.reset()
-                    },
-                    sharing: {
-                        return drawing.image.pngData()!
-                    }
+            
+            Button("Settings") {
+                self.showSettings.toggle()
+            }
+            .sheet(isPresented: $showSettings) {
+                SettingsPanel()
+            }
+            
+            Actions(
+                provider: provider,
+                reset: {
+                    drawing = Drawing()
+                    provider.reset()
+                },
+                sharing: {
+                    return drawing.image.pngData()!
+                }
             )
         }
     }
