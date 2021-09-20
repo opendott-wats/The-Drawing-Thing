@@ -61,7 +61,6 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
     }
     
     func dragChanged(_ drag: DragGesture.Value) -> Void {
-        print("linewithmin", lineWidthMin, "linewidthmax", lineWidthMax)
         if lastPoint.isInfinite() {
             lastPoint = drag.startLocation
         }
@@ -80,7 +79,7 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
             let hue = CGFloat(hour).map(from: 0...24, to: 0...1)
             let color = UIColor(hue: hue,
                             saturation: 1,
-                            lightness: 0.5,
+                            lightness: 0.7,
                             alpha: tick.value.map(to: 0.1...0.8))
 
             // color = UIColor(white: 1, alpha: match.value)
@@ -89,6 +88,8 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
             
             self.generator.impactOccurred(intensity: tick.value.map(to: 0.1...4.0))
             drawLine(from: lastPoint, to: currentPoint, color: color.cgColor, brushWidth: brushWidth)
+        } else {
+            drawLine(from: lastPoint, to: currentPoint, color: Color.white as! CGColor, brushWidth: CGFloat(lineWidthMin))
         }
         
         lastPoint = currentPoint

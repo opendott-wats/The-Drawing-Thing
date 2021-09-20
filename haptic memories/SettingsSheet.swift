@@ -31,10 +31,10 @@ struct SettingsSheet : View {
                 .multilineTextAlignment(.leading)
                 .padding(.bottom, 24.0)
 
-            Stepper("Line Width Min:\t\(String(format:"%0.1f",lineWidthMin))", value: $lineWidthMin, in: 0.1...4, step: 0.1)
+            Stepper("Line Width Min:\t\(String(format:"%0.1f",lineWidthMin))", value: $lineWidthMin, in: 0.1...10, step: 0.1)
                 .padding(.bottom, 24.0)
 
-            Stepper("Line Width Max:\t\(String(format:"%0.1f",  lineWidthMax))", value: $lineWidthMax, in: 1.0...10, step: 1)
+            Stepper("Line Width Max:\t\(String(format:"%0.1f",  lineWidthMax))", value: $lineWidthMax, in: 1.0...42, step: 1)
                 .padding(.bottom, 24.0)
 
             Stepper("How many days?\t\(days)", value: $days, in: 1...7)

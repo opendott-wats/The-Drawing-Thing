@@ -17,7 +17,7 @@ struct Actions<Provider>: View where Provider: RhythmProvider {
 
     @State var showSettings = false
     
-    let size : CGFloat = 21
+    let size : CGFloat = 32
 
     func ActionButton(_ systemName: String, _ action: @escaping () -> Void) -> some View {
         return Button {
