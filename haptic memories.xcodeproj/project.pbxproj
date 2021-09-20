@@ -20,7 +20,7 @@
 		E011138525D2EE94006AB448 /* MapNumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011138425D2EE94006AB448 /* MapNumeric.swift */; };
 		E011138925D2EF37006AB448 /* RandomRhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */; };
 		E030F03425B2128B00E3CAA1 /* HealthRhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */; };
-		E08A56AF26F4EE290070A2B9 /* SettingsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A56AE26F4EE290070A2B9 /* SettingsPanel.swift */; };
+		E08A56AF26F4EE290070A2B9 /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A56AE26F4EE290070A2B9 /* SettingsSheet.swift */; };
 		E0A2AC1826D8D0AB00EE97C5 /* HSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2AC1726D8D0AB00EE97C5 /* HSL.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,7 +41,7 @@
 		E011138425D2EE94006AB448 /* MapNumeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapNumeric.swift; sourceTree = "<group>"; };
 		E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomRhythmProvider.swift; sourceTree = "<group>"; };
 		E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthRhythmProvider.swift; sourceTree = "<group>"; };
-		E08A56AE26F4EE290070A2B9 /* SettingsPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPanel.swift; sourceTree = "<group>"; };
+		E08A56AE26F4EE290070A2B9 /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
 		E0A2AC1726D8D0AB00EE97C5 /* HSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSL.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,7 +94,7 @@
 				AFB2E3BF257570740060CD32 /* ContentView.swift */,
 				E001B09125D3F977000CE9B6 /* Actions.swift */,
 				AF47034E25894F03001A6AEF /* DoodleView.swift */,
-				E08A56AE26F4EE290070A2B9 /* SettingsPanel.swift */,
+				E08A56AE26F4EE290070A2B9 /* SettingsSheet.swift */,
 			);
 			path = "haptic memories";
 			sourceTree = "<group>";
@@ -216,7 +216,7 @@
 				E011138925D2EF37006AB448 /* RandomRhythmProvider.swift in Sources */,
 				E001B09225D3F977000CE9B6 /* Actions.swift in Sources */,
 				AF47034F25894F03001A6AEF /* DoodleView.swift in Sources */,
-				E08A56AF26F4EE290070A2B9 /* SettingsPanel.swift in Sources */,
+				E08A56AF26F4EE290070A2B9 /* SettingsSheet.swift in Sources */,
 				AF47035425894F3C001A6AEF /* RhythmProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

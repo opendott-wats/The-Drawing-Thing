@@ -5,10 +5,13 @@
 //  Created by jens ewald on 15/01/2021.
 //
 
+import SwiftUI
 import UIKit
 import HealthKit
 
 public class HealthRhythmProvider: RhythmProvider {
+    @AppStorage("days") var days = 7
+
     let store = HKHealthStore()
     let healthKitTypes: Set = [ HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)! ]
 
@@ -19,6 +22,10 @@ public class HealthRhythmProvider: RhythmProvider {
 
     public override init() {
         super.init()
+        recompute()
+    }
+    
+    override func recompute() {
         self.progress = nil
         self.ready = false
         self.data.removeAll()
@@ -84,7 +91,7 @@ public class HealthRhythmProvider: RhythmProvider {
         var captureDuration = DateComponents()
 //        captureDuration.day = -1 // since yesterday
 //        captureDuration.year = -1 // since one year !! Caution this will cause the app to ru out of memory
-        captureDuration.weekday = -7 // capture one full week
+        captureDuration.day = -days // capture one full week
         let since = Calendar.current.date(byAdding: captureDuration, to: now)!
 
         // Pre compute how many entries to expect

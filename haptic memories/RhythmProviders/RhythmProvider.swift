@@ -43,4 +43,8 @@ public class RhythmProvider: ObservableObject {
         self.progress = 0
         self.ready = true
     }
+    
+    func recompute() {
+        
+    }
 }

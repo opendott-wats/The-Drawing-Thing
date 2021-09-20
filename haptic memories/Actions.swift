@@ -15,6 +15,23 @@ struct Actions<Provider>: View where Provider: RhythmProvider {
     @State private var showShareSheet = false
     @State private var data: Data = Data()
 
+    @State var showSettings = false
+    
+    let size : CGFloat = 21
+
+    func ActionButton(_ systemName: String, _ action: @escaping () -> Void) -> some View {
+        return Button {
+            action()
+        } label: {
+            Image(systemName: systemName)
+            .foregroundColor(Color.white)
+            .scaleEffect(size * 0.7 / size)
+        }
+        .frame(width: size, height: size)
+        .background(Color.orange)
+        .cornerRadius(size/2)
+    }
+
     var body: some View {
         VStack {
             Spacer()
@@ -22,33 +39,43 @@ struct Actions<Provider>: View where Provider: RhythmProvider {
                 Spacer()
 
                 // Share Button
-                Button {
-                    self.showShareSheet.toggle()
-                } label: {
-                    Image(systemName: "square.and.arrow.up")
-                        .frame(width: 42, height: 40)
-                        .padding(.bottom, 2)
-                        .foregroundColor(Color.white)
-                }.background(Color.orange)
-                    .cornerRadius(21)
-                    .padding()
-                    .sheet(isPresented: $showShareSheet) {
-                        ShareSheet(activityItems: [sharing() as Any])
+                ActionButton("square.and.arrow.up") {
+                    if sharing() != nil {
+                        self.showShareSheet.toggle()
                     }
+                }
+                .sheet(isPresented: $showShareSheet) {
+                    ShareSheet(activityItems: [sharing() as Any])
+                }
 
                 // Reset Button
-                Button {
+                ActionButton("arrow.counterclockwise", reset)
+
+                // Settings
+                ActionButton("gearshape") {
+                    self.showSettings.toggle()
+                }
+                .sheet(isPresented: $showSettings, onDismiss: {
                     reset()
-                } label: {
-                    Image(systemName: "arrow.counterclockwise")
-                        .frame(width: 42, height: 40)
-                        .padding(.bottom, 2)
-                        .foregroundColor(Color.white)
-                }.background(Color.orange)
-                    .cornerRadius(21)
-                    .padding()
+                    provider.recompute()
+                }) {
+                    SettingsSheet()
+                }
+                
             }
         }
+        .padding([.bottom, .trailing], 9.0)
     }
 }
 
+
+struct Actions_Previews: PreviewProvider {
+    static var previews: some View {
+        Actions(provider: RandomRhythmProvider(), reset: {
+            
+        }, sharing: {
+            return nil
+        })
+            .previewDevice("iPhone 8")
+    }
+}

@@ -15,8 +15,6 @@ struct ContentView: View {
     @ObservedObject var provider: RhythmProvider
     @State var drawing = Drawing()
     
-    @State var showSettings = false
-
     init(_ provider: RhythmProvider) {
         self.provider = provider
     }
@@ -25,6 +23,7 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
+            // Whole application has a black background
             Color.black.edgesIgnoringSafeArea(.all)
 
             if !provider.ready {
@@ -34,15 +33,8 @@ struct ContentView: View {
                     .padding(50)
             } else {
                 GeometryReader { g in
-                    DoodleView(rhythm: provider, drawing: $drawing, frame: g.frame(in: .local), size: g.size)
+                    DoodleView(rhythm: provider, drawing: $drawing, size: g.size)
                 }
-            }
-            
-            Button("Settings") {
-                self.showSettings.toggle()
-            }
-            .sheet(isPresented: $showSettings) {
-                SettingsPanel()
             }
             
             Actions(
@@ -52,7 +44,10 @@ struct ContentView: View {
                     provider.reset()
                 },
                 sharing: {
-                    return drawing.image.pngData()!
+                    guard let data = drawing.image.pngData() else {
+                        return nil
+                    }
+                    return data
                 }
             )
         }
