@@ -18,6 +18,8 @@ struct Actions<Provider>: View where Provider: RhythmProvider {
     @State var showSettings = false
     
     let size : CGFloat = 32
+    
+    @State private var needsReset = false
 
     func ActionButton(_ systemName: String, _ action: @escaping () -> Void) -> some View {
         return Button {
@@ -56,10 +58,13 @@ struct Actions<Provider>: View where Provider: RhythmProvider {
                     self.showSettings.toggle()
                 }
                 .sheet(isPresented: $showSettings, onDismiss: {
-                    reset()
-                    provider.recompute()
+                    if self.needsReset {
+                        reset()
+                        provider.recompute()
+                        self.needsReset = false
+                    }
                 }) {
-                    SettingsSheet()
+                    SettingsSheet(needsReset: $needsReset)
                 }
                 
             }
