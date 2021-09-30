@@ -67,14 +67,8 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
         let currentPoint = drag.location
         let distance = lastPoint.dist(currentPoint)
 
-        // TODO: Should the validation for a data query move into the providers?
-//                if distance <= threshold {
-//                    return
-//                }
-
-        // Override them when the input is matched against the data record
+        // Draw a line when the rhythm finds a match
         if let tick = self.rhythm.match(distance) {
-//                    let hue = match.progress
             let hour = Calendar.current.component(.hour, from: tick.when)
             let hue = CGFloat(hour).map(from: 0...24, to: 0...1)
             let color = UIColor(hue: hue,
@@ -82,12 +76,11 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
                             lightness: 0.7,
                             alpha: tick.value.map(to: 0.1...0.8))
 
-            // color = UIColor(white: 1, alpha: match.value)
-
             let brushWidth = tick.value.map(to: self.lineWidthMin...self.lineWidthMax)
             
-            self.generator.impactOccurred(intensity: tick.value.map(to: 0.1...4.0))
             drawLine(from: lastPoint, to: currentPoint, color: color.cgColor, brushWidth: brushWidth)
+
+            self.generator.impactOccurred(intensity: tick.value.map(to: 0.1...4.0))
         }
         
         lastPoint = currentPoint
