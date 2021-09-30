@@ -88,8 +88,6 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
             
             self.generator.impactOccurred(intensity: tick.value.map(to: 0.1...4.0))
             drawLine(from: lastPoint, to: currentPoint, color: color.cgColor, brushWidth: brushWidth)
-        } else {
-            drawLine(from: lastPoint, to: currentPoint, color: Color.white as! CGColor, brushWidth: CGFloat(lineWidthMin))
         }
         
         lastPoint = currentPoint
