@@ -175,7 +175,7 @@ public class HealthRhythmProvider: RhythmProvider {
         // Normalise the value at the current progress
         result.value = result.value.map(from: CGFloat(result.min)...CGFloat(result.max), to: 0.0...1)
 
-        self.progress = 1 - Double(result.progress)
+        self.progress = 1 - Double(pos2) / Double(data.count)
 
         return result
     }
