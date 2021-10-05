@@ -11,7 +11,10 @@ struct ContentView: View {
     @ObservedObject var provider: RhythmProvider
 
     @State var drawing = Drawing()
+    @AppStorage("resetImage") var resetImage = false
     
+    @State var showActions = false
+
     var body: some View {
         ZStack {
             // Whole application has a black background
@@ -23,20 +26,26 @@ struct ContentView: View {
                     .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                     .padding(50)
             } else {
-                DoodleView(rhythm: provider, drawing: $drawing)
+                DoodleView(rhythm: provider, drawing: $drawing, showActions: $showActions)
             }
             
-            Actions(
-                provider: provider,
-                reset: {
-                    drawing.reset()
-                    provider.reset()
-                },
-                sharing: {
-                    return drawing.image.pngData()
-                }
-            )
-        }
+            if showActions {
+                Actions(
+                    provider: provider,
+                    reset: {
+                        if resetImage {
+                            drawing.reset()
+                        }
+                        provider.reset()
+                    },
+                    sharing: {
+                        return drawing.image.pngData()
+                    }
+                )
+            }
+        }.gesture(TapGesture(count: 3).onEnded({ _ in
+            showActions.toggle()
+        }))
     }
 }
 

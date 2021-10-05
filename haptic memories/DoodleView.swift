@@ -35,14 +35,15 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
     @State private var lastPoint = CGPoint.infinity
 
     @Environment(\.scenePhase) private var scenePhase
-    
+    @Binding var showActions : Bool
+
     var body: some View {
         ZStack {
             Image(uiImage: drawing.image)
                 .resizable()
                 .scaledToFit()
                 .aspectRatio(contentMode: .fit)
-            if rhythm.ready {
+            if rhythm.ready && showActions {
                 VStack {
                     ProgressView(value: rhythm.progress!, total: 1.0)
                         .progressViewStyle(LinearProgressViewStyle(tint: Color.white))
@@ -62,6 +63,11 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
                 drawing.load()
             }
             if phase == .background {
+                // store drawing
+                print("store drawing")
+                drawing.store()
+            }
+            if phase == .inactive {
                 // store drawing
                 print("store drawing")
                 drawing.store()
@@ -101,10 +107,10 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
 
 struct DoodleView_Preview: PreviewProvider {
     @State static var drawing = Drawing()
-    static var size = CGSize(width: 200, height: 300)
+    @State static var showActions = false
 
     static var previews: some View {
-        DoodleView(rhythm: RandomRhythmProvider(), drawing: $drawing)
+        DoodleView(rhythm: RandomRhythmProvider(), drawing: $drawing, showActions: $showActions)
             .previewDevice("iPhone 8")
             .statusBar(hidden: true)
     }

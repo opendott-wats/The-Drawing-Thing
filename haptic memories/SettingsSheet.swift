@@ -13,7 +13,8 @@ struct SettingsSheet : View {
     @AppStorage("lineWidthMin") var lineWidthMin: Double = 0.3
     @AppStorage("lineWidthMax") var lineWidthMax: Double = 4
     @AppStorage("days") var days = 7
-        
+    @AppStorage("resetImage") var resetImage = false
+
     @Binding var needsReset : Bool
 
     func setChanged(_ value : Bool) {
@@ -57,6 +58,8 @@ struct SettingsSheet : View {
                     step: 1,
                     onEditingChanged: self.setChanged)
                 .padding(.bottom, 24.0)
+            
+            Toggle("Reset drawing on manual reset", isOn: $resetImage)
 
             Spacer()
         }.padding(10)
