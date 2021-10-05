@@ -74,6 +74,9 @@ public class HealthRhythmProvider: RhythmProvider {
                             // Allow for N number of consecutive 0s
                             return zeroCount < 60 // the unit depends on the interval of fetching data (e.g. minute)
                         })
+                        self.data.sort { a, b in
+                            a.when < b.when
+                        }
                         print("Data count after filter", self.data.count)
                     }
                 }
@@ -170,7 +173,8 @@ public class HealthRhythmProvider: RhythmProvider {
         if pos2 >= data.count {
             return nil
         }
-        var result = data[pos2]
+        var result = data[pos2] // do it reverse
+        print(pos2, result.when)
         pos2 += 1
         // Normalise the value at the current progress
         result.value = result.value.map(from: CGFloat(result.min)...CGFloat(result.max), to: 0.0...1)
