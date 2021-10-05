@@ -7,19 +7,10 @@
 
 import SwiftUI
 
-struct Drawing {
-    var image = UIImage()
-}
-
 struct ContentView: View {
     @ObservedObject var provider: RhythmProvider
+
     @State var drawing = Drawing()
-    
-    init(_ provider: RhythmProvider) {
-        self.provider = provider
-    }
-    
-    let progressStyle = CircularProgressViewStyle(tint: Color.white)
     
     var body: some View {
         ZStack {
@@ -29,25 +20,20 @@ struct ContentView: View {
             if !provider.ready {
                 ProgressView(value: provider.progress)
                     { Text("loading data ...").colorInvert() }
-                    .progressViewStyle(progressStyle)
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                     .padding(50)
             } else {
-                GeometryReader { g in
-                    DoodleView(rhythm: provider, drawing: $drawing, size: g.size)
-                }
+                DoodleView(rhythm: provider, drawing: $drawing)
             }
             
             Actions(
                 provider: provider,
                 reset: {
-                    drawing = Drawing()
+                    drawing.reset()
                     provider.reset()
                 },
                 sharing: {
-                    guard let data = drawing.image.pngData() else {
-                        return nil
-                    }
-                    return data
+                    return drawing.image.pngData()
                 }
             )
         }
@@ -58,7 +44,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     @StateObject static var provider = RandomRhythmProvider()
     static var previews: some View {
-        ContentView(provider)
+        ContentView(provider: provider)
             .previewDevice("iPhone 8")
     }
 }

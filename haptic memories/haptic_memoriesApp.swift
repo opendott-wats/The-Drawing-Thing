@@ -13,7 +13,7 @@ struct haptic_memoriesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(provider)
+            ContentView(provider: provider)
                 .statusBar(hidden: true)
                 .onAppear(perform: {
                     UIApplication.shared.isIdleTimerDisabled = true

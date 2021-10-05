@@ -27,8 +27,6 @@ extension CGPoint {
 struct DoodleView<Provider>: View where Provider: RhythmProvider {
     @ObservedObject var rhythm: Provider
     @Binding var drawing: Drawing
-    
-    @State var size: CGSize
 
     let generator = UIImpactFeedbackGenerator(style: .heavy)
     
@@ -36,12 +34,14 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
     let threshold: CGFloat = 3.0
     @State private var lastPoint = CGPoint.infinity
 
-    @AppStorage("lineWidthMin") var lineWidthMin: Double = 0.3
-    @AppStorage("lineWidthMax") var lineWidthMax: Double = 4
-
+    @Environment(\.scenePhase) private var scenePhase
+    
     var body: some View {
         ZStack {
             Image(uiImage: drawing.image)
+                .resizable()
+                .scaledToFit()
+                .aspectRatio(contentMode: .fit)
             if rhythm.ready {
                 VStack {
                     ProgressView(value: rhythm.progress!, total: 1.0)
@@ -54,6 +54,21 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
         .gesture(DragGesture()
                     .onChanged(self.dragChanged)
                     .onEnded(self.dragEnded))
+        .onChange(of: scenePhase) { phase in
+            if phase == .active {
+                // load image
+                print("load stored image")
+                drawing.load()
+            }
+            if phase == .background {
+                // store drawing
+                print("store drawing")
+                drawing.store()
+            }
+        }
+        .onAppear() {
+            drawing.load()
+        }
     }
 
     func dragEnded(value: DragGesture.Value) -> Void {
@@ -67,47 +82,15 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
         let currentPoint = drag.location
         let distance = lastPoint.dist(currentPoint)
 
-        // Draw a line when the rhythm finds a match
         if let tick = self.rhythm.match(distance) {
-            let hour = Calendar.current.component(.hour, from: tick.when)
-            let hue = CGFloat(hour).map(from: 0...24, to: 0...1)
-            let color = UIColor(hue: hue,
-                            saturation: 1,
-                            lightness: 0.7,
-                            alpha: tick.value.map(to: 0.1...0.8))
-
-            let brushWidth = tick.value.map(to: self.lineWidthMin...self.lineWidthMax)
-            
-            drawLine(from: lastPoint, to: currentPoint, color: color.cgColor, brushWidth: brushWidth)
-
+            // Draw a line when the rhythm finds a match
+            drawing.line(from: lastPoint, to: currentPoint, tick: tick)
+            // Actuate the haptic feedback device
             self.generator.impactOccurred(intensity: tick.value.map(to: 0.1...4.0))
         }
         
         lastPoint = currentPoint
     }
-    
-    func drawLine(from: CGPoint, to: CGPoint, color: CGColor, brushWidth: CGFloat) {
-        let renderFormat = UIGraphicsImageRendererFormat.default()
-        renderFormat.opaque = true
-
-        let renderer = UIGraphicsImageRenderer(size: self.size, format: renderFormat)
-
-        drawing.image = renderer.image { (context) in
-            drawing.image.draw(at: CGPoint.zero)
-
-            context.cgContext.setBlendMode(.normal)
-
-            context.cgContext.move(to: from)
-            context.cgContext.addLine(to: to)
-            
-            context.cgContext.setLineCap(.round)
-            context.cgContext.setLineWidth(brushWidth)
-
-            context.cgContext.setStrokeColor(color)
-            context.cgContext.strokePath()
-        }
-    }
-    
 }
 
 struct DoodleView_Preview: PreviewProvider {
@@ -115,7 +98,7 @@ struct DoodleView_Preview: PreviewProvider {
     static var size = CGSize(width: 200, height: 300)
 
     static var previews: some View {
-        DoodleView(rhythm: RandomRhythmProvider(), drawing: $drawing, size: size)
+        DoodleView(rhythm: RandomRhythmProvider(), drawing: $drawing)
             .previewDevice("iPhone 8")
             .statusBar(hidden: true)
     }
