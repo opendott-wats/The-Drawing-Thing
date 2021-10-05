@@ -76,13 +76,18 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
     }
     
     func dragChanged(_ drag: DragGesture.Value) -> Void {
+        var isFirstStroke = false
         if lastPoint.isInfinite() {
             lastPoint = drag.startLocation
+            isFirstStroke = true
         }
         let currentPoint = drag.location
         let distance = lastPoint.dist(currentPoint)
 
         if let tick = self.rhythm.match(distance) {
+            if isFirstStroke {
+                drawing.layer()
+            }
             // Draw a line when the rhythm finds a match
             drawing.line(from: lastPoint, to: currentPoint, tick: tick)
             // Actuate the haptic feedback device

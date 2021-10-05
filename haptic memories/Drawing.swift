@@ -87,6 +87,18 @@ extension Drawing {
 
 // Drawing methods
 extension Drawing {
+    mutating func layer() {
+        let renderFormat = UIGraphicsImageRendererFormat.default()
+        renderFormat.opaque = true
+
+        let renderer = UIGraphicsImageRenderer(size: self.size, format: renderFormat)
+        
+        image = renderer.image { (context) in
+            // draw the previous pixels first; always use fixed rectangle to avoid scaling bugs
+            image.draw(in: CGRect(origin: CGPoint.zero, size: size), blendMode: .normal, alpha: 0.96)
+        }
+    }
+    
     mutating func line(from: CGPoint, to: CGPoint, tick: RhythmTick) {
         let hour = Calendar.current.component(.hour, from: tick.when)
         let hue = CGFloat(hour).map(from: 0...24, to: 0...1)
