@@ -46,6 +46,7 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
                 VStack {
                     ProgressView(value: rhythm.progress!, total: 1.0)
                         .progressViewStyle(LinearProgressViewStyle(tint: Color.white))
+                        .rotationEffect(Angle(degrees: 180))
                     Spacer()
                 }
             }

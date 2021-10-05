@@ -173,9 +173,12 @@ public class HealthRhythmProvider: RhythmProvider {
         if pos2 >= data.count {
             return nil
         }
+
         var result = data[pos2] // do it reverse
-        print(pos2, result.when)
+
+        
         pos2 += 1
+
         // Normalise the value at the current progress
         result.value = result.value.map(from: CGFloat(result.min)...CGFloat(result.max), to: 0.0...1)
 
