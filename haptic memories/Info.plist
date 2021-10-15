@@ -28,6 +28,8 @@
 	<string>Haptic Memories can read your steps to generate ryhthms for drawing</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Would you like to save the drawing to your photo library?</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The app uses the camera to sample colours.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
