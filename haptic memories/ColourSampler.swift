@@ -17,7 +17,7 @@ struct ColourSampler: View {
     var body: some View {
         ZStack {
             VStack {
-                Camera() { img in
+                Cam() { img in
                     Image(uiImage: img)
                 }
                                     .aspectRatio(CGSize(width: 1280, height: 720), contentMode: .fit)

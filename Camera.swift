@@ -11,122 +11,101 @@ import SwiftUI
 import UIKit
 import AVFoundation
 
-/**
- SwiftUI wrapper struct
- */
-struct Camera<Content>: UIViewRepresentable where Content : View  {
-    typealias UIViewType = UICameraView
-    
-    private var newFrameReceived: ((UIImage) -> Content)
+
+struct Cam<Content: View> : View {
+    private var content : (UIImage) -> Content
+
+    @StateObject var session = CameraSession()
 
     init(@ViewBuilder content: @escaping (UIImage) -> Content) {
-        self.newFrameReceived = content
+        self.content = content
     }
     
-//    @Binding var takeSnapshot: Bool
-//    @Binding var snapshot: UIImage
-
-    func makeUIView(context: Context) -> UICameraView {
-        return UICameraView() { frame in newFrameReceived(frame) }
+    var body: some View {
+        ZStack {
+            Color.blue
+            self.content(session.frame)
+        }
+        .onAppear {
+            session.start()
+        }
+        .onDisappear {
+            session.stop()
+        }
     }
     
-    func updateUIView(_ uiView: UICameraView, context: Context) {
-//        print("updates")
-//        DispatchQueue.main.async {
-//            self.snapshot = uiView.capture
-//        }
-//        if self.takeSnapshot {
-//            uiView.snapshot()
-//        } else {
-//            DispatchQueue.main.async {
-//                self.snapshot = nil
-//            }
-//        }
-    }
 }
 
-/**
- Just a dummy preview for SwiftUI; camera hardware cannot be accessed in preview mode.
- */
-struct Camera_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            Spacer()
-            Text("Cannot view camera in XCode or Preview Canvas")
-                .padding(5.0)
-                .colorInvert()
-            Spacer()
-        }.background(Color.black)
-    }
-}
 
 
 /**
  Minimal AVCaptureSession wrapper UIView
  */
-class UICameraView: UIView {
+class CameraSession: NSObject, ObservableObject {
     var session: AVCaptureSession?
-    
-    var notifyNewFrame : ((UIImage) -> Void)
     
     var permission = false
     
-    override class var layerClass: AnyClass {
-        AVCaptureVideoPreviewLayer.self
-    }
+//    var target : CaptureTarget? = nil
     
-    var previewLayer: AVCaptureVideoPreviewLayer {
-        return layer as! AVCaptureVideoPreviewLayer
-    }
-
-    private let photoOutput = AVCapturePhotoOutput()
+    @Published var frame : UIImage = UIImage()
+    
+//    private let photoOutput = AVCapturePhotoOutput()
     private let videoOutput = AVCaptureVideoDataOutput()
 
-    required init?(coder: NSCoder) {
-        self.notifyNewFrame = { _ in }
-        super.init(coder: coder)
+    override init(){
+        super.init()
+        self.permission = checkAuthorization()
+        self.session = setupSession()
     }
-
-    init(frameNotifier: @escaping ((UIImage) -> Void)) {
-//        self.image = image
-        self.notifyNewFrame = frameNotifier
-        
-        super.init(frame: .zero)
-
-        self.permission = false
-
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        switch status {
+    
+    func checkAuthorization() -> Bool {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
-            self.permission = true
-            return
-        case .denied: return
+            return true
+        case .denied: return false
+        case .restricted: return false
         case .notDetermined:
+            let q = DispatchGroup()
+            q.enter()
             AVCaptureDevice.requestAccess(for: .video) { granted in
                 self.permission = granted
+                q.leave()
             }
-            break
-        case .restricted: return
+            q.wait()
+            return self.permission
         @unknown default:
             fatalError()
         }
     }
     
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        if self.superview != nil {
-            guard let session = self.setupSession() else {
-                return
-            }
-            self.session = session
-            self.previewLayer.session = self.session
-            self.previewLayer.videoGravity = .resizeAspectFill
+//    override func didMoveToSuperview() {
+//        super.didMoveToSuperview()
+//        if self.superview != nil {
+//            guard let session = self.setupSession() else {
+//                return
+//            }
+//            self.session = session
+//            self.previewLayer.session = self.session
+//            self.previewLayer.videoGravity = .resizeAspectFill
+//            self.session?.startRunning()
+//        } else {
+//            if let session = self.session {
+//                session.stopRunning()
+//                self.session = nil
+//            }
+//        }
+//    }
+    
+    func start() {
+        if self.session?.isRunning == false {
             self.session?.startRunning()
-        } else {
-            if let session = self.session {
-                session.stopRunning()
-                self.session = nil
-            }
+        }
+    }
+    
+    func stop() {
+        if self.session?.isRunning == true {
+            self.session?.stopRunning()
         }
     }
 
@@ -203,36 +182,14 @@ class UICameraView: UIView {
     }
 }
 
-extension UICameraView: AVCapturePhotoCaptureDelegate {
-    func snapshot() {
-        let settings = AVCapturePhotoSettings()
-        self.photoOutput.capturePhoto(with: settings, delegate: self)
-    }
-    
-    func photoOutput(_ output: AVCapturePhotoOutput,
-     didFinishProcessingPhoto photo: AVCapturePhoto,
-                     error: Error?) {
-        if let err = error {
-            print("Failed to take photo", err)
-            return
-        }
-        let imageData = photo.fileDataRepresentation()
-        DispatchQueue.main.async {
-//            self.capture = UIImage(data: imageData!)
-        }
-    }
-
-}
-
-
 /**
  Trying video processing
  */
-extension UICameraView: AVCaptureVideoDataOutputSampleBufferDelegate {
+extension CameraSession: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     private func addVideoOutput(_ session: AVCaptureSession) {
         self.videoOutput.videoSettings = [
-            (kCVPixelBufferPixelFormatTypeKey as NSString) : NSNumber(value: kCVPixelFormatType_32BGRA)
+            (kCVPixelBufferPixelFormatTypeKey as NSString) : NSNumber(value: kCVPixelFormatType_32ARGB)
         ] as [String : Any]
         self.videoOutput.alwaysDiscardsLateVideoFrames = true
         self.videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "my.image.handling.queue"))
@@ -242,10 +199,6 @@ extension UICameraView: AVCaptureVideoDataOutputSampleBufferDelegate {
         session.addOutput(self.videoOutput)
     }
     
-//    func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-////        print("frame dropped")
-//    }
-    
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
@@ -254,22 +207,38 @@ extension UICameraView: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
-//        debugPrint("did receive image frame", frame)
+        let meta = CMCopyDictionaryOfAttachments(
+            allocator: kCFAllocatorDefault,
+            target: sampleBuffer,
+            attachmentMode: kCMAttachmentMode_ShouldPropagate)
+        let img = CIImage(cvImageBuffer: frame,
+                          options: meta as? [CIImageOption : Any])
+//        let img = CIImage(cvImageBuffer: frame)
 
-//        let meta = CMCopyDictionaryOfAttachments(
-//            allocator: kCFAllocatorDefault,
-//            target: sampleBuffer,
-//            attachmentMode: kCMAttachmentMode_ShouldPropagate)
-//        let img = CIImage(cvImageBuffer: frame,
-//                          options: meta as? [CIImageOption : Any])
-        let img = CIImage(cvImageBuffer: frame)
+        let result = UIImage(ciImage: img, scale: 1, orientation: .right)
 
-        let uiimg = UIImage(ciImage: img)
+        debugPrint(result, meta)
 
-        //        debugPrint(uiimg)
-        // process image here
         DispatchQueue.main.async {
-            self.notifyNewFrame(uiimg)
+            self.frame = result //imageWith(text: "\(Int.random(in: 0...200))")!
         }
     }
+}
+
+
+func imageWith(text: String?) -> UIImage? {
+     let frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+     let nameLabel = UILabel(frame: frame)
+     nameLabel.textAlignment = .center
+     nameLabel.backgroundColor = .lightGray
+     nameLabel.textColor = .white
+     nameLabel.font = UIFont.boldSystemFont(ofSize: 40)
+     nameLabel.text = text
+     UIGraphicsBeginImageContext(frame.size)
+      if let currentContext = UIGraphicsGetCurrentContext() {
+         nameLabel.layer.render(in: currentContext)
+         let nameImage = UIGraphicsGetImageFromCurrentImageContext()
+         return nameImage
+      }
+      return nil
 }
