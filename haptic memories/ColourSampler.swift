@@ -17,15 +17,17 @@ struct ColourSampler: View {
     var body: some View {
         ZStack {
             VStack {
-                Cam() { img in
+                Cam($snapshot) { img in
                     Image(uiImage: img)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .background(Color.yellow)
                 }
-                                    .aspectRatio(CGSize(width: 1280, height: 720), contentMode: .fit)
-                                    .frame(height: 250)
-                Image(uiImage: self.snapshot)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .background(Color.red)
+//                Cam() { Img, image in Img
+//                    Img
+//                }
+//                .aspectRatio(CGSize(width: 1280, height: 720), contentMode: .fit)
+//                .frame(height: 250)
             }
 //            if self.snapshot != nil {
 //                Image(uiImage: self.snapshot!)

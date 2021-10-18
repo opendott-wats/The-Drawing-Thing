@@ -12,19 +12,29 @@ import UIKit
 import AVFoundation
 
 
-struct Cam<Content: View> : View {
+struct Cam<Content: View>: View {
     private var content : (UIImage) -> Content
+    private var snapshot : Binding<UIImage>
 
     @StateObject var session = CameraSession()
 
-    init(@ViewBuilder content: @escaping (UIImage) -> Content) {
+    @inlinable public init(
+        _ snapshot: Binding<UIImage>,
+        @ViewBuilder content: @escaping (UIImage) -> Content
+    ) {
         self.content = content
+        self.snapshot = snapshot
+//        self.session.delegate = self
     }
+    
+//    mutating func received(frame: UIImage) {
+//        self.snapshot.wrappedValue = frame
+//        self.snapshot.update()
+//    }
     
     var body: some View {
         ZStack {
-            Color.blue
-            self.content(session.frame)
+            self.content(self.session.frame)
         }
         .onAppear {
             session.start()
@@ -36,7 +46,9 @@ struct Cam<Content: View> : View {
     
 }
 
-
+protocol CameraSessionDelegate {
+    mutating func received(frame: UIImage)
+}
 
 /**
  Minimal AVCaptureSession wrapper UIView
@@ -46,12 +58,15 @@ class CameraSession: NSObject, ObservableObject {
     
     var permission = false
     
-//    var target : CaptureTarget? = nil
+    var delegate : CameraSessionDelegate? = nil
     
     @Published var frame : UIImage = UIImage()
     
 //    private let photoOutput = AVCapturePhotoOutput()
     private let videoOutput = AVCaptureVideoDataOutput()
+    
+    // For Core Image Processing
+    private let context = CIContext()
 
     override init(){
         super.init()
@@ -78,24 +93,6 @@ class CameraSession: NSObject, ObservableObject {
             fatalError()
         }
     }
-    
-//    override func didMoveToSuperview() {
-//        super.didMoveToSuperview()
-//        if self.superview != nil {
-//            guard let session = self.setupSession() else {
-//                return
-//            }
-//            self.session = session
-//            self.previewLayer.session = self.session
-//            self.previewLayer.videoGravity = .resizeAspectFill
-//            self.session?.startRunning()
-//        } else {
-//            if let session = self.session {
-//                session.stopRunning()
-//                self.session = nil
-//            }
-//        }
-//    }
     
     func start() {
         if self.session?.isRunning == false {
@@ -140,7 +137,8 @@ class CameraSession: NSObject, ObservableObject {
           return nil
         }
         
-        session.sessionPreset = .hd1280x720
+        // Phone Screen is 667x375 (retina 1334x750)
+        session.sessionPreset = .vga640x480
 
         session.addInput(cameraInput)
 
@@ -188,9 +186,8 @@ class CameraSession: NSObject, ObservableObject {
 extension CameraSession: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     private func addVideoOutput(_ session: AVCaptureSession) {
-        self.videoOutput.videoSettings = [
-            (kCVPixelBufferPixelFormatTypeKey as NSString) : NSNumber(value: kCVPixelFormatType_32ARGB)
-        ] as [String : Any]
+        self.videoOutput.videoSettings = [:] // Provide an empty dictionary for device native pixel format
+        // Dropped frames are ok
         self.videoOutput.alwaysDiscardsLateVideoFrames = true
         self.videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "my.image.handling.queue"))
         guard session.canAddOutput(self.videoOutput) else {
@@ -211,16 +208,30 @@ extension CameraSession: AVCaptureVideoDataOutputSampleBufferDelegate {
             allocator: kCFAllocatorDefault,
             target: sampleBuffer,
             attachmentMode: kCMAttachmentMode_ShouldPropagate)
-        let img = CIImage(cvImageBuffer: frame,
+        var img = CIImage(cvImageBuffer: frame,
                           options: meta as? [CIImageOption : Any])
-//        let img = CIImage(cvImageBuffer: frame)
+                            // Turn 90º clockwise
+                            .oriented(.right)
+//                            .applyingGaussianBlur(sigma: 10)
+        
+        img = img.cropped(to: CGRect(
+            x: (img.extent.width - 375)/2,
+            y: (img.extent.height - 667)/2,
+            width: 375,
+            height: 665))
 
-        let result = UIImage(ciImage: img, scale: 1, orientation: .right)
-
-        debugPrint(result, meta)
-
-        DispatchQueue.main.async {
-            self.frame = result //imageWith(text: "\(Int.random(in: 0...200))")!
+        
+        let pixelate = CIFilter(name: "CIPixellate")
+        pixelate?.setValue(img, forKey: kCIInputImageKey)
+        pixelate?.setValue(30, forKey: kCIInputScaleKey)
+            
+        img = pixelate!.outputImage!
+        
+        if let cgimg = context.createCGImage(img, from: img.extent) {
+            let result = UIImage(cgImage: cgimg)
+            DispatchQueue.main.async {
+                self.frame = result
+            }
         }
     }
 }
