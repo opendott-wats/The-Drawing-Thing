@@ -16,32 +16,26 @@ struct ColourSampler: View {
     
     var body: some View {
         ZStack {
-            VStack {
-                Cam($snapshot) { img in
+            Cam($snapshot) { img in
+                Button(action: {
+                    self.snapshot = img
+                    debugPrint(img)
+                }, label: {
                     Image(uiImage: img)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .background(Color.yellow)
-                }
-//                Cam() { Img, image in Img
-//                    Img
-//                }
-//                .aspectRatio(CGSize(width: 1280, height: 720), contentMode: .fit)
-//                .frame(height: 250)
+                })
             }
-//            if self.snapshot != nil {
-//                Image(uiImage: self.snapshot!)
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fill)
-//                Button("retake") {
-//                    self.takeSnapshot = false
-//                }
-//            } else {
-//                Camera(takeSnapshot: self.$takeSnapshot, snapshot: self.$snapshot)
-//                Button("snap") {
-//                    self.takeSnapshot = true
-//                }
-//            }
+            VStack {
+                Spacer()
+                Image(uiImage: snapshot)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .background(Color.black)
+                    .frame(width: 60, height: 106, alignment: .bottomLeading)
+                    .padding(.bottom, 20)
+            }
         }
     }
 }

@@ -11,7 +11,6 @@ import SwiftUI
 import UIKit
 import AVFoundation
 
-
 struct Cam<Content: View>: View {
     private var content : (UIImage) -> Content
     private var snapshot : Binding<UIImage>
@@ -24,18 +23,10 @@ struct Cam<Content: View>: View {
     ) {
         self.content = content
         self.snapshot = snapshot
-//        self.session.delegate = self
     }
     
-//    mutating func received(frame: UIImage) {
-//        self.snapshot.wrappedValue = frame
-//        self.snapshot.update()
-//    }
-    
     var body: some View {
-        ZStack {
-            self.content(self.session.frame)
-        }
+        self.content(self.session.frame)
         .onAppear {
             session.start()
         }
@@ -43,11 +34,6 @@ struct Cam<Content: View>: View {
             session.stop()
         }
     }
-    
-}
-
-protocol CameraSessionDelegate {
-    mutating func received(frame: UIImage)
 }
 
 /**
@@ -55,14 +41,10 @@ protocol CameraSessionDelegate {
  */
 class CameraSession: NSObject, ObservableObject {
     var session: AVCaptureSession?
-    
     var permission = false
-    
-    var delegate : CameraSessionDelegate? = nil
     
     @Published var frame : UIImage = UIImage()
     
-//    private let photoOutput = AVCapturePhotoOutput()
     private let videoOutput = AVCaptureVideoDataOutput()
     
     // For Core Image Processing
@@ -138,12 +120,9 @@ class CameraSession: NSObject, ObservableObject {
         }
         
         // Phone Screen is 667x375 (retina 1334x750)
-        session.sessionPreset = .vga640x480
+        session.sessionPreset = .hd1280x720
 
         session.addInput(cameraInput)
-
-//        guard session.canAddOutput(photoOutput) else { return nil }
-//        session.addOutput(photoOutput)
 
         addVideoOutput(session)
         
@@ -152,7 +131,6 @@ class CameraSession: NSObject, ObservableObject {
         
         return session
     }
-    
     
     func configureCamera(_ camera: AVCaptureDevice) {
         // Configure the camera with very near focus to blur the image
@@ -178,6 +156,13 @@ class CameraSession: NSObject, ObservableObject {
         }
 
     }
+}
+
+/**
+ 
+ */
+extension CameraSession {
+    
 }
 
 /**
@@ -208,26 +193,34 @@ extension CameraSession: AVCaptureVideoDataOutputSampleBufferDelegate {
             allocator: kCFAllocatorDefault,
             target: sampleBuffer,
             attachmentMode: kCMAttachmentMode_ShouldPropagate)
+        
+        
+        let scaleAdjustment = 1.5
+        
         var img = CIImage(cvImageBuffer: frame,
                           options: meta as? [CIImageOption : Any])
                             // Turn 90º clockwise
                             .oriented(.right)
-//                            .applyingGaussianBlur(sigma: 10)
-        
-        img = img.cropped(to: CGRect(
-            x: (img.extent.width - 375)/2,
-            y: (img.extent.height - 667)/2,
-            width: 375,
-            height: 665))
+                            .applyingGaussianBlur(sigma: 20)
+                            .transformed(by: CGAffineTransform(
+                                scaleX: 375/720*scaleAdjustment,
+                                y: 665/1280*scaleAdjustment))
 
-        
+        // This can be 25 or 75
+        let pixelSize = 75
+
         let pixelate = CIFilter(name: "CIPixellate")
         pixelate?.setValue(img, forKey: kCIInputImageKey)
-        pixelate?.setValue(30, forKey: kCIInputScaleKey)
-            
+        pixelate?.setValue(pixelSize, forKey: kCIInputScaleKey)
         img = pixelate!.outputImage!
+                
+        let region = CGRect(
+            x: pixelSize, // move one pixel size in to skip blurred frame
+            y: pixelSize + 10, // move one pixel size in to skip blurred frame + 10 to account for the multiple
+            width: 375,
+            height: 665)
         
-        if let cgimg = context.createCGImage(img, from: img.extent) {
+        if let cgimg = context.createCGImage(img, from: region) {
             let result = UIImage(cgImage: cgimg)
             DispatchQueue.main.async {
                 self.frame = result
