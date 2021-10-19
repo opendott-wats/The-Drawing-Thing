@@ -11,7 +11,6 @@ import SwiftUI
  The ColourSampler samples colours ans stores the in the preferences
  */
 struct ColourSampler: View {
-    @State var takeSnapshot: Bool = false
     @State var snapshot: UIImage = UIImage()
     
     var body: some View {
@@ -19,7 +18,7 @@ struct ColourSampler: View {
             Cam($snapshot) { img in
                 Button(action: {
                     self.snapshot = img
-                    debugPrint(img)
+                    // TODO: Store the colour sample
                 }, label: {
                     Image(uiImage: img)
                         .resizable()
