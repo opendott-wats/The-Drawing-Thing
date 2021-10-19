@@ -24,7 +24,7 @@ struct ColourSampler: View {
                     Image(uiImage: img)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .background(Color.yellow)
+                        .background(Color.black)
                 })
             }
             VStack {

@@ -76,7 +76,6 @@
 		AFB2E3B1257570740060CD32 = {
 			isa = PBXGroup;
 			children = (
-				E0BA53D627183435004774BF /* Camera.swift */,
 				AFB2E3BC257570740060CD32 /* haptic memories */,
 				AFB2E3BB257570740060CD32 /* Products */,
 				AF46ED5B258BEA10007291E9 /* Frameworks */,
@@ -94,16 +93,17 @@
 		AFB2E3BC257570740060CD32 /* haptic memories */ = {
 			isa = PBXGroup;
 			children = (
-				E011138D25D2EFB7006AB448 /* other */,
-				E011138B25D2EF72006AB448 /* lib */,
-				E011138725D2EF1E006AB448 /* RhythmProviders */,
-				AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */,
-				AFB2E3BF257570740060CD32 /* ContentView.swift */,
 				E001B09125D3F977000CE9B6 /* Actions.swift */,
-				AF47034E25894F03001A6AEF /* DoodleView.swift */,
-				E08A56AE26F4EE290070A2B9 /* SettingsSheet.swift */,
-				E054ED57270CC12D00992F7A /* Drawing.swift */,
+				E0BA53D627183435004774BF /* Camera.swift */,
 				E0BA53D42718091E004774BF /* ColourSampler.swift */,
+				AFB2E3BF257570740060CD32 /* ContentView.swift */,
+				AF47034E25894F03001A6AEF /* DoodleView.swift */,
+				E054ED57270CC12D00992F7A /* Drawing.swift */,
+				AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */,
+				E08A56AE26F4EE290070A2B9 /* SettingsSheet.swift */,
+				E011138B25D2EF72006AB448 /* lib */,
+				E011138D25D2EFB7006AB448 /* other */,
+				E011138725D2EF1E006AB448 /* RhythmProviders */,
 			);
 			path = "haptic memories";
 			sourceTree = "<group>";
