@@ -20,21 +20,35 @@ extension UIImage {
     }
 }
 
-extension CIImage {
-    /// Average color of the image, nil if it cannot be found
-    func averageColor(context: CIContext = CIContext(options: [.workingColorSpace: kCFNull!])) -> CIColor? {
-        // convert our image to a Core Image Image
-        let inputImage = self
+extension UIColor {
+    convenience init?(averageFrom: CIImage) {
+        guard let colour = averageFrom.averageColor() else {
+            self.init()
+            return nil
+        }
+        self.init(ciColor: colour)
+    }
+}
 
+extension CIImage {
+    func averageColor(context: CIContext = CIContext(options: [.workingColorSpace: kCFNull!])) -> CIColor? {
+        return averageColor(at: self.extent.origin, size: self.extent.size, context: context)
+    }
+    
+    func averageColor(at: CGPoint, context: CIContext = CIContext(options: [.workingColorSpace: kCFNull!])) -> CIColor? {
+        return averageColor(at: self.extent.origin, size: CGSize(width: 25, height: 25), context: context)
+    }
+
+    func averageColor(at: CGPoint, size: CGSize, context: CIContext = CIContext(options: [.workingColorSpace: kCFNull!])) -> CIColor? {
         // Create an extent vector (a frame with width and height of our current input image)
-        let extentVector = CIVector(x: inputImage.extent.origin.x,
-                                    y: inputImage.extent.origin.y,
-                                    z: inputImage.extent.size.width,
-                                    w: inputImage.extent.size.height)
+        let extentVector = CIVector(x: at.x,
+                                    y: at.y,
+                                    z: size.width,
+                                    w: size.height)
 
         // create a CIAreaAverage filter, this will allow us to pull the average color from the image later on
         guard let filter = CIFilter(name: "CIAreaAverage",
-                                  parameters: [kCIInputImageKey: inputImage, kCIInputExtentKey: extentVector]) else { return nil }
+                                  parameters: [kCIInputImageKey: self, kCIInputExtentKey: extentVector]) else { return nil }
         guard let outputImage = filter.outputImage else { return nil }
 
         // A bitmap consisting of (r, g, b, a) value
@@ -53,6 +67,8 @@ extension CIImage {
                        green: CGFloat(bitmap[1]) / 255,
                        blue: CGFloat(bitmap[2]) / 255,
                        alpha: CGFloat(bitmap[3]) / 255)
-    }}
+    }
+    
+}
 
 

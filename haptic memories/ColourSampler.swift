@@ -13,40 +13,39 @@ import SwiftUI
 struct ColourSampler: View {
     @State var snapshot: UIImage = UIImage()
     @State var sampledColour: UIColor = .clear
+    @State var patternColour: UIColor = .clear
     @State var holdPreview = false
     
     func primaryColour(_ img: UIImage) -> UIColor {
-        return img.getColors(quality: .lowest)?.background ?? .black
+        return img.getColors(quality: .lowest)?.background ?? .clear
     }
     
     var body: some View {
         ZStack {
-            Cam($snapshot) { img in
-                Color(primaryColour(img))
-//                Image(uiImage: holdPreview ? snapshot : img)
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
+            Cam($snapshot) { img, colours in
+//                Color(primaryColour(img))
+                VStack {
+                Image(uiImage: holdPreview ? snapshot : img)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
 //                    .background(Color.black)
+                    .padding()
                     .gesture(TapGesture().onEnded({ () in
                         holdPreview.toggle()
                         if holdPreview {
                             sampledColour = primaryColour(img)
                             self.snapshot = img
+                            patternColour = UIColor(patternImage: img)
                         }
                     }))
-//                Button(action: {
-//                    holdPreview.toggle()
-//                    if holdPreview {
-//                        self.snapshot = img
-//    //                    debugPrint(img.averageColor())
-//                        // TODO: Store the colour sample
-//                    }
-//                }, label: {
-//                    Image(uiImage: holdPreview ? snapshot : img)
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .background(Color.black)
-//                })
+                HStack {
+                    Color(img.averageColor() ?? .clear).padding(5)
+                    Color(colours.background).padding(5)
+                    Color(colours.primary).padding(5)
+                    Color(colours.secondary).padding(5)
+                    Color(colours.detail).padding(5)
+                }.frame(height: 60)
+                }
             }
             VStack {
                 Image(uiImage: snapshot)
@@ -61,17 +60,23 @@ struct ColourSampler: View {
                     .padding(.bottom, 20)
             }
         }
-//            .simultaneousGesture(DragGesture().onChanged({ drag in
-//                debugPrint(drag.location)
+            .simultaneousGesture(DragGesture().onChanged({ drag in
 //                guard let colour = snapshot.cgImage?.pixel(
 //                    x: Int(drag.location.x),
 //                    y: Int(drag.location.y)
 //                ) else { return }
-//
-//                debugPrint(colour as Any)
-//                self.sampledColour = UIColor(red: colour.r, green: colour.g, blue: colour.b, alpha: colour.a)
-//                    debugPrint(self.sampledColour)
-//            }))
+                let size = 25.0
+                let x = drag.location.x/UIScreen.main.bounds.width * (snapshot.size.width-2*size)
+                let y = drag.location.y/UIScreen.main.bounds.height * (snapshot.size.height-2*size)
+                let location = CGPoint(
+                    x: size/2 + x
+                    , y: size/2 + y
+                )
+                debugPrint(snapshot.size, drag.location, location)
+
+                self.sampledColour = UIColor(ciColor: CIImage(image: snapshot)!.averageColor(at: location, size: CGSize(width: 25, height: 25)) ?? .clear)
+//                debugPrint(sampledColour as Any)
+            }))
     }
 }
 

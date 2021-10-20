@@ -235,6 +235,14 @@ extension UIImage {
             guard let cgImage = resizedImage.cgImage else { return nil }
         #endif
         
+        return cgImage.extractColours()
+    }
+}
+
+extension CGImage {
+    public func extractColours() -> UIImageColors? {
+        let cgImage = self
+
         let width: Int = cgImage.width
         let height: Int = cgImage.height
         
@@ -244,7 +252,7 @@ extension UIImage {
         guard let data = CFDataGetBytePtr(cgImage.dataProvider!.data) else {
             fatalError("UIImageColors.getColors failed: could not get cgImage data.")
         }
-        
+
         let imageColors = NSCountedSet(capacity: width*height)
         for x in 0..<width {
             for y in 0..<height {
@@ -348,4 +356,3 @@ extension UIImage {
         )
     }
 }
-

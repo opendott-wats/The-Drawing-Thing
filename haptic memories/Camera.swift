@@ -12,21 +12,21 @@ import UIKit
 import AVFoundation
 
 struct Cam<Content: View>: View {
-    private var content : (UIImage) -> Content
+    private var content : (UIImage, UIImageColors) -> Content
     private var snapshot : Binding<UIImage>
 
     @StateObject var session = CameraSession()
 
     @inlinable public init(
         _ snapshot: Binding<UIImage>,
-        @ViewBuilder content: @escaping (UIImage) -> Content
+        @ViewBuilder content: @escaping (UIImage, UIImageColors) -> Content
     ) {
         self.content = content
         self.snapshot = snapshot
     }
     
     var body: some View {
-        self.content(self.session.frame)
+        self.content(self.session.frame, self.session.colours)
         .onAppear {
             session.start()
         }
@@ -44,6 +44,11 @@ class CameraSession: NSObject, ObservableObject {
     var permission = false
     
     @Published var frame : UIImage = UIImage()
+    @Published var colours : UIImageColors = UIImageColors(background: .clear
+                                                           , primary: .clear
+                                                           , secondary: .clear
+                                                           , detail: .clear)
+    @Published var avgColour : CIColor = .clear
     
     private let videoOutput = AVCaptureVideoDataOutput()
     
@@ -120,7 +125,7 @@ class CameraSession: NSObject, ObservableObject {
         }
         
         // Phone Screen is 667x375 (retina 1334x750)
-        session.sessionPreset = .hd1280x720
+        session.sessionPreset = .cif352x288
 
         session.addInput(cameraInput)
 
@@ -195,40 +200,63 @@ extension CameraSession: AVCaptureVideoDataOutputSampleBufferDelegate {
             attachmentMode: kCMAttachmentMode_ShouldPropagate)
         
         
-        let scaleAdjustment = 1.5
+        let scaleAdjustment = 1.0
         
         var img = CIImage(cvImageBuffer: frame,
                           options: meta as? [CIImageOption : Any])
                             // Turn 90º clockwise
                             .oriented(.right)
-                            .applyingGaussianBlur(sigma: 20)
-                            .transformed(by: CGAffineTransform(
-                                scaleX: 375/720*scaleAdjustment,
-                                y: 665/1280*scaleAdjustment))
+                            .transformed(by: CGAffineTransform(scaleX: scaleAdjustment, y: scaleAdjustment))
+                            .applyingGaussianBlur(sigma: 2)
+//                            .transformed(by: CGAffineTransform(
+//                                scaleX: 375/720*scaleAdjustment,
+//                                y: 665/1280*scaleAdjustment))
 
         // This can be 25 or 75
-        let pixelSize = 25
-
+        let pixelSize = 5
+//
         let pixelate = CIFilter(name: "CIPixellate")
         pixelate?.setValue(img, forKey: kCIInputImageKey)
         pixelate?.setValue(pixelSize, forKey: kCIInputScaleKey)
         img = pixelate!.outputImage!
-                
+                        
+//        let region = CGRect(
+//            x: pixelSize, // move one pixel size in to skip blurred frame
+//            y: pixelSize + 10, // move one pixel size in to skip blurred frame + 10 to account for the multiple
+//            width: 375,
+//            height: 665)
+
         let region = CGRect(
-            x: pixelSize, // move one pixel size in to skip blurred frame
-            y: pixelSize + 10, // move one pixel size in to skip blurred frame + 10 to account for the multiple
-            width: 375,
-            height: 665)
-        
+            x: 0,
+            y: 0,
+            width: 288*scaleAdjustment,
+            height: 352*scaleAdjustment
+        )
+        let avgColour = img.averageColor(at: CGPoint(x: region.width/2, y: region.width/2), context: self.context)
+
         if let cgimg = context.createCGImage(img, from: region) {
+            let colours = cgimg.extractColours()
             let result = UIImage(cgImage: cgimg)
             DispatchQueue.main.async {
                 self.frame = result
+                self.colours = colours!
+                self.avgColour = avgColour ?? .clear
             }
         }
     }
 }
 
+/**
+ Based on https://stackoverflow.com/a/48441178
+ */
+extension UIColor {
+    func image(_ size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
+        return UIGraphicsImageRenderer(size: size).image { renderer in
+            self.setFill()
+            renderer.fill(CGRect(origin: .zero, size: size))
+        }
+    }
+}
 
 func imageWith(text: String?) -> UIImage? {
      let frame = CGRect(x: 0, y: 0, width: 100, height: 100)
