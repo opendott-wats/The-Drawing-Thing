@@ -207,7 +207,7 @@ extension CameraSession: AVCaptureVideoDataOutputSampleBufferDelegate {
                                 y: 665/1280*scaleAdjustment))
 
         // This can be 25 or 75
-        let pixelSize = 75
+        let pixelSize = 25
 
         let pixelate = CIFilter(name: "CIPixellate")
         pixelate?.setValue(img, forKey: kCIInputImageKey)
@@ -245,4 +245,22 @@ func imageWith(text: String?) -> UIImage? {
          return nameImage
       }
       return nil
+}
+
+// Extract colour from pixel at position
+// Based on https://stackoverflow.com/questions/3284185/get-pixel-color-of-uiimage
+extension CGImage {
+    func pixel(x: Int, y: Int) -> (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat)? { // swiftlint:disable:this large_tuple
+        guard let pixelData = dataProvider?.data,
+            let data = CFDataGetBytePtr(pixelData) else { return nil }
+
+        let pixelInfo = ((width  * y) + x ) * 4
+
+        let red = CGFloat(data[pixelInfo])         // If you need this info, enable it
+        let green = CGFloat(data[(pixelInfo + 1)]) // If you need this info, enable it
+        let blue = CGFloat(data[pixelInfo + 2])    // If you need this info, enable it
+        let alpha = CGFloat(data[pixelInfo + 3])   // I need only this info for my maze game
+
+        return (red/255.0, green/255.0, blue/255.0, alpha/255.0)
+    }
 }

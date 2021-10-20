@@ -25,6 +25,8 @@
 		E0A2AC1826D8D0AB00EE97C5 /* HSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2AC1726D8D0AB00EE97C5 /* HSL.swift */; };
 		E0BA53D52718091E004774BF /* ColourSampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BA53D42718091E004774BF /* ColourSampler.swift */; };
 		E0BA53D727183435004774BF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BA53D627183435004774BF /* Camera.swift */; };
+		E0C10233271F2986006C3659 /* UIImageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C10232271F2986006C3659 /* UIImageColors.swift */; };
+		E0C10235271F2AE9006C3659 /* UIImageAvarageColour.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C10234271F2AE9006C3659 /* UIImageAvarageColour.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,8 @@
 		E0A2AC1726D8D0AB00EE97C5 /* HSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSL.swift; sourceTree = "<group>"; };
 		E0BA53D42718091E004774BF /* ColourSampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourSampler.swift; sourceTree = "<group>"; };
 		E0BA53D627183435004774BF /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		E0C10232271F2986006C3659 /* UIImageColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImageColors.swift; path = external/UIImageColors.swift; sourceTree = "<group>"; };
+		E0C10234271F2AE9006C3659 /* UIImageAvarageColour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIImageAvarageColour.swift; path = external/UIImageAvarageColour.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,7 @@
 		AFB2E3BC257570740060CD32 /* haptic memories */ = {
 			isa = PBXGroup;
 			children = (
+				E0C10231271F297A006C3659 /* external */,
 				E001B09125D3F977000CE9B6 /* Actions.swift */,
 				E0BA53D627183435004774BF /* Camera.swift */,
 				E0BA53D42718091E004774BF /* ColourSampler.swift */,
@@ -145,6 +150,15 @@
 				AFB2E3C3257570750060CD32 /* Preview Content */,
 			);
 			name = other;
+			sourceTree = "<group>";
+		};
+		E0C10231271F297A006C3659 /* external */ = {
+			isa = PBXGroup;
+			children = (
+				E0C10232271F2986006C3659 /* UIImageColors.swift */,
+				E0C10234271F2AE9006C3659 /* UIImageAvarageColour.swift */,
+			);
+			name = external;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E011138525D2EE94006AB448 /* MapNumeric.swift in Sources */,
+				E0C10235271F2AE9006C3659 /* UIImageAvarageColour.swift in Sources */,
 				E0A2AC1826D8D0AB00EE97C5 /* HSL.swift in Sources */,
 				AFB2E3C0257570740060CD32 /* ContentView.swift in Sources */,
 				AF46ED65258BFF94007291E9 /* ShareSheet.swift in Sources */,
@@ -225,6 +240,7 @@
 				E011138925D2EF37006AB448 /* RandomRhythmProvider.swift in Sources */,
 				E001B09225D3F977000CE9B6 /* Actions.swift in Sources */,
 				E054ED58270CC12D00992F7A /* Drawing.swift in Sources */,
+				E0C10233271F2986006C3659 /* UIImageColors.swift in Sources */,
 				E0BA53D52718091E004774BF /* ColourSampler.swift in Sources */,
 				AF47034F25894F03001A6AEF /* DoodleView.swift in Sources */,
 				E08A56AF26F4EE290070A2B9 /* SettingsSheet.swift in Sources */,
