@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct haptic_memoriesApp: App {
-    #if targetEnvironment(simulator) || previe
+    #if targetEnvironment(simulator)
     @StateObject var provider = RandomRhythmProvider()
     #else
     @StateObject var provider = HealthRhythmProvider()
