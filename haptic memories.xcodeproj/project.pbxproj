@@ -19,6 +19,7 @@
 		E001B09225D3F977000CE9B6 /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E001B09125D3F977000CE9B6 /* Actions.swift */; };
 		E011138525D2EE94006AB448 /* MapNumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011138425D2EE94006AB448 /* MapNumeric.swift */; };
 		E011138925D2EF37006AB448 /* RandomRhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */; };
+		E02346022721C928006F7914 /* OrientationBasedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02346012721C928006F7914 /* OrientationBasedView.swift */; };
 		E030F03425B2128B00E3CAA1 /* HealthRhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */; };
 		E054ED58270CC12D00992F7A /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E054ED57270CC12D00992F7A /* Drawing.swift */; };
 		E08A56AF26F4EE290070A2B9 /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A56AE26F4EE290070A2B9 /* SettingsSheet.swift */; };
@@ -45,6 +46,7 @@
 		E001B09125D3F977000CE9B6 /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		E011138425D2EE94006AB448 /* MapNumeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapNumeric.swift; sourceTree = "<group>"; };
 		E011138825D2EF37006AB448 /* RandomRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomRhythmProvider.swift; sourceTree = "<group>"; };
+		E02346012721C928006F7914 /* OrientationBasedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationBasedView.swift; sourceTree = "<group>"; };
 		E030F03325B2128B00E3CAA1 /* HealthRhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthRhythmProvider.swift; sourceTree = "<group>"; };
 		E054ED57270CC12D00992F7A /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
 		E08A56AE26F4EE290070A2B9 /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				E011138B25D2EF72006AB448 /* lib */,
 				E011138D25D2EFB7006AB448 /* other */,
 				E011138725D2EF1E006AB448 /* RhythmProviders */,
+				E02346012721C928006F7914 /* OrientationBasedView.swift */,
 			);
 			path = "haptic memories";
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				E011138525D2EE94006AB448 /* MapNumeric.swift in Sources */,
 				E0C10235271F2AE9006C3659 /* UIImageAvarageColour.swift in Sources */,
 				E0A2AC1826D8D0AB00EE97C5 /* HSL.swift in Sources */,
+				E02346022721C928006F7914 /* OrientationBasedView.swift in Sources */,
 				AFB2E3C0257570740060CD32 /* ContentView.swift in Sources */,
 				AF46ED65258BFF94007291E9 /* ShareSheet.swift in Sources */,
 				E030F03425B2128B00E3CAA1 /* HealthRhythmProvider.swift in Sources */,

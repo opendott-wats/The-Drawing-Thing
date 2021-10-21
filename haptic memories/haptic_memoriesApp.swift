@@ -9,12 +9,18 @@ import SwiftUI
 
 @main
 struct haptic_memoriesApp: App {
-//    @StateObject var provider = HealthRhythmProvider()
-
+    #if targetEnvironment(simulator) || previe
+    @StateObject var provider = RandomRhythmProvider()
+    #else
+    @StateObject var provider = HealthRhythmProvider()
+    #endif
+    
     var body: some Scene {
         WindowGroup {
-//            ContentView(provider: provider)
-            ColourSampler()
+            OrientationBased(
+                portrait: ContentView(provider: provider)
+                , landscape: ColourSampler()
+            )
                 .statusBar(hidden: true)
                 .onAppear(perform: {
                     UIApplication.shared.isIdleTimerDisabled = true
