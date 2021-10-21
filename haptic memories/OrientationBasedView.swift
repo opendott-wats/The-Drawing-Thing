@@ -9,36 +9,34 @@ import SwiftUI
 import UIKit
 
 struct OrientationBased<PortraitView: View, LandscapeView: View>: View {
-    let portrait : PortraitView
-    let landscape: LandscapeView
+    let inPortrait : PortraitView
+    let inLandscape: LandscapeView
+    
+    private let orientationChange = NotificationCenter
+                                        .default
+                                        .publisher(for: UIDevice
+                                                        .orientationDidChangeNotification)
 
     @State private var orientation : UIDeviceOrientation = .portrait
     
-    @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
-
-    @inlinable public init(
-        portrait: PortraitView,
-        landscape: LandscapeView
-    ) {
-        self.portrait = portrait
-        self.landscape = landscape
-    }
-    
-    @ViewBuilder var viewForOrientation : some View {
-        if orientation.isLandscape {
-            landscape
-        } else {
-            portrait
+    func updateOrientation(_ n: Notification) {
+        guard let device = n.object as? UIDevice else {
+            return
+        }
+        withAnimation {
+            orientation = device.orientation
         }
     }
     
     var body : some View {
-        viewForOrientation
-        .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
-            self.orientation = UIDevice.current.orientation
+        Group {
+            if orientation.isLandscape {
+                inLandscape
+            } else {
+                inPortrait
+            }
         }
-            
+        .onReceive(orientationChange, perform: updateOrientation)
     }
     
 }

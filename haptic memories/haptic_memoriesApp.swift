@@ -17,17 +17,15 @@ struct haptic_memoriesApp: App {
     
     var body: some Scene {
         WindowGroup {
-            OrientationBased(
-                portrait: ContentView(provider: provider)
-                , landscape: ColourSampler()
-            )
+            OrientationBased(inPortrait:  ContentView(provider: provider),
+                             inLandscape: ColourSampler())
                 .statusBar(hidden: true)
-                .onAppear(perform: {
+                .onAppear() {
                     UIApplication.shared.isIdleTimerDisabled = true
-                })
-                .onDisappear(perform: {
+                }
+                .onDisappear() {
                     UIApplication.shared.isIdleTimerDisabled = false
-                })
+                }
         }
     }
 }
