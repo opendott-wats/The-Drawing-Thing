@@ -56,7 +56,6 @@ extension Drawing: Codable {
         do {
             let jsonData = try Data(contentsOf: fileURL)
             let result = try JSONDecoder().decode(Self.self, from: jsonData)
-            print("loaded", result)
             self.image = result.image
         }
         catch {/* error handling here */}
