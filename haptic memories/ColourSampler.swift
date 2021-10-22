@@ -66,13 +66,13 @@ struct ColourSampler: View {
 //                    y: Int(drag.location.y)
 //                ) else { return }
                 let size = 25.0
-                let x = drag.location.x/UIScreen.main.bounds.width * (snapshot.size.width-2*size)
+                let x = (1 - drag.location.x/UIScreen.main.bounds.width) * (snapshot.size.width-2*size)
                 let y = drag.location.y/UIScreen.main.bounds.height * (snapshot.size.height-2*size)
                 let location = CGPoint(
                     x: size/2 + x
                     , y: size/2 + y
                 )
-                debugPrint(snapshot.size, drag.location, location)
+//                debugPrint(snapshot.size, drag.location, location)
 
                 self.sampledColour = UIColor(ciColor: CIImage(image: snapshot)!.averageColor(at: location, size: CGSize(width: 25, height: 25)) ?? .clear)
 //                debugPrint(sampledColour as Any)
