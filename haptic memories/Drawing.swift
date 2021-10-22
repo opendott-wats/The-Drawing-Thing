@@ -21,6 +21,13 @@ struct Drawing: Identifiable {
 }
 
 extension Drawing {
+    mutating func reset() {
+        empty = true
+        image = UIImage()
+    }
+}
+
+extension Drawing {
     func sharePng() -> Data {
         return self.image.pngData() ?? Data()
     }
@@ -35,7 +42,8 @@ extension Drawing: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let string = try container.decode(String.self, forKey: .image)
-        guard let data = Data(base64Encoded: string), let image = UIImage(data: data) else {
+        guard let data = Data(base64Encoded: string),
+              let image = UIImage(data: data) else {
             print("Decoding of image failed")
             self.image = UIImage()
             return
@@ -84,15 +92,6 @@ extension Drawing: Codable {
             }
         }
         catch {/* error handling here */}
-    }
-}
-
-
-
-extension Drawing {
-    mutating func reset() {
-        empty = true
-        image = UIImage()
     }
 }
 

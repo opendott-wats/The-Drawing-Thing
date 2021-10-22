@@ -11,7 +11,7 @@ import SwiftUI
 import UIKit
 import AVFoundation
 
-struct Cam<Content: View>: View {
+struct ColourCamera<Content: View>: View {
     private var content : (CameraSession) -> Content
 
     @StateObject var session = CameraSession()
@@ -38,11 +38,11 @@ class CameraSession: NSObject, ObservableObject {
     var session: AVCaptureSession?
     var permission = false
     
-    @Published var frame : UIImage = UIImage()
-    @Published var colours : UIImageColors = UIImageColors(background: .clear
-                                                           , primary: .clear
-                                                           , secondary: .clear
-                                                           , detail: .clear)
+//    @Published var frame : UIImage = UIImage()
+//    @Published var colours : UIImageColors = UIImageColors(background: .clear
+//                                                           , primary: .clear
+//                                                           , secondary: .clear
+//                                                           , detail: .clear)
     @Published var avgColour : UIColor = .clear
     
     private let videoOutput = AVCaptureVideoDataOutput()
@@ -167,7 +167,7 @@ extension CameraSession: AVCaptureVideoDataOutputSampleBufferDelegate {
         self.videoOutput.videoSettings = [:] // Provide an empty dictionary for device native pixel format
         // Dropped frames are ok
         self.videoOutput.alwaysDiscardsLateVideoFrames = true
-        self.videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "my.image.handling.queue"))
+        self.videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "video.processing"))
         guard session.canAddOutput(self.videoOutput) else {
             fatalError()
         }
@@ -186,7 +186,6 @@ extension CameraSession: AVCaptureVideoDataOutputSampleBufferDelegate {
             allocator: kCFAllocatorDefault,
             target: sampleBuffer,
             attachmentMode: kCMAttachmentMode_ShouldPropagate)
-        
         
         let scaleAdjustment = 1.0
         

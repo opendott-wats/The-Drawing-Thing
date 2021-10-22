@@ -15,7 +15,7 @@ struct ColourSampler: View {
     @State var holdPreview = false
     
     var body: some View {
-        Cam() { session in
+        ColourCamera() { session in
             Button(action: sampleAndHold(session), label: {
                 Color(holdPreview ? sampledColour : session.avgColour)
             })
