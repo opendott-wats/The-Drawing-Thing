@@ -11,6 +11,7 @@ import SwiftUI
 struct Drawing: Identifiable {
     var id = UUID()
     
+    var empty : Bool = true
     var size: CGSize = UIScreen.main.bounds.size
 
     @AppStorage("lineWidthMin") var lineWidthMin: Double = 0.3
@@ -19,9 +20,16 @@ struct Drawing: Identifiable {
     var image = UIImage()
 }
 
+extension Drawing {
+    func sharePng() -> Data {
+        return self.image.pngData() ?? Data()
+    }
+}
+
 extension Drawing: Codable {
     enum CodingKeys: String, CodingKey {
         case image
+        case empty
     }
 
     public init(from decoder: Decoder) throws {
@@ -32,6 +40,7 @@ extension Drawing: Codable {
             self.image = UIImage()
             return
         }
+        self.empty = try container.decode(Bool.self, forKey: .empty)
         self.image = image
     }
 
@@ -42,6 +51,7 @@ extension Drawing: Codable {
             return
         }
         try container.encode(data.base64EncodedString(), forKey: CodingKeys.image)
+        try container.encode(self.empty, forKey: CodingKeys.empty)
     }
     
     
@@ -81,6 +91,7 @@ extension Drawing: Codable {
 
 extension Drawing {
     mutating func reset() {
+        empty = true
         image = UIImage()
     }
 }
@@ -128,6 +139,8 @@ extension Drawing {
 
             context.cgContext.setStrokeColor(color)
             context.cgContext.strokePath()
+            
+            empty = false
         }
     }
     

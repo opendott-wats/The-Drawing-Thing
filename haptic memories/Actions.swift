@@ -11,9 +11,9 @@ struct ActionButton: View {
     let name: String
     let action: () -> Void
 
-    let size : CGFloat = 32
+    private let size : CGFloat = 32
 
-    var label : some View {
+    private var label : some View {
         Image(systemName: name)
             .foregroundColor(Color.white)
             .scaleEffect(size * 0.7 / size)
@@ -27,46 +27,44 @@ struct ActionButton: View {
     }
 }
 
-
 struct Actions<Provider>: View where Provider: RhythmProvider {
     var provider: Provider
     @Binding var drawing : Drawing
 
     @AppStorage("resetImage") var resetImage = false
 
-    @State private var shared: Drawing?
     @State private var needsReset = false
     @State private var showSettings = false
+    @State private var showShare = false
 
     var body: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-
+        ZStack(alignment: .bottomTrailing) {
+            Color.clear
+            HStack(alignment: .bottom, spacing: 10) {
                 // Share Button
-                ActionButton(name: "square.and.arrow.up", action: {
-                    shared = drawing
-                })
-                    .sheet(item: $shared, onDismiss: {
-                        shared = nil
-                    }) { value in
-                        ShareSheet(activityItems: [value.image.pngData()! as Any])
-                    }
-
+                ActionButton(name: "square.and.arrow.up", action: shareDrawing)
+                    .disabled(drawing.empty)
+                    .opacity(drawing.empty ? 0.5 : 1.0)
                 // Reset Button
                 ActionButton(name: "arrow.counterclockwise", action: reset)
-
                 // Settings
-                ActionButton(name: "gearshape") {
-                    self.showSettings.toggle()
-                }
-                .sheet(isPresented: $showSettings,
-                       onDismiss: settingsDismissed,
-                       content: { SettingsSheet(needsReset: $needsReset) })
-            }
+                ActionButton(name: "gearshape", action: toggleSettings)
+            }.padding([.bottom, .trailing], 9.0)
         }
-        .padding([.bottom, .trailing], 9.0)
+        .sheet(isPresented: $showShare) {
+            ShareSheet(activityItems: [drawing.sharePng() as Any])
+        }
+        .sheet(isPresented: $showSettings, onDismiss: settingsDismissed) {
+            SettingsSheet(needsReset: $needsReset)
+        }
+    }
+    
+    func toggleSettings()  {
+        self.showSettings.toggle()
+    }
+    
+    func shareDrawing() {
+        showShare = true
     }
     
     func reset() {
