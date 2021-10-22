@@ -11,7 +11,6 @@ struct ContentView: View {
     @ObservedObject var provider: RhythmProvider
 
     @State var drawing = Drawing()
-    @AppStorage("resetImage") var resetImage = false
     
     @State var showActions = false
 
@@ -32,15 +31,7 @@ struct ContentView: View {
             if showActions {
                 Actions(
                     provider: provider,
-                    reset: {
-                        if resetImage {
-                            drawing.reset()
-                        }
-                        provider.reset()
-                    },
-                    sharing: {
-                        return drawing.image.pngData()
-                    }
+                    drawing: $drawing
                 )
             }
         }.gesture(TapGesture(count: 3).onEnded({ _ in

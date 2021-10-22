@@ -8,8 +8,9 @@
 import UIKit
 import SwiftUI
 
-struct Drawing {
-
+struct Drawing: Identifiable {
+    var id = UUID()
+    
     var size: CGSize = UIScreen.main.bounds.size
 
     @AppStorage("lineWidthMin") var lineWidthMin: Double = 0.3

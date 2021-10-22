@@ -7,32 +7,36 @@
 
 import SwiftUI
 
-struct Actions<Provider>: View where Provider: RhythmProvider {
-    @ObservedObject var provider: Provider
-    var reset: () -> Void
-    var sharing: () -> Data?
+struct ActionButton: View {
+    let name: String
+    let action: () -> Void
 
-    @State private var showShareSheet = false
-    @State private var data: Data = Data()
-
-    @State var showSettings = false
-    
     let size : CGFloat = 32
-    
-    @State private var needsReset = false
 
-    func ActionButton(_ systemName: String, _ action: @escaping () -> Void) -> some View {
-        return Button {
-            action()
-        } label: {
-            Image(systemName: systemName)
+    var label : some View {
+        Image(systemName: name)
             .foregroundColor(Color.white)
             .scaleEffect(size * 0.7 / size)
-        }
-        .frame(width: size, height: size)
-        .background(Color.orange)
-        .cornerRadius(size/2)
     }
+
+    var body : some View {
+        Button(action: action, label: { label })
+            .frame(width: size, height: size)
+            .background(Color.orange)
+            .cornerRadius(size/2)
+    }
+}
+
+
+struct Actions<Provider>: View where Provider: RhythmProvider {
+    var provider: Provider
+    @Binding var drawing : Drawing
+
+    @AppStorage("resetImage") var resetImage = false
+
+    @State private var shared: Drawing?
+    @State private var needsReset = false
+    @State private var showSettings = false
 
     var body: some View {
         VStack {
@@ -41,46 +45,51 @@ struct Actions<Provider>: View where Provider: RhythmProvider {
                 Spacer()
 
                 // Share Button
-                ActionButton("square.and.arrow.up") {
-                    if sharing() != nil {
-                        self.showShareSheet.toggle()
+                ActionButton(name: "square.and.arrow.up", action: {
+                    shared = drawing
+                })
+                    .sheet(item: $shared, onDismiss: {
+                        shared = nil
+                    }) { value in
+                        ShareSheet(activityItems: [value.image.pngData()! as Any])
                     }
-                }
-                .sheet(isPresented: $showShareSheet) {
-                    ShareSheet(activityItems: [sharing() as Any])
-                }
 
                 // Reset Button
-                ActionButton("arrow.counterclockwise", reset)
+                ActionButton(name: "arrow.counterclockwise", action: reset)
 
                 // Settings
-                ActionButton("gearshape") {
+                ActionButton(name: "gearshape") {
                     self.showSettings.toggle()
                 }
-                .sheet(isPresented: $showSettings, onDismiss: {
-                    if self.needsReset {
-                        reset()
-                        provider.recompute()
-                        self.needsReset = false
-                    }
-                }) {
-                    SettingsSheet(needsReset: $needsReset)
-                }
-                
+                .sheet(isPresented: $showSettings,
+                       onDismiss: settingsDismissed,
+                       content: { SettingsSheet(needsReset: $needsReset) })
             }
         }
         .padding([.bottom, .trailing], 9.0)
+    }
+    
+    func reset() {
+        if resetImage {
+            drawing.reset()
+        }
+        provider.reset()
+    }
+    
+    func settingsDismissed() {
+        if self.needsReset {
+            reset()
+            provider.recompute()
+            self.needsReset = false
+        }
     }
 }
 
 
 struct Actions_Previews: PreviewProvider {
+    @State static var drawing = Drawing()
     static var previews: some View {
-        Actions(provider: RandomRhythmProvider(), reset: {
-            
-        }, sharing: {
-            return nil
-        })
+        Actions(provider: RandomRhythmProvider(), drawing: $drawing)
             .previewDevice("iPhone 8")
     }
 }
