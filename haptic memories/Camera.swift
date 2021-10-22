@@ -12,27 +12,22 @@ import UIKit
 import AVFoundation
 
 struct Cam<Content: View>: View {
-    private var content : (UIImage, UIImageColors) -> Content
-    private var snapshot : Binding<UIImage>
+    private var content : (CameraSession) -> Content
 
     @StateObject var session = CameraSession()
 
-    @inlinable public init(
-        _ snapshot: Binding<UIImage>,
-        @ViewBuilder content: @escaping (UIImage, UIImageColors) -> Content
-    ) {
+    @inlinable public init(@ViewBuilder content: @escaping (CameraSession) -> Content) {
         self.content = content
-        self.snapshot = snapshot
     }
     
     var body: some View {
-        self.content(self.session.frame, self.session.colours)
-        .onAppear {
-            session.start()
-        }
-        .onDisappear {
-            session.stop()
-        }
+        self.content(self.session)
+            .onAppear {
+                session.start()
+            }
+            .onDisappear {
+                session.stop()
+            }
     }
 }
 
@@ -48,7 +43,7 @@ class CameraSession: NSObject, ObservableObject {
                                                            , primary: .clear
                                                            , secondary: .clear
                                                            , detail: .clear)
-    @Published var avgColour : CIColor = .clear
+    @Published var avgColour : UIColor = .clear
     
     private let videoOutput = AVCaptureVideoDataOutput()
     
@@ -164,14 +159,7 @@ class CameraSession: NSObject, ObservableObject {
 }
 
 /**
- 
- */
-extension CameraSession {
-    
-}
-
-/**
- Trying video processing
+ Processing Video Stream
  */
 extension CameraSession: AVCaptureVideoDataOutputSampleBufferDelegate {
     
@@ -229,20 +217,31 @@ extension CameraSession: AVCaptureVideoDataOutputSampleBufferDelegate {
         let region = CGRect(
             x: 0,
             y: 0,
-            width: 288*scaleAdjustment,
-            height: 352*scaleAdjustment
+            width:  288 * scaleAdjustment,
+            height: 352 * scaleAdjustment
         )
-        let avgColour = img.averageColor(at: CGPoint(x: region.width/2, y: region.width/2), context: self.context)
+        
+        let avgColour = img.averageColor(
+            // Sample at the center
+            at: CGPoint(x: region.width/2, y: region.height/2),
+            // zoom in for colour sampling
+            size: CGSize(width: region.width/2, height: region.height/2),
+            // reuse the CGContext
+            context: self.context)
 
-        if let cgimg = context.createCGImage(img, from: region) {
-            let colours = cgimg.extractColours()
-            let result = UIImage(cgImage: cgimg)
-            DispatchQueue.main.async {
-                self.frame = result
-                self.colours = colours!
-                self.avgColour = avgColour ?? .clear
-            }
+        DispatchQueue.main.async {
+            self.avgColour = (avgColour ?? .clear).fromHueOnly()
         }
+
+//        if let cgimg = context.createCGImage(img, from: region) {
+//            let colours = cgimg.extractColours()
+//            let result = UIImage(cgImage: cgimg)
+//            
+//            DispatchQueue.main.async {
+//                self.frame = result
+//                self.colours = colours!
+//            }
+//        }
     }
 }
 
@@ -257,6 +256,36 @@ extension UIColor {
         }
     }
 }
+
+/**
+    Colour utilities
+ */
+extension UIColor {
+    var hue : CGFloat {
+        var (hue, saturation, brightness, alpha): (CGFloat, CGFloat, CGFloat, CGFloat) = (0.0, 0.0, 0.0, 0.0)
+        let success = self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        print(success, hue, saturation, brightness, alpha)
+        return hue
+    }
+    
+    convenience init(componentsOf ciColor: CIColor) {
+        self.init(red: ciColor.red, green: ciColor.green, blue: ciColor.blue, alpha: ciColor.alpha)
+    }
+}
+
+extension CIColor {
+    /// Creates a new UIColor based on the hue value
+    /// - Returns: UIColor
+    func fromHueOnly(saturation: CGFloat = 1.0, lightness: CGFloat = 0.5) -> UIColor {
+        return UIColor(
+                   hue: UIColor(componentsOf: self).hue,
+            saturation: saturation,
+             lightness: lightness,
+                 alpha: self.alpha)
+    }
+}
+
+
 
 func imageWith(text: String?) -> UIImage? {
      let frame = CGRect(x: 0, y: 0, width: 100, height: 100)

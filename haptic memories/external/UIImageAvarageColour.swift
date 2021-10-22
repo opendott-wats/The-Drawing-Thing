@@ -60,7 +60,7 @@ extension CIImage {
                        rowBytes: 4,
                        bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
                        format: .RGBA8,
-                       colorSpace: nil)
+                       colorSpace: CGColorSpaceCreateDeviceRGB())
 
         // Convert our bitmap images of r, g, b, a to a UIColor
         return CIColor(red: CGFloat(bitmap[0]) / 255,
