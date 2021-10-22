@@ -14,6 +14,8 @@ struct ColourSampler: View {
     @State var sampledColour: UIColor = .clear
     @State var holdPreview = false
     
+    let generator = UINotificationFeedbackGenerator()
+
     var body: some View {
         ColourCamera() { session in
             Button(action: sampleAndHold(session), label: {
@@ -27,6 +29,9 @@ struct ColourSampler: View {
             holdPreview.toggle()
             if holdPreview {
                 sampledColour = session.avgColour
+                generator.notificationOccurred(.success)
+            } else {
+                generator.notificationOccurred(.error)
             }
         }
     }
