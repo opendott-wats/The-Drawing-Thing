@@ -6,33 +6,25 @@
 //
 
 import SwiftUI
+import HealthKit
 
 /**
  The ColourSampler samples colours ans stores the in the preferences
  */
 struct ColourSampler: View {
-    @State var sampledColour: UIColor = .clear
-    @State var holdPreview = false
+    @State var sampledColour: UIColor? = nil
     
     let generator = UINotificationFeedbackGenerator()
 
     var body: some View {
         ColourCamera() { session in
-            Button(action: sampleAndHold(session), label: {
-                Color(holdPreview ? sampledColour : session.avgColour)
-            })
-        }
-    }
-    
-    func sampleAndHold(_ session: CameraSession) -> () -> Void {
-        return {
-            holdPreview.toggle()
-            if holdPreview {
-                sampledColour = session.avgColour
-                generator.notificationOccurred(.success)
-            } else {
-                generator.notificationOccurred(.error)
-            }
+            Color(sampledColour ?? session.avgColour)
+                .onLongPressGesture() {
+                    guard sampledColour == nil,
+                          session.avgColour != .clear else { return }
+                    sampledColour = session.avgColour
+                    generator.notificationOccurred(.success)
+                }
         }
     }
 }
