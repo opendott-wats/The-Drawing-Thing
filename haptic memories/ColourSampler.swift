@@ -6,11 +6,8 @@
 //
 
 import SwiftUI
-import HealthKit
 
-/**
- The ColourSampler samples colours ans stores the in the preferences
- */
+/// The ColourSampler samples colours ans stores the in the preferences
 struct ColourSampler: View {
     @State var sampledColour: UIColor? = nil
     
