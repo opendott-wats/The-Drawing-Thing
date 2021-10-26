@@ -260,13 +260,17 @@ extension UIColor {
     Colour utilities
  */
 extension UIColor {
+    
+    /// A convenience coputed proerty to retrieve just the hue value
     var hue : CGFloat {
         var (hue, saturation, brightness, alpha): (CGFloat, CGFloat, CGFloat, CGFloat) = (0.0, 0.0, 0.0, 0.0)
-        let success = self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
-        print(success, hue, saturation, brightness, alpha)
+        self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
         return hue
     }
     
+    
+    /// Creates a UIColor based on the RGBA components of the given CIColor
+    /// - Parameter ciColor: CIColor as source of components
     convenience init(componentsOf ciColor: CIColor) {
         self.init(red: ciColor.red, green: ciColor.green, blue: ciColor.blue, alpha: ciColor.alpha)
     }
