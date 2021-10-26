@@ -9,6 +9,9 @@ import SwiftUI
 
 @main
 struct haptic_memoriesApp: App {
+    let persistenceController = PersistenceController.shared
+    let colourSampling = ColourSamplingController.shared
+
     #if targetEnvironment(simulator)
     @StateObject var provider = RandomRhythmProvider()
     #else
@@ -26,6 +29,8 @@ struct haptic_memoriesApp: App {
                 .onDisappear() {
                     UIApplication.shared.isIdleTimerDisabled = false
                 }
+                .environment(\.managedObjectContext,
+                    persistenceController.container.viewContext)
         }
     }
 }
