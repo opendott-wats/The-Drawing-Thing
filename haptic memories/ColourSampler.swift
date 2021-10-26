@@ -24,8 +24,15 @@ struct ColourSampler: View {
                           session.avgColour != .clear else { return }
                     sampledColour = session.avgColour
                     generator.notificationOccurred(.success)
+                    record(colour: sampledColour)
                 }
         }
+    }
+    
+    /// Stores a UIColor in our record
+    /// - Parameter colour: The colour to record
+    func record(colour: UIColor?) {
+        // WIP
     }
 }
 
