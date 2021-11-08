@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct haptic_memoriesApp: App {
     let persistenceController = PersistenceController.shared
-    let colourSampling = ColourSamplingController.shared
+    let colourSampling = ColourSampler.shared
 
     #if targetEnvironment(simulator)
     @StateObject var provider = RandomRhythmProvider()
@@ -21,7 +21,7 @@ struct haptic_memoriesApp: App {
     var body: some Scene {
         WindowGroup {
             OrientationBased(inPortrait:  ContentView(provider: provider),
-                             inLandscape: ColourSampler())
+                             inLandscape: ColourSamplerView())
                 .statusBar(hidden: true)
                 .onAppear() {
                     UIApplication.shared.isIdleTimerDisabled = true
