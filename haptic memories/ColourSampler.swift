@@ -12,8 +12,6 @@ import CoreData
 import SwiftUI
 
 struct ColourSampler {
-    // The settings of days is needed to generate the backing data array with the same structure.
-    @AppStorage("days") var days = 7
 
     static let shared = ColourSampler()
 
@@ -47,34 +45,4 @@ struct ColourSampler {
         }
     }
     
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Colour.time, ascending: true)],
-        animation: .default)
-    private var colours: FetchedResults<Colour>
-
-
-    //    storing the colours is the easy bit; retrieving the colours is harder to make meaningful:
-    //    how to we treat the request for the first colour.should that be the timestamp when the change is released?
-    //    since which timestamp do we map/lerp the colour value?
-    //    it inevitably needs the ink to be limited to what is available, or the hue will turn the brightness back up
-    //    it shows that a more complex data point such as colours is not as easy to
-    //    include meaningfully. when the relationship of represenation distances further
-    //    and becomes more abstract the implementaion becomes more difficult to become
-    //    meaningful.
-    //    these are just notes within the code while the code is written.
-    //    Going with the option of putting in manual limits:
-    //    - a colour starts at white
-    //    - the camera should make sure the sampled colour does not become to dark to be visible in the drawing (going with a 0.25 lightness value)
-    //    - it takes 24h to fade back into white unless another colour is sampled
-    //      - all sampled colours loaded in an array to be RAM backed in the sampler
-    //        - structure the array such that while drawing the increments are the same; reulsts in: create an array with the same shape as the computed steps, but put the colours in; needs the computed steps first
-        func loadColours() {
-            
-            print("Stored colours ============================")
-            for colour in colours {
-                debugPrint(colour.time, colour.hue)
-            }
-            print("===========================================")
-        }
-
 }

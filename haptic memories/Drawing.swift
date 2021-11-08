@@ -109,13 +109,8 @@ extension Drawing {
         }
     }
     
-    mutating func line(from: CGPoint, to: CGPoint, tick: RhythmTick) {
-        let hour = Calendar.current.component(.hour, from: tick.when)
-        let hue = CGFloat(hour).map(from: 0...24, to: 0...1)
-        let color = UIColor(hue: hue,
-                        saturation: 1,
-                        lightness: 0.7,
-                        alpha: tick.value.map(to: 0.1...0.8)).cgColor
+    mutating func line(from: CGPoint, to: CGPoint, tick: RhythmTick, colour: UIColor) {
+        let brushColour = colour.withAlphaComponent(tick.value.map(to: 0.1...0.8))
 
         let brushWidth = tick.value.map(to: self.lineWidthMin...self.lineWidthMax)
         
@@ -136,7 +131,7 @@ extension Drawing {
             context.cgContext.setLineCap(.round)
             context.cgContext.setLineWidth(brushWidth)
 
-            context.cgContext.setStrokeColor(color)
+            context.cgContext.setStrokeColor(brushColour.cgColor)
             context.cgContext.strokePath()
             
             empty = false

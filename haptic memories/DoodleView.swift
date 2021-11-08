@@ -102,8 +102,9 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
             if isFirstStroke {
                 drawing.layer()
             }
+            let colour = colourFor(time: tick.when)
             // Draw a line when the rhythm finds a match
-            drawing.line(from: lastPoint, to: currentPoint, tick: tick)
+            drawing.line(from: lastPoint, to: currentPoint, tick: tick, colour: colour)
             // Actuate the haptic feedback device
             self.generator.impactOccurred(intensity: tick.value.map(to: 0.1...4.0))
         }
@@ -111,10 +112,49 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
         lastPoint = currentPoint
     }
     
-    let colourSampler = ColourSampler.shared
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Colour.time, ascending: true)],
+        animation: .default)
+    private var storedColours: FetchedResults<Colour>
 
+    @State private var colours : Array<(time: Date, value: UIColor)> = []
+    
+    /// Loads all sampled colours into an array for quick access
     func loadColours() {
-        colourSampler.loadColours()
+        for colour in storedColours {
+            colours.append((time: colour.time!, value: UIColor(hue: CGFloat(colour.hue), saturation: 1, lightness: 0.7, alpha: 1)))
+        }
+    }
+     
+    
+    /// Picks the correspondong colour sample from the stored time series
+    /// - Parameter time: Date time predicate
+    /// - Returns: Matching colour or default
+    func colourFor(time: Date) -> UIColor {
+        let defaultColour = UIColor(hue: 0, saturation: 1, lightness: 0.7, alpha: 1)
+
+        // Safe guard for an empty list of stored colours
+        if storedColours.isEmpty {
+            return defaultColour
+        }
+
+        // Go through the stored colours and find the closest one in the past
+        // `previous` keeps track of the most recent colour
+        var previous = (time: Date(timeIntervalSince1970: 0), value: defaultColour)
+        print("---------")
+        for colour in colours {
+            print("time vs colour time time:", time, colour.time)
+            // A match is when the current iteratation's time is greater AND the previous is smaller, then return the smaller one
+            if colour.time > time && previous.time <= time {
+                debugPrint("**** colour match", previous.value)
+                return previous.value
+            }
+            // track the previous iteration for comparison
+            previous = colour
+        }
+        print("---------")
+        // If there is no match found use the most recent one
+        return previous.value
     }
 }
 
