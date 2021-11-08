@@ -26,7 +26,7 @@ extension CGPoint {
 }
 
 struct DoodleView<Provider>: View where Provider: RhythmProvider {
-    @Environment(\.managedObjectContext) private var viewContext
+//    @Environment(\.managedObjectContext) private var viewContext
 
     @ObservedObject var rhythm: Provider
     @Binding var drawing: Drawing
@@ -111,24 +111,10 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
         lastPoint = currentPoint
     }
     
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Colour.time, ascending: true)],
-        animation: .default)
-    private var colours: FetchedResults<Colour>
+    let colourSampler = ColourSampler.shared
 
-//    storing the colours is the easy bit; retrieving the colours is harder to make meaningful:
-//    how to we treat the request for the first colour.should that be the timestamp when the change is released?
-//    since which timestamp do we map/lerp the colour value?
-//    it inevitably needs the ink to be limited to what is available, or the hue will turn the brightness back up
-//    it shows that a more complex data point such as colours is not as easy to
-//    include meaningfully. when the relationship of represenation distances further
-//    and becomes more abstract the implementaion becomes more difficult to become
-//    meaningful.
-//    these are just notes within the code while the code is written.
     func loadColours() {
-        for colour in colours {
-            debugPrint(colour.time, colour.hue)
-        }
+        colourSampler.loadColours()
     }
 }
 
