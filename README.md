@@ -1,3 +1,8 @@
+---
+title: D2.3 Documentation of Protype
+author: Jens Alexander Ewald (ESR1)
+---
+
 # The Drawing Thing
 
 This repository contains the soruce code of the research product named *The Drawing Thing* as part of research activities investigating wearable Internet of Things and the Self within the [Open Design of trusted Things - OpenDoTT](https://opendott.org.) project.

@@ -1,10 +1,14 @@
 # Make sure you change the filename from Paper.md to something meaningful.
+TITLE := D2.3 Documentation of Prototype
 SOURCE := ReadMe.md
-TARGET_NAME := "D2.3 Documentation of Prototype"
 
-HTML := $(patsubst %.md,index.html, $(SOURCE))
-PDF := $(patsubst %.md,%.pdf, $(SOURCE))
-DOCX := $(patsubst %.md,%.docx, $(SOURCE))
+# Replace all spaces with - to make it path safe
+TARGET_NAME := $(subst $() $(),-,$(TITLE))
+
+HTML :=  index.html #$(patsubst %.md,index.html, $(SOURCE))
+PDF := $(TARGET_NAME).pdf #$(patsubst %.md,%.pdf, $(SOURCE))
+DOCX := $(TARGET_NAME).docx #$(patsubst %.md,%.docx, $(SOURCE))
+ARCHIVE := $(TARGET_NAME).zip
 
 # STYLE := _pandoc/pandoc.css
 # Source: https://gist.github.com/killercup/5917178
@@ -13,15 +17,16 @@ DOCX := $(patsubst %.md,%.docx, $(SOURCE))
 OPTS :=  --from=markdown+smart+simple_tables+table_captions+yaml_metadata_block+smart
 
 ARGS := \
-	--citeproc \
 	--filter pandoc-crossref \
-	--csl=.styles/acm-sig-proceedings-long-author-list.csl \
-	--toc
+	--citeproc
+	# --csl=.styles/acm-sig-proceedings-long-author-list.csl \
+	# --toc
 
 .PHONY : archive
-archive:
-	git archive -o $(TARGET_NAME).zip HEAD
-	git submodule --quiet foreach 'cd "$$toplevel"; zip -ru $(TARGET_NAME).zip "$$sm_path"'
+archive: $(ARCHIVE)
+$(ARCHIVE) : .*
+	git archive -o $(ARCHIVE) HEAD
+	git submodule --quiet foreach 'cd "$$toplevel"; zip -ru --exclude=*.git* $(ARCHIVE) "$$sm_path"'
 
 .PHONY : info
 info:
@@ -39,7 +44,7 @@ watch:
 	@ls *.md | entr make acm
 
 .PHONY : all
-all : $(HTML) $(PDF) $(DOCX)
+all : $(HTML) $(PDF) $(DOCX) $(ARCHIVE)
 
 .PHONY : html
 html: $(HTML)
@@ -61,6 +66,10 @@ $(PDF) : $(SOURCE)
 		--shift-heading-level-by=0 \
 		--default-image-extension=pdf \
 		-V papersize:a4 \
+		-V colorlinks=true \
+		-V linkcolor=blue \
+		-V urlcolor=red \
+		-V toccolor=gray \
 		--pdf-engine xelatex \
 		-o $@ $<
 
@@ -71,11 +80,10 @@ $(DOCX) : $(SOURCE)
 	@pandoc $(OPTS) $(ARGS) -w docx \
 		--katex \
 		--default-image-extension=png \
-		--reference-doc=_pandoc/base.docx \
 		-o $@ $<
-
+# --reference-doc=_pandoc/base.docx
 
 .PHONY : clean
 clean :
 	@echo --- Deleting generated files ---
-	@-rm $(HTML) $(PDF) $(DOCX)
+	@-rm $(HTML) $(PDF) $(DOCX) $(ARCHIVE)
