@@ -40,7 +40,7 @@
 		AF47035325894F3C001A6AEF /* RhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmProvider.swift; sourceTree = "<group>"; };
 		AF51FFEA258CA42800FDCD1E /* haptic memories.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "haptic memories.entitlements"; sourceTree = "<group>"; };
 		AF56D39525AD7ACF0005E2B4 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
-		AFB2E3BA257570740060CD32 /* haptic memories.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "haptic memories.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFB2E3BA257570740060CD32 /* The Drawing Thing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Drawing Thing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = haptic_memoriesApp.swift; sourceTree = "<group>"; };
 		AFB2E3BF257570740060CD32 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AFB2E3C1257570750060CD32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 		AFB2E3BB257570740060CD32 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AFB2E3BA257570740060CD32 /* haptic memories.app */,
+				AFB2E3BA257570740060CD32 /* The Drawing Thing.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -176,9 +176,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AFB2E3B9257570740060CD32 /* haptic memories */ = {
+		AFB2E3B9257570740060CD32 /* The Drawing Thing */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AFB2E3DF257570750060CD32 /* Build configuration list for PBXNativeTarget "haptic memories" */;
+			buildConfigurationList = AFB2E3DF257570750060CD32 /* Build configuration list for PBXNativeTarget "The Drawing Thing" */;
 			buildPhases = (
 				AFB2E3B6257570740060CD32 /* Sources */,
 				AFB2E3B7257570740060CD32 /* Frameworks */,
@@ -188,9 +188,9 @@
 			);
 			dependencies = (
 			);
-			name = "haptic memories";
+			name = "The Drawing Thing";
 			productName = "haptic memories";
-			productReference = AFB2E3BA257570740060CD32 /* haptic memories.app */;
+			productReference = AFB2E3BA257570740060CD32 /* The Drawing Thing.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -220,7 +220,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AFB2E3B9257570740060CD32 /* haptic memories */,
+				AFB2E3B9257570740060CD32 /* The Drawing Thing */,
 			);
 		};
 /* End PBXProject section */
@@ -450,7 +450,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AFB2E3DF257570750060CD32 /* Build configuration list for PBXNativeTarget "haptic memories" */ = {
+		AFB2E3DF257570750060CD32 /* Build configuration list for PBXNativeTarget "The Drawing Thing" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AFB2E3E0257570750060CD32 /* Debug */,
