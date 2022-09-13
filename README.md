@@ -17,6 +17,27 @@ The code was iteratively modified and adapted as part of a series of unstrcuture
 The choice of iOS as a platform was part accidental due to fact it being a stack pf hardware ready at hand; and part because of the comparably high privacy precautions put up by the operating system and respectively the HealthKit API. Furthermore is presented a well working distribution system for updates in a remote setting in which during the Covid-19 pandemic an in-person meeting with the participant was not possible.
 
 
+## Documentation of Protoypes
+
+### step 1
+
+ideating and sketching with step data as a follow up activity to the hpatic memories concept
+
+### step 2
+
+create an experience prototype which can support haptics using a smartphone 
+
+### parallel step 2
+
+Try to create a step counter using available open technology and other electronic modules.
+
+- Show data captures
+- Picture of the compact boards
+
+conclusions
+
+### step 3 
+
 # Licenses
 
 Source code newly written by the researcher in this repository is licensed under
