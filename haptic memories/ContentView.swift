@@ -37,9 +37,6 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            // Whole application has a black background
-            Color.black.edgesIgnoringSafeArea(.all)
-
             if !provider.ready {
                 ProgressView(value: provider.progress)
                     { Text("loading data ...").colorInvert() }

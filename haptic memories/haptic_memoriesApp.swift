@@ -42,9 +42,10 @@ struct haptic_memoriesApp: App {
     var body: some Scene {
         WindowGroup {
             // Whole application has a black background
-            OrientationBased(inPortrait:  ContentView(provider: provider),
-                             inLandscape: ColourSamplerView())
-                .ignoresSafeArea(.all)
+            ZStack {
+                Color.black.ignoresSafeArea()
+                OrientationBased(inPortrait:  ContentView(provider: provider),
+                                 inLandscape: ColourSamplerView().ignoresSafeArea())
                 .statusBar(hidden: true)
                 .onAppear() {
                     UIApplication.shared.isIdleTimerDisabled = true
@@ -53,7 +54,8 @@ struct haptic_memoriesApp: App {
                     UIApplication.shared.isIdleTimerDisabled = false
                 }
                 .environment(\.managedObjectContext,
-                    persistenceController.container.viewContext)
+                              persistenceController.container.viewContext)
+            }
         }
     }
 }
