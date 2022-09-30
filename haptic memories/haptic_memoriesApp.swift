@@ -41,8 +41,10 @@ struct haptic_memoriesApp: App {
     
     var body: some Scene {
         WindowGroup {
+            // Whole application has a black background
             OrientationBased(inPortrait:  ContentView(provider: provider),
                              inLandscape: ColourSamplerView())
+                .ignoresSafeArea(.all)
                 .statusBar(hidden: true)
                 .onAppear() {
                     UIApplication.shared.isIdleTimerDisabled = true

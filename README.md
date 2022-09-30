@@ -21,13 +21,13 @@ The choice of iOS as a platform was part accidental due to fact it being a stack
 
 ### step 1
 
-ideating and sketching with step data as a follow up activity to the hpatic memories concept
+ideating and sketching with step data as a follow-up activity to the haptic memories concept
 
 ### step 2
 
 create an experience prototype which can support haptics using a smartphone 
 
-### parallel step 2
+### making hardware (feasible)
 
 Try to create a step counter using available open technology and other electronic modules.
 
@@ -36,7 +36,9 @@ Try to create a step counter using available open technology and other electroni
 
 conclusions
 
-### step 3 
+### step 3
+
+Time line of co-design process during study.
 
 # Licenses
 
