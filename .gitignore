@@ -1,6 +1,7 @@
 /.vscode/xcodebuild-tools.json
 /build
 /haptic memories.xcodeproj/xcuserdata
+/haptic memories.xcodeproj/project.xcworkspace/xcuserdata/
 /*.pdf
 /*.docx
 /*.html
