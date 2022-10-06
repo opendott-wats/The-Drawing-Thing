@@ -41,6 +41,7 @@ struct ColourSamplerView: View {
     var body: some View {
         ColourCamera() { session in
             Color(sampledColour ?? session.avgColour)
+//                .ignoresSafeArea(.all)
                 .onLongPressGesture() {
                     guard sampledColour == nil,
                           session.avgColour != .clear else { return }
