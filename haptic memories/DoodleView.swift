@@ -108,6 +108,7 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
 
     func dragEnded(value: DragGesture.Value) -> Void {
         lastPoint = CGPoint.infinity
+        drawing.store()
     }
     
     func dragChanged(_ drag: DragGesture.Value) -> Void {
