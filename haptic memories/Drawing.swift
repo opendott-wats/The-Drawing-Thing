@@ -123,10 +123,14 @@ extension Drawing {
         renderFormat.opaque = true
 
         let renderer = UIGraphicsImageRenderer(size: self.size, format: renderFormat)
-        
+        let overlay = CGRect(origin: CGPoint.zero, size: size)
+
         image = renderer.image { (context) in
-            // draw the previous pixels first; always use fixed rectangle to avoid scaling bugs
-            image.draw(in: CGRect(origin: CGPoint.zero, size: size), blendMode: .normal, alpha: 0.96)
+            image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+            context.cgContext.setBlendMode(.darken)
+            // draw a black overlay on top to avoid the former image to grey out because of colour issues
+            context.cgContext.setFillColor(CGColor.init(red: 0, green: 0, blue: 0, alpha: 0.02 ))
+            context.cgContext.fill([overlay])
         }
     }
     
@@ -141,10 +145,10 @@ extension Drawing {
         let renderer = UIGraphicsImageRenderer(size: self.size, format: renderFormat)
         
         image = renderer.image { (context) in
+            context.cgContext.setBlendMode(.normal)
+
             // draw the previous pixels first; always use fixed rectangle to avoid scaling bugs
             image.draw(in: CGRect(origin: CGPoint.zero, size: size))
-
-            context.cgContext.setBlendMode(.normal)
 
             context.cgContext.move(to: from)
             context.cgContext.addLine(to: to)
