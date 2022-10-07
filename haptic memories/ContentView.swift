@@ -51,6 +51,7 @@ struct ContentView: View {
                     provider: provider,
                     drawing: $drawing
                 )
+                .padding([.bottom], (UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.bottom ?? .zero))
             }
         }.gesture(TapGesture(count: 3).onEnded({ _ in
             showActions.toggle()
