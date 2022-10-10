@@ -29,23 +29,6 @@
 import SwiftUI
 import CoreData
 
-extension CGPoint {
-    static let infinity = CGPoint(x: CGFloat.infinity, y: CGFloat.infinity)
-    
-    func isInfinite() -> Bool {
-        return self == CGPoint.infinity
-    }
-    
-    func dist(_ b: CGPoint) -> CGFloat {
-        return CGFloat(
-            hypotf(
-                Float(self.x - b.x),
-                Float(self.y - b.y)
-            )
-        )
-    }
-}
-
 struct DoodleView<Provider>: View where Provider: RhythmProvider {
 //    @Environment(\.managedObjectContext) private var viewContext
 

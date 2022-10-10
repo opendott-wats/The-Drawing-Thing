@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF1E885228F418DF009EAB6D /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1E885128F418DF009EAB6D /* CGPoint.swift */; };
 		AF46ED5D258BEA10007291E9 /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */; };
 		AF46ED65258BFF94007291E9 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF46ED64258BFF94007291E9 /* ShareSheet.swift */; };
 		AF47034F25894F03001A6AEF /* DoodleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47034E25894F03001A6AEF /* DoodleView.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AF1E885128F418DF009EAB6D /* CGPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
 		AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
 		AF46ED64258BFF94007291E9 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		AF47034E25894F03001A6AEF /* DoodleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleView.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				AF46ED64258BFF94007291E9 /* ShareSheet.swift */,
 				E011138425D2EE94006AB448 /* MapNumeric.swift */,
 				E0A2AC1726D8D0AB00EE97C5 /* HSL.swift */,
+				AF1E885128F418DF009EAB6D /* CGPoint.swift */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				AFB2E3BE257570740060CD32 /* haptic_memoriesApp.swift in Sources */,
 				E02D568627283526007089B2 /* Persistence.swift in Sources */,
 				E011138925D2EF37006AB448 /* RandomRhythmProvider.swift in Sources */,
+				AF1E885228F418DF009EAB6D /* CGPoint.swift in Sources */,
 				E001B09225D3F977000CE9B6 /* Actions.swift in Sources */,
 				E054ED58270CC12D00992F7A /* Drawing.swift in Sources */,
 				E0C10233271F2986006C3659 /* UIImageColors.swift in Sources */,
