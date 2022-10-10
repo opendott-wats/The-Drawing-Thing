@@ -29,7 +29,7 @@
 import SwiftUI
 import CoreData
 
-struct DoodleView<Provider>: View where Provider: RhythmProvider {
+struct DrawingView<Provider>: View where Provider: RhythmProvider {
 //    @Environment(\.managedObjectContext) private var viewContext
 
     @ObservedObject var rhythm: Provider
@@ -168,7 +168,7 @@ struct DoodleView_Preview: PreviewProvider {
     @State static var showActions = false
 
     static var previews: some View {
-        DoodleView(rhythm: RandomRhythmProvider(), drawing: $drawing, showActions: $showActions)
+        DrawingView(rhythm: RandomRhythmProvider(), drawing: $drawing, showActions: $showActions)
             .previewDevice("iPhone 8")
             .statusBar(hidden: true)
     }

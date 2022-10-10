@@ -10,7 +10,7 @@
 		AF1E885228F418DF009EAB6D /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1E885128F418DF009EAB6D /* CGPoint.swift */; };
 		AF46ED5D258BEA10007291E9 /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */; };
 		AF46ED65258BFF94007291E9 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF46ED64258BFF94007291E9 /* ShareSheet.swift */; };
-		AF47034F25894F03001A6AEF /* DoodleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47034E25894F03001A6AEF /* DoodleView.swift */; };
+		AF47034F25894F03001A6AEF /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47034E25894F03001A6AEF /* DrawingView.swift */; };
 		AF47035425894F3C001A6AEF /* RhythmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47035325894F3C001A6AEF /* RhythmProvider.swift */; };
 		AF56D39625AD7ACF0005E2B4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF56D39525AD7ACF0005E2B4 /* HealthKit.framework */; };
 		AFB2E3BE257570740060CD32 /* haptic_memoriesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */; };
@@ -38,7 +38,7 @@
 		AF1E885128F418DF009EAB6D /* CGPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
 		AF46ED5C258BEA10007291E9 /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
 		AF46ED64258BFF94007291E9 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
-		AF47034E25894F03001A6AEF /* DoodleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleView.swift; sourceTree = "<group>"; };
+		AF47034E25894F03001A6AEF /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 		AF47035325894F3C001A6AEF /* RhythmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmProvider.swift; sourceTree = "<group>"; };
 		AF51FFEA258CA42800FDCD1E /* haptic memories.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "haptic memories.entitlements"; sourceTree = "<group>"; };
 		AF56D39525AD7ACF0005E2B4 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -113,14 +113,13 @@
 				E02D56872728378E007089B2 /* ColourSampler.swift */,
 				E0BA53D42718091E004774BF /* ColourSamplerView.swift */,
 				AFB2E3BF257570740060CD32 /* ContentView.swift */,
-				AF47034E25894F03001A6AEF /* DoodleView.swift */,
+				AF47034E25894F03001A6AEF /* DrawingView.swift */,
 				E054ED57270CC12D00992F7A /* Drawing.swift */,
 				AFB2E3BD257570740060CD32 /* haptic_memoriesApp.swift */,
 				E08A56AE26F4EE290070A2B9 /* SettingsSheet.swift */,
 				E011138B25D2EF72006AB448 /* lib */,
 				E011138D25D2EFB7006AB448 /* other */,
 				E011138725D2EF1E006AB448 /* RhythmProviders */,
-				E02346012721C928006F7914 /* OrientationBasedView.swift */,
 				E02D56822728342B007089B2 /* Samples.xcdatamodeld */,
 				E02D568527283526007089B2 /* Persistence.swift */,
 			);
@@ -148,6 +147,7 @@
 		E011138B25D2EF72006AB448 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				E02346012721C928006F7914 /* OrientationBasedView.swift */,
 				AF46ED64258BFF94007291E9 /* ShareSheet.swift */,
 				E011138425D2EE94006AB448 /* MapNumeric.swift */,
 				E0A2AC1726D8D0AB00EE97C5 /* HSL.swift */,
@@ -260,7 +260,7 @@
 				E054ED58270CC12D00992F7A /* Drawing.swift in Sources */,
 				E0C10233271F2986006C3659 /* UIImageColors.swift in Sources */,
 				E0BA53D52718091E004774BF /* ColourSamplerView.swift in Sources */,
-				AF47034F25894F03001A6AEF /* DoodleView.swift in Sources */,
+				AF47034F25894F03001A6AEF /* DrawingView.swift in Sources */,
 				E02D56882728378E007089B2 /* ColourSampler.swift in Sources */,
 				E08A56AF26F4EE290070A2B9 /* SettingsSheet.swift in Sources */,
 				E0BA53D727183435004774BF /* ColourCamera.swift in Sources */,

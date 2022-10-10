@@ -46,7 +46,8 @@ extension CIImage {
                                     z: size.width,
                                     w: size.height)
 
-        // create a CIAreaAverage filter, this will allow us to pull the average color from the image later on
+        // This is the core part of the avarage colouralgorithm: using a Core Image Filter. So, again the actual algorithmic procedure is hidden.
+        // Create a CIAreaAverage filter, this will allow us to pull the average color from the image later on
         guard let filter = CIFilter(name: "CIAreaAverage",
                                   parameters: [kCIInputImageKey: self, kCIInputExtentKey: extentVector]) else { return nil }
         guard let outputImage = filter.outputImage else { return nil }

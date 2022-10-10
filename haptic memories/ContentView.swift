@@ -43,7 +43,7 @@ struct ContentView: View {
                     .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                     .padding(50)
             } else {
-                DoodleView(rhythm: provider, drawing: $drawing, showActions: $showActions)
+                DrawingView(rhythm: provider, drawing: $drawing, showActions: $showActions)
             }
             
             if showActions {

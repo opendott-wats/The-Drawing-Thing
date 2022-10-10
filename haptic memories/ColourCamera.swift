@@ -310,24 +310,6 @@ extension CIColor {
 }
 
 
-
-func imageWith(text: String?) -> UIImage? {
-     let frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-     let nameLabel = UILabel(frame: frame)
-     nameLabel.textAlignment = .center
-     nameLabel.backgroundColor = .lightGray
-     nameLabel.textColor = .white
-     nameLabel.font = UIFont.boldSystemFont(ofSize: 40)
-     nameLabel.text = text
-     UIGraphicsBeginImageContext(frame.size)
-      if let currentContext = UIGraphicsGetCurrentContext() {
-         nameLabel.layer.render(in: currentContext)
-         let nameImage = UIGraphicsGetImageFromCurrentImageContext()
-         return nameImage
-      }
-      return nil
-}
-
 // Extract colour from pixel at position
 // Based on https://stackoverflow.com/questions/3284185/get-pixel-color-of-uiimage
 extension CGImage {
