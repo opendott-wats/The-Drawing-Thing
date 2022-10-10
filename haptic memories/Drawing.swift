@@ -127,37 +127,27 @@ extension Drawing: Codable {
 
 // Drawing methods
 extension Drawing {
-    mutating func layer() {
-        let renderFormat = UIGraphicsImageRendererFormat.default()
-        renderFormat.opaque = true
-
-        let renderer = UIGraphicsImageRenderer(size: self.size, format: renderFormat)
-        let overlay = CGRect(origin: CGPoint.zero, size: size)
-
-        image = renderer.image { (context) in
-            image.draw(in: CGRect(origin: CGPoint.zero, size: size))
-            context.cgContext.setBlendMode(.darken)
-            // draw a black overlay on top to avoid the former image to grey out because of colour issues
-            context.cgContext.setFillColor(CGColor.init(red: 0, green: 0, blue: 0, alpha: 0.02 ))
-            context.cgContext.fill([overlay])
-        }
-    }
-    
-    mutating func line(from: CGPoint, to: CGPoint, tick: RhythmTick, colour: UIColor) {
+    mutating func line(from: CGPoint, to: CGPoint, tick: RhythmTick, colour: UIColor, addLayer: Bool = false) {
         let brushColour = colour.withAlphaComponent(tick.value.map(to: 0.1...0.8))
 
         let brushWidth = tick.value.map(to: self.lineWidthMin...self.lineWidthMax)
         
-        let renderFormat = UIGraphicsImageRendererFormat.default()
-        renderFormat.opaque = true
+        let renderer = UIGraphicsImageRenderer(size: self.size, format: UIGraphicsImageRendererFormat.default())
 
-        let renderer = UIGraphicsImageRenderer(size: self.size, format: renderFormat)
-        
         image = renderer.image { (context) in
+            // first, add the current drawing to keep it
             context.cgContext.setBlendMode(.normal)
+            image.draw(at: CGPoint.zero)
 
-            // draw the previous pixels first; always use fixed rectangle to avoid scaling bugs
-            image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+            if (addLayer) {
+                // draw a black overlay on top to avoid the former image to grey out because of colour issues
+                context.cgContext.setBlendMode(.darken)
+                context.cgContext.setFillColor(UIColor.black.withAlphaComponent(0.04).cgColor)
+                context.cgContext.fill([CGRect(origin: CGPoint.zero, size: self.size)])
+            }
+
+            // draw the actual line
+            context.cgContext.setBlendMode(.normal)
 
             context.cgContext.move(to: from)
             context.cgContext.addLine(to: to)

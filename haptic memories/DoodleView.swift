@@ -119,21 +119,27 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
     }
     
     func dragChanged(_ drag: DragGesture.Value) -> Void {
-        var isFirstStroke = false
-        if lastPoint.isInfinite() {
+        let gestureBegins = lastPoint.isInfinite()
+        if gestureBegins {
             lastPoint = drag.startLocation
-            isFirstStroke = true
         }
         let currentPoint = drag.location
         let distance = lastPoint.dist(currentPoint)
 
         if let tick = self.rhythm.match(distance) {
-            if isFirstStroke {
-                drawing.layer()
-            }
+            // Retrieve the colour
             let colour = colourFor(time: tick.when)
+            
+            // Notes on fading layers:
+            // - layer could fade according to a jump in time, eg. set amount of minutes, hours, etc
+            //   - would need to store a reference of data date of last layer
+            // - layer is drawn on start of gesture making each stroke the content between the fades
+            // There is a minimum of opacity the drawing must make to have an effect,
+            // e.g. 0.001955 had no effect whereas 0.00196 had profound effect
+            // this leaves the question: after how many lines to apply the fade layer?
+            
             // Draw a line when the rhythm finds a match
-            drawing.line(from: lastPoint, to: currentPoint, tick: tick, colour: colour)
+            drawing.line(from: lastPoint, to: currentPoint, tick: tick, colour: colour, addLayer: gestureBegins)
             // Actuate the haptic feedback device
             self.generator.impactOccurred(intensity: tick.value.map(to: 0.1...4.0))
         }
