@@ -150,6 +150,7 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
     
     /// Loads all sampled colours into an array for quick access
     func loadColours() {
+        colours.removeAll()
         for colour in storedColours {
             colours.append((time: colour.time!, value: UIColor(hue: CGFloat(colour.hue), saturation: 1, lightness: 0.7, alpha: 1)))
         }
@@ -170,18 +171,18 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
         // Go through the stored colours and find the closest one in the past
         // `previous` keeps track of the most recent colour
         var previous = (time: Date(timeIntervalSince1970: 0), value: defaultColour)
-        print("---------")
+//        debugPrint("---------")
         for colour in colours {
-            print("time vs colour time time:", time, colour.time)
+//            debugPrint("time vs colour time time:", time, colour.time)
             // A match is when the current iteratation's time is greater AND the previous is smaller, then return the smaller one
             if colour.time > time && previous.time <= time {
-                debugPrint("**** colour match", previous.value)
+//                debugPrint("**** colour match", previous.value)
                 return previous.value
             }
             // track the previous iteration for comparison
             previous = colour
         }
-        print("---------")
+//        debugPrint("---------")
         // If there is no match found use the most recent one
         return previous.value
     }

@@ -56,7 +56,10 @@ extension Drawing {
 
 extension Drawing {
     func sharePng() -> Data {
-        return self.image.pngData() ?? Data()
+        guard let png = image.pngData() else {
+            return Data()
+        }
+        return png
     }
 }
 
