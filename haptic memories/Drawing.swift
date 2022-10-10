@@ -47,7 +47,7 @@ extension Drawing {
         
         // Create a complete black image
         image = UIGraphicsImageRenderer(size: self.size, format: UIGraphicsImageRendererFormat.default()).image { (context) in
-            UIColor.clear.setFill()
+            UIColor.black.setFill()
             context.fill(CGRect(origin: .zero, size: self.size))
         }
 

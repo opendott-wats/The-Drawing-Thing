@@ -47,10 +47,17 @@ struct ContentView: View {
             }
             
             if showActions {
-                Actions(
-                    provider: provider,
-                    drawing: $drawing
-                )
+                VStack {
+                    ProgressView(value: provider.progress!, total: 1.0)
+                        .progressViewStyle(LinearProgressViewStyle(tint: Color.white))
+                        .rotationEffect(Angle(degrees: 180))
+                    Spacer()
+                    Actions(
+                        provider: provider,
+                        drawing: $drawing
+                    )
+                }
+                .padding([.top], (UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.top ?? .zero))
                 .padding([.bottom], (UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.bottom ?? .zero))
             }
         }.gesture(TapGesture(count: 3).onEnded({ _ in
