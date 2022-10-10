@@ -50,7 +50,7 @@ struct DrawingView<Provider>: View where Provider: RhythmProvider {
                 // Make sure the image is drawn full screen.
                 .resizable()
                 .ignoresSafeArea()
-                .scaledToFill()
+                .scaledToFit()
         }
         .background(Color.black)
         .gesture(DragGesture()

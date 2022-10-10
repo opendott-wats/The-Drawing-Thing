@@ -137,7 +137,8 @@ extension Drawing {
         image = renderer.image { (context) in
             // first, add the current drawing to keep it
             context.cgContext.setBlendMode(.normal)
-            image.draw(at: CGPoint.zero)
+            // Drawin the image as background to add new strokes onto. Make sure to drawin a rect of drawing size in order to avoid scaling bugs.
+            image.draw(in: CGRect(origin: CGPoint.zero, size: self.size))
 
             if (addLayer) {
                 // draw a black overlay on top to avoid the former image to grey out because of colour issues
