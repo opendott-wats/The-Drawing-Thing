@@ -46,7 +46,7 @@ struct ContentView: View {
                 DrawingView(rhythm: provider, drawing: $drawing, showActions: $showActions)
             }
             
-            if showActions {
+            if provider.ready && showActions {
                 VStack {
                     ProgressView(value: provider.progress!, total: 1.0)
                         .progressViewStyle(LinearProgressViewStyle(tint: Color.white))
