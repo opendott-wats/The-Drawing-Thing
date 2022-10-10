@@ -63,22 +63,24 @@ struct DoodleView<Provider>: View where Provider: RhythmProvider {
 
     var body: some View {
         ZStack {
-            Image(uiImage: drawing.image)
-                // Make sure the image is drawn full screen.
-                .resizable()
-                .ignoresSafeArea()
-                .scaledToFill()
+            GeometryReader { geometry in
+                Image(uiImage: drawing.image)
+                    // Make sure the image is drawn full screen.
+                    .resizable()
+                    .ignoresSafeArea()
+                    .scaledToFill()
 
-            if rhythm.ready && showActions {
-                VStack {
-                    ProgressView(value: rhythm.progress!, total: 1.0)
-                        .progressViewStyle(LinearProgressViewStyle(tint: Color.white))
-                        .rotationEffect(Angle(degrees: 180))
-                    Spacer()
+                if rhythm.ready && showActions {
+                    VStack {
+                        ProgressView(value: rhythm.progress!, total: 1.0)
+                            .progressViewStyle(LinearProgressViewStyle(tint: Color.white))
+                            .rotationEffect(Angle(degrees: 180))
+                        Spacer()
+                    }
+                    // This tedious line fixes the progress bar from disappearing on newer phones with a nodge
+                    .padding([.top], geometry.safeAreaInsets.top)
+                    
                 }
-                // This tedious line fixes the progress bar from disappearing on newer phones with a nodge
-                .padding([.top], (UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.top ?? .zero))
-                
             }
         }
         .background(Color.black)

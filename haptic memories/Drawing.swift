@@ -44,7 +44,13 @@ struct Drawing: Identifiable {
 extension Drawing {
     mutating func reset() {
         empty = true
-        image = UIImage()
+        
+        // Create a complete black image
+        image = UIGraphicsImageRenderer(size: self.size, format: UIGraphicsImageRendererFormat.default()).image { (context) in
+            UIColor.clear.setFill()
+            context.fill(CGRect(origin: .zero, size: self.size))
+        }
+
     }
 }
 
